@@ -17,6 +17,7 @@ class _DashboardState extends State<Dashboard> {
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
+    'assets/carousel/slider1.png',
   ];
 
   List<Widget> generateImageTiles() {
