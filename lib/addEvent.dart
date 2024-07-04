@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vesnss/dashboard.dart';
 
 class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key}) : super(key: key);
+  const AddEvent({super.key});
 
   @override
   State<AddEvent> createState() => _AddEventState();
@@ -10,7 +10,7 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   final TextEditingController _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  final bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +407,7 @@ class _AddEventState extends State<AddEvent> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => Dashboard()),
+                                MaterialPageRoute(builder: (context) => const Dashboard()),
                               );
                             },
                             child: const Text(

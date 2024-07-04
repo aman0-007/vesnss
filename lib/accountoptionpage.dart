@@ -41,7 +41,7 @@ class _AccountoptionpageState extends State<Accountoptionpage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                   width: deviceWidth*0.6,
                   height: deviceHeight*0.4,
                   child: Image.asset("assets/logo/nss.png")

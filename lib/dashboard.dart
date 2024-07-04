@@ -5,7 +5,7 @@ import 'package:vesnss/enrollment.dart';
 import 'package:vesnss/profile.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -47,7 +47,7 @@ class _DashboardState extends State<Dashboard> {
         ),
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: Color(0xFFF5180F)),
+            icon: const Icon(Icons.menu, color: Color(0xFFF5180F)),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
@@ -60,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xFF2E478A),
               ),
               child: Column(
@@ -69,7 +69,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   CircleAvatar(
                     radius: 47, // Increase the radius for larger avatar
-                    backgroundImage: AssetImage('assets/avatar.png'), // Replace with your image path
+                    backgroundImage: const AssetImage('assets/avatar.png'), // Replace with your image path
                     backgroundColor: Colors.grey[200], // Default background color
                     child: Icon(
                       Icons.person, // Default icon if image not available
@@ -77,9 +77,9 @@ class _DashboardState extends State<Dashboard> {
                       color: Colors.grey[700], // Icon color
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25.0),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 25.0),
                     child: Text(
                       'Menu',
                       style: TextStyle(
@@ -93,52 +93,52 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home, color: Colors.black),
-              title: Text('Add Event'),
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text('Add Event'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddEvent()),
+                  MaterialPageRoute(builder: (context) => const AddEvent()),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.home, color: Colors.black),
-              title: Text('Enroll Student'),
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text('Enroll Student'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Enrollment()),
+                  MaterialPageRoute(builder: (context) => const Enrollment()),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.home, color: Colors.black),
-              title: Text('Profile'),
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text('Profile'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile()),
+                  MaterialPageRoute(builder: (context) => const Profile()),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.home, color: Colors.black),
-              title: Text('Home'),
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings, color: Colors.black),
-              title: Text('Settings'),
+              leading: const Icon(Icons.settings, color: Colors.black),
+              title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout, color: Colors.black),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout, color: Colors.black),
+              title: const Text('Logout'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -170,12 +170,12 @@ class _DashboardState extends State<Dashboard> {
                 return Container(
                   width: 8.0,
                   height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == index
-                        ? Color(0xFFF5180F)
-                        : Color(0xFF2E478A),
+                        ? const Color(0xFFF5180F)
+                        : const Color(0xFF2E478A),
                   ),
                 );
               }).toList(),

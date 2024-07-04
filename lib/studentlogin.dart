@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vesnss/dashboard.dart';
 
 class Studentlogin extends StatefulWidget {
-  const Studentlogin({super.key});
+  const Studentlogin({Key? key}) : super(key: key);
 
   @override
   State<Studentlogin> createState() => _StudentloginState();
@@ -22,7 +22,7 @@ class _StudentloginState extends State<Studentlogin> {
         backgroundColor: const Color(0xFF2E478A),
         title: const Text(
           'Student Login',
-          style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFFF5180F)),
@@ -35,8 +35,8 @@ class _StudentloginState extends State<Studentlogin> {
         child: Center(
           child: IntrinsicHeight(
             child: Container(
-              margin: EdgeInsets.all(deviceWidth*0.07), // Optional: margin around the container
-              padding: EdgeInsets.all(deviceWidth*0.03), // Optional: padding inside the container
+              margin: EdgeInsets.all(deviceWidth * 0.07), // Optional: margin around the container
+              padding: EdgeInsets.all(deviceWidth * 0.03), // Optional: padding inside the container
               decoration: BoxDecoration(
                 color: Colors.white, // Background color
                 border: Border.all(
@@ -52,7 +52,10 @@ class _StudentloginState extends State<Studentlogin> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Student Login",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Color(0xFF2E478A)),),
+                      Text(
+                        "Student Login",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF2E478A)),
+                      ),
                     ],
                   ),
                   const Divider(
@@ -61,54 +64,63 @@ class _StudentloginState extends State<Studentlogin> {
                   ),
                   SizedBox(height: deviceHeight * 0.030),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Enrollment Id :",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
-                    ],
-                  ),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Enrollment Id :",
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.5), // Border color
-                                width: 1.0, // Border width
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.5), // Border color
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF2E478A), // Focused border color
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 12.0,
                               ),
                             ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFF2E478A), // Focused border color
-                                width: 2.0, // Border width
-                              ),
+                            style: const TextStyle(
+                              fontSize: 14.0, // Text size
+                              color: Colors.black87, // Text color
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 12.0,
-                            ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 14.0, // Text size
-                            color: Colors.black87, // Text color
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: deviceHeight * 0.020),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Password :",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
-                    ],
-                  ),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password :",
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
@@ -159,24 +171,26 @@ class _StudentloginState extends State<Studentlogin> {
                   ),
                   SizedBox(height: deviceHeight * 0.035),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF2E478A),
-                            // color: Color(0xFFF5180F)
                             elevation: 5,
                             minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
                           ),
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Dashboard()),
+                              MaterialPageRoute(builder: (context) => const Dashboard()),
                             );
                           },
-                          child: const Text('Login',style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold,fontSize: 20),),
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                         ),
                       ],
                     ),
