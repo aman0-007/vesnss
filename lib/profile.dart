@@ -8,6 +8,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  // Example profile data
+  final String name = "John Doe";
+  final String enrollmentId = "123456";
+  final String email = "john.doe@example.com";
+  final String yearOfJoining = "2022";
+  final String department = "Computer Science";
+
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
@@ -94,235 +101,90 @@ class _ProfileState extends State<Profile> {
                         ),
                         SizedBox(height: deviceHeight * 0.030),
                         Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Name :",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5), // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2E478A), // Focused border color
-                                        width: 2.0, // Border width
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 12.0,
-                                    ),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 14.0, // Text size
-                                    color: Colors.black87, // Text color
-                                  ),
-                                ),
+                              const Text(
+                                "Name:",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              SizedBox(width: deviceWidth * 0.02),
+                              Text(
+                                name,
+                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
                         Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Enrollment Id :",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5), // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2E478A), // Focused border color
-                                        width: 2.0, // Border width
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 12.0,
-                                    ),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 14.0, // Text size
-                                    color: Colors.black87, // Text color
-                                  ),
-                                ),
+                              const Text(
+                                "Enrollment Id:",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              SizedBox(width: deviceWidth * 0.02),
+                              Text(
+                                enrollmentId,
+                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
                         Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Email :",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5), // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2E478A), // Focused border color
-                                        width: 2.0, // Border width
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 12.0,
-                                    ),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 14.0, // Text size
-                                    color: Colors.black87, // Text color
-                                  ),
-                                ),
+                              const Text(
+                                "Email:",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              SizedBox(width: deviceWidth * 0.02),
+                              Text(
+                                email,
+                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
                         Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Year of joining :",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5), // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2E478A), // Focused border color
-                                        width: 2.0, // Border width
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 12.0,
-                                    ),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 14.0, // Text size
-                                    color: Colors.black87, // Text color
-                                  ),
-                                ),
+                              const Text(
+                                "Year of joining:",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              SizedBox(width: deviceWidth * 0.02),
+                              Text(
+                                yearOfJoining,
+                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
                         Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Department :",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.withOpacity(0.5), // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2E478A), // Focused border color
-                                        width: 2.0, // Border width
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 12.0,
-                                    ),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 14.0, // Text size
-                                    color: Colors.black87, // Text color
-                                  ),
-                                ),
+                              const Text(
+                                "Department:",
+                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                              ),
+                              SizedBox(width: deviceWidth * 0.02),
+                              Text(
+                                department,
+                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
                               ),
                             ],
                           ),
