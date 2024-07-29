@@ -69,7 +69,7 @@ class _StudentloginState extends State<Studentlogin> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Enrollment Id :",
+                          "Username :",
                           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                         ),
                       ],
