@@ -109,7 +109,7 @@ class _ProfileState extends State<Profile> {
                                 "Name:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              SizedBox(width: deviceWidth * 0.02),
                               Text(
                                 name,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -127,7 +127,7 @@ class _ProfileState extends State<Profile> {
                                 "Enrollment Id:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              SizedBox(width: deviceWidth * 0.02),
                               Text(
                                 enrollmentId,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -145,7 +145,7 @@ class _ProfileState extends State<Profile> {
                                 "Email:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              SizedBox(width: deviceWidth * 0.02),
                               Text(
                                 email,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -163,7 +163,7 @@ class _ProfileState extends State<Profile> {
                                 "Year of joining:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              SizedBox(width: deviceWidth * 0.02),
                               Text(
                                 yearOfJoining,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -181,7 +181,7 @@ class _ProfileState extends State<Profile> {
                                 "Department:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              SizedBox(width: deviceWidth * 0.02),
                               Text(
                                 department,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),

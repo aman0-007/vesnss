@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:vesnss/addEvent.dart';
-import 'package:vesnss/enrollment.dart';
-import 'package:vesnss/profile.dart';
+import 'package:vesnss/colors.dart';
+import 'package:vesnss/drawer/leaderdrawer.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -26,7 +25,7 @@ class _DashboardState extends State<Dashboard> {
       child: Image.asset(
         element,
         fit: BoxFit.cover,
-        width: 1000.0,
+        width: double.infinity,
       ),
     )).toList();
   }
@@ -38,115 +37,24 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2E478A),
+        backgroundColor: AppColors.primaryBlue,
         title: const Text(
           'Dashboard',
           style: TextStyle(
-            color: Color(0xFFF5180F),
+            color: AppColors.primaryRed,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Color(0xFFF5180F)),
+            icon: const Icon(Icons.menu, color: AppColors.primaryRed),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
           ),
         ),
       ),
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF2E478A),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 47, // Increase the radius for larger avatar
-                    backgroundImage: const AssetImage('assets/avatar.png'), // Replace with your image path
-                    backgroundColor: Colors.grey[200], // Default background color
-                    child: Icon(
-                      Icons.person, // Default icon if image not available
-                      size: 40, // Icon size
-                      color: Colors.grey[700], // Icon color
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      'Menu',
-                      style: TextStyle(
-                        color: Color(0xFFF5180F),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text('Add Event'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddEvent()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text('Enroll Student'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Enrollment()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text('Profile'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Profile()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings, color: Colors.black),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.black),
-              title: const Text('Logout'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(), // Use the custom drawer
       body: SafeArea(
         child: Column(
           children: [
@@ -175,8 +83,8 @@ class _DashboardState extends State<Dashboard> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == index
-                        ? const Color(0xFFF5180F)
-                        : const Color(0xFF2E478A),
+                        ?  AppColors.primaryRed
+                        :  AppColors.primaryBlue,
                   ),
                 );
               }).toList(),

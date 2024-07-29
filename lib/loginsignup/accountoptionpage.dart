@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vesnss/enrollment.dart';
-import 'package:vesnss/studentlogin.dart';
-import 'package:vesnss/teacherlogin.dart';
+import 'package:vesnss/enrollment/enrollment.dart';
+import 'package:vesnss/loginsignup/studentlogin.dart';
+import 'package:vesnss/loginsignup/teacherlogin.dart';
 
 class Accountoptionpage extends StatefulWidget {
   const Accountoptionpage({super.key});

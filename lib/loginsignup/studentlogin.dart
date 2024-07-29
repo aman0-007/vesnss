@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vesnss/api/loginapi.dart';
 import 'package:vesnss/dashboard.dart';
 
 class Studentlogin extends StatefulWidget {
@@ -9,8 +10,35 @@ class Studentlogin extends StatefulWidget {
 }
 
 class _StudentloginState extends State<Studentlogin> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
+  final LoginApi loginvol = LoginApi();
+
+  Future<void> _login() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please enter both username and password.'))
+      );
+      return;
+    }
+
+    try {
+      await loginvol.login(username, password);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login Failed: $e'))
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +110,7 @@ class _StudentloginState extends State<Studentlogin> {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: _usernameController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -181,12 +210,7 @@ class _StudentloginState extends State<Studentlogin> {
                             elevation: 5,
                             minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Dashboard()),
-                            );
-                          },
+                          onPressed: _login,
                           child: const Text(
                             'Login',
                             style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold, fontSize: 20),
