@@ -1,16 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:vesnss/api/loginapi.dart';
+import 'package:vesnss/dashboard.dart';
 
-class Teacherlogin extends StatefulWidget {
-  const Teacherlogin({super.key});
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<Teacherlogin> createState() => _TeacherloginState();
+  State<Login> createState() => _LoginState();
 }
 
-
-class _TeacherloginState extends State<Teacherlogin> {
+class _LoginState extends State<Login> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
+  final LoginApi loginvol = LoginApi();
+
+  Future<void> _login() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please enter both username and password.'))
+      );
+      return;
+    }
+
+    try {
+      await loginvol.login(username, password);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login Failed: $e'))
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +49,8 @@ class _TeacherloginState extends State<Teacherlogin> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E478A),
         title: const Text(
-          'Teacher Login',
-          style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold),
+          'Login',
+          style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFFF5180F)),
@@ -35,8 +63,8 @@ class _TeacherloginState extends State<Teacherlogin> {
         child: Center(
           child: IntrinsicHeight(
             child: Container(
-              margin: EdgeInsets.all(deviceWidth*0.07), // Optional: margin around the container
-              padding: EdgeInsets.all(deviceWidth*0.03), // Optional: padding inside the container
+              margin: EdgeInsets.all(deviceWidth * 0.07), // Optional: margin around the container
+              padding: EdgeInsets.all(deviceWidth * 0.03), // Optional: padding inside the container
               decoration: BoxDecoration(
                 color: Colors.white, // Background color
                 border: Border.all(
@@ -52,7 +80,10 @@ class _TeacherloginState extends State<Teacherlogin> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Teacher Login",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Color(0xFF2E478A)),),
+                      Text(
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF2E478A)),
+                      ),
                     ],
                   ),
                   const Divider(
@@ -61,54 +92,64 @@ class _TeacherloginState extends State<Teacherlogin> {
                   ),
                   SizedBox(height: deviceHeight * 0.030),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("UserId :",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
-                    ],
-                  ),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Username :",
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.5), // Border color
-                                width: 1.0, // Border width
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _usernameController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey.withOpacity(0.5), // Border color
+                                  width: 1.0, // Border width
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF2E478A), // Focused border color
+                                  width: 2.0, // Border width
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 12.0,
                               ),
                             ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFF2E478A), // Focused border color
-                                width: 2.0, // Border width
-                              ),
+                            style: const TextStyle(
+                              fontSize: 14.0, // Text size
+                              color: Colors.black87, // Text color
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 12.0,
-                            ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 14.0, // Text size
-                            color: Colors.black87, // Text color
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: deviceHeight * 0.020),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),                child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Password :",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
-                    ],
-                  ),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password :",
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
@@ -159,24 +200,21 @@ class _TeacherloginState extends State<Teacherlogin> {
                   ),
                   SizedBox(height: deviceHeight * 0.035),
                   Padding(
-                    padding: EdgeInsets.only(left:deviceWidth*0.02,right:deviceWidth*0.02),
+                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF2E478A),
-                            // color: Color(0xFFF5180F)
                             elevation: 5,
                             minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
                           ),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => StudentLoginPage()),
-                            // );
-                          },
-                          child: const Text('Login',style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold,fontSize: 20),),
+                          onPressed: _login,
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                         ),
                       ],
                     ),

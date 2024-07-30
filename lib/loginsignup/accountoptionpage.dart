@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
-import 'package:vesnss/loginsignup/studentlogin.dart';
-import 'package:vesnss/loginsignup/teacherlogin.dart';
+import 'package:vesnss/loginsignup/login.dart';
 
 class Accountoptionpage extends StatefulWidget {
   const Accountoptionpage({super.key});
@@ -62,30 +61,10 @@ class _AccountoptionpageState extends State<Accountoptionpage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Studentlogin()),
+                    MaterialPageRoute(builder: (context) => const Login()),
                   );
                 },
-                child: const Text('Student Login',style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold,fontSize: 18),),
-              ),
-            ],
-          ),
-          SizedBox(height: deviceHeight * 0.033), // Space between the buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  elevation: 5,
-                  minimumSize: Size(deviceWidth * 0.7, deviceHeight * 0.057),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Teacherlogin()),
-                  );
-                },
-                child: const Text('Teacher Login',style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold,fontSize: 18),),
+                child: const Text('Login',style: TextStyle(color: Color(0xFFF5180F),fontWeight: FontWeight.bold,fontSize: 18),),
               ),
             ],
           ),
