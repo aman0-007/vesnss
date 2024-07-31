@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -109,7 +109,7 @@ class _ProfileState extends State<Profile> {
                                 "Name:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 name,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -127,7 +127,7 @@ class _ProfileState extends State<Profile> {
                                 "Enrollment Id:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 enrollmentId,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -145,7 +145,7 @@ class _ProfileState extends State<Profile> {
                                 "Email:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 email,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -163,7 +163,7 @@ class _ProfileState extends State<Profile> {
                                 "Year of joining:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 yearOfJoining,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -181,7 +181,7 @@ class _ProfileState extends State<Profile> {
                                 "Department:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 department,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),

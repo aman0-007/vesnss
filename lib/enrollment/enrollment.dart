@@ -19,7 +19,7 @@ class _EnrollmentState extends State<Enrollment> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  bool _isPasswordVisible = false;
+  final bool _isPasswordVisible = false;
 
   String? _selectedGender;
   String? _selectedYearOfJoin;
@@ -64,14 +64,14 @@ class _EnrollmentState extends State<Enrollment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: boldGreyStyle),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextField(
             controller: controller,
             obscureText: obscureText,
             keyboardType: keyboardType,
             decoration: InputDecoration(
               border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey.withOpacity(0.5))),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryBlue, width: 2.0)),
+              focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryBlue, width: 2.0)),
               contentPadding: fieldPadding,
             ),
             style: normalBlackStyle,
@@ -88,7 +88,7 @@ class _EnrollmentState extends State<Enrollment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: boldGreyStyle),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           DropdownButtonFormField<String>(
             value: value,
             onChanged: onChanged,
@@ -100,7 +100,7 @@ class _EnrollmentState extends State<Enrollment> {
             }).toList(),
             decoration: InputDecoration(
               border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey.withOpacity(0.5))),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryBlue, width: 2.0)),
+              focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryBlue, width: 2.0)),
               contentPadding: fieldPadding,
             ),
           ),
@@ -123,14 +123,14 @@ class _EnrollmentState extends State<Enrollment> {
         _selectedYearOfJoin == 'Select year' ||
         _selectedYear == 'Select year') {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please fill all fields correctly.'))
+          const SnackBar(content: Text('Please fill all fields correctly.'))
       );
       return;
     }
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Passwords do not match.'))
+          const SnackBar(content: Text('Passwords do not match.'))
       );
       return;
     }
@@ -153,7 +153,7 @@ class _EnrollmentState extends State<Enrollment> {
     try {
       await apiService.enrollVolunteer(data);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Enrollment Successful'))
+          const SnackBar(content: Text('Enrollment Successful'))
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -239,7 +239,7 @@ class _EnrollmentState extends State<Enrollment> {
                           minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
                         ),
                         onPressed: _submitForm,
-                        child: Text('Enroll', style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.bold, fontSize: 20)),
+                        child: const Text('Enroll', style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.bold, fontSize: 20)),
                       ),
                     ],
                   ),

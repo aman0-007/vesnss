@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
-import 'package:vesnss/profile.dart';
+import 'package:vesnss/leader/leaderprofile.dart';
 
-class AppDrawer extends StatelessWidget {
+class LeaderDrawer extends StatelessWidget {
+  const LeaderDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -63,7 +65,7 @@ class AppDrawer extends StatelessWidget {
           _buildDrawerItem(Icons.person, 'Profile', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Profile()),
+              MaterialPageRoute(builder: (context) => const leaderProfile()),
             );
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {
@@ -85,8 +87,8 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildLogoutItem(BuildContext context) { // Accept context as a parameter
     return ListTile(
-      leading: Icon(Icons.logout, color: AppColors.primaryRed),
-      title: Text(
+      leading: const Icon(Icons.logout, color: AppColors.primaryRed),
+      title: const Text(
         'Logout',
         style: TextStyle(color: AppColors.primaryRed),
       ),

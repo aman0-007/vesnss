@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
+import 'package:vesnss/drawer/admindrawer.dart';
 import 'package:vesnss/drawer/leaderdrawer.dart';
+import 'package:vesnss/drawer/podrawer.dart';
+import 'package:vesnss/drawer/volunteerdrawer.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -12,12 +16,26 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
+  String userType = 'Unknown'; // Default value
   final List<String> _imgList = [
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserType();
+  }
+
+  Future<void> _loadUserType() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userType = prefs.getString('userType') ?? 'Unknown';
+    });
+  }
 
   List<Widget> generateImageTiles() {
     return _imgList.map((element) => ClipRRect(
@@ -34,6 +52,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -54,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      drawer: AppDrawer(), // Use the custom drawer
+      drawer: _getDrawerBasedOnUserType(),
       body: SafeArea(
         child: Column(
           children: [
@@ -83,8 +102,8 @@ class _DashboardState extends State<Dashboard> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == index
-                        ?  AppColors.primaryRed
-                        :  AppColors.primaryBlue,
+                        ? AppColors.primaryRed
+                        : AppColors.primaryBlue,
                   ),
                 );
               }).toList(),
@@ -93,5 +112,24 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
     );
+  }
+
+  Widget _getDrawerBasedOnUserType() {
+    switch (userType) {
+      case 'Volunteer':
+        return const VolunteerDrawer();
+      case 'Teacher':
+        return const AdminDrawer();
+      case 'Leader':
+        return const LeaderDrawer();
+      case 'PO':
+        return const PODrawer();
+      default:
+        return Drawer( // Default drawer if userType is unknown
+          child: Center(
+            child: Text('No drawer available'),
+          ),
+        );
+    }
   }
 }

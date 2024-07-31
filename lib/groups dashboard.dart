@@ -10,7 +10,7 @@ class GroupDashboard extends StatefulWidget {
 class _GroupDashboardState extends State<GroupDashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
 
     );
   }

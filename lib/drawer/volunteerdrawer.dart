@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
-import 'package:vesnss/leader/addEvent.dart';
-import 'package:vesnss/enrollment/enrollment.dart';
-import 'package:vesnss/profile.dart';
+import 'package:vesnss/loginsignup/accountoptionpage.dart';
+import 'package:vesnss/volunteer/profile.dart';
+import 'package:vesnss/volunteer/volunteerprofile.dart';
 
-class AppDrawer extends StatelessWidget {
+class VolunteerDrawer extends StatelessWidget {
+  const VolunteerDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -51,7 +54,7 @@ class AppDrawer extends StatelessWidget {
           _buildDrawerItem(Icons.person, 'Profile', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Profile()),
+              MaterialPageRoute(builder: (context) => const VolunteerProfile()),
             );
           }),
           _buildLogoutItem(context), // Pass context to logout item
@@ -68,16 +71,28 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutItem(BuildContext context) { // Accept context as a parameter
+  Widget _buildLogoutItem(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.logout, color: AppColors.primaryRed),
-      title: Text(
+      leading: const Icon(Icons.logout, color: AppColors.primaryRed),
+      title: const Text(
         'Logout',
         style: TextStyle(color: AppColors.primaryRed),
       ),
-      onTap: () {
-        // Implement logout functionality here
-        Navigator.pop(context);
+      onTap: () async {
+        // Perform logout operations
+        final prefs = await SharedPreferences.getInstance();
+
+        // Remove user-related data from SharedPreferences
+        await prefs.remove('userType');
+        await prefs.remove('userStatus');
+        await prefs.remove('userRole');
+        await prefs.setBool('isLoggedIn', false); // Clear login status
+
+        // Navigate to the login page after logout
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Accountoptionpage()),
+        );
       },
     );
   }

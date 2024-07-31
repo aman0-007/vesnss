@@ -6,8 +6,8 @@ import 'package:vesnss/enrollment/enrollment.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/volunteer/profile.dart';
 
-class AdminDrawer extends StatelessWidget {
-  const AdminDrawer({super.key});
+class PODrawer extends StatelessWidget {
+  const PODrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

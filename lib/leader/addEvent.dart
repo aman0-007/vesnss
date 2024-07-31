@@ -108,7 +108,7 @@ class _AddEventState extends State<AddEvent> {
             label,
             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           TextField(
             maxLines: isMultiline ? null : 1,
             textAlignVertical: isMultiline ? TextAlignVertical.bottom : TextAlignVertical.center,

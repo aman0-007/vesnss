@@ -3,7 +3,7 @@ import 'package:vesnss/api/loginapi.dart';
 import 'package:vesnss/dashboard.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please enter both username and password.'))
+          const SnackBar(content: Text('Please enter both username and password.'))
       );
       return;
     }

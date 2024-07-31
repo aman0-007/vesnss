@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class leaderProfile extends StatefulWidget {
+  const leaderProfile({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<leaderProfile> createState() => _leaderProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _leaderProfileState extends State<leaderProfile> {
   // Example profile data
   final String name = "John Doe";
   final String enrollmentId = "123456";
