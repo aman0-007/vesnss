@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/adminpo/addpo.dart';
+import 'package:vesnss/adminpo/addproject.dart';
+import 'package:vesnss/adminpo/addteacher.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
-import 'package:vesnss/volunteer/profile.dart';
 
 class PODrawer extends StatelessWidget {
   const PODrawer({super.key});
@@ -64,10 +66,22 @@ class PODrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Enrollment()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Profile', () {
+          _buildDrawerItem(Icons.person, 'Add Project', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Profile()),
+              MaterialPageRoute(builder: (context) => const AddProject()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Add Teacher', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddTeacher()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Add PO', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddPo()),
             );
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {
@@ -102,7 +116,7 @@ class PODrawer extends StatelessWidget {
         await prefs.remove('userType');
         await prefs.remove('userStatus');
         await prefs.remove('userRole');
-        await prefs.setBool('isLoggedIn', false); // Clear login status
+        await prefs.setBool('isLoggedIn', false);
 
         // Navigate to the login page after logout
         Navigator.pushReplacement(

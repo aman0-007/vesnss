@@ -17,6 +17,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
   String userType = 'Unknown'; // Default value
+  String userRole = 'Unknown'; // Default value
   final List<String> _imgList = [
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
@@ -27,13 +28,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    _loadUserType();
+    _loadUserInfo();
   }
 
-  Future<void> _loadUserType() async {
+  Future<void> _loadUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       userType = prefs.getString('userType') ?? 'Unknown';
+      userRole = prefs.getString('userRole') ?? 'Unknown';
     });
   }
 
@@ -119,15 +121,28 @@ class _DashboardState extends State<Dashboard> {
       case 'Volunteer':
         return const VolunteerDrawer();
       case 'Teacher':
-        return const AdminDrawer();
+        return _getTeacherDrawerBasedOnRole();
       case 'Leader':
         return const LeaderDrawer();
-      case 'PO':
-        return const PODrawer();
       default:
         return Drawer( // Default drawer if userType is unknown
           child: Center(
             child: Text('No drawer available'),
+          ),
+        );
+    }
+  }
+
+  Widget _getTeacherDrawerBasedOnRole() {
+    switch (userRole) {
+      case 'PO':
+        return const PODrawer();
+      case 'Teacher Incharge':
+        return const AdminDrawer();
+      default:
+        return Drawer( // Default drawer if role is unknown
+          child: Center(
+            child: Text('No drawer available for this role'),
           ),
         );
     }
