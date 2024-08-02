@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/adminpo/addleader.dart';
 import 'package:vesnss/adminpo/addpo.dart';
 import 'package:vesnss/adminpo/addproject.dart';
 import 'package:vesnss/adminpo/addteacher.dart';
@@ -82,6 +83,12 @@ class PODrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddPo()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Add Leader', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddLeader()),
             );
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {
