@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:vesnss/colors.dart'; // Ensure this path is correct
-import 'package:vesnss/adminpo/addLeaderApi.dart'; // Ensure this path is correct
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/colors.dart';
+import 'package:vesnss/volunteer/applyLeaderApi.dart';
 
 class AddLeader extends StatefulWidget {
   @override
@@ -13,34 +14,40 @@ class _AddLeaderState extends State<AddLeader> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _groupNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  String? _selectedGroupId; // To store selected group ID
-  List<String> _groupIds = []; // List to store group IDs
+  String? _selectedGroupName; // To store selected group name
+
+  final List<String> _groupNames = [
+    'AVYAY',
+    'KARMAVEER',
+    'SUNRISERS',
+    'NAVYUG',
+    'EKLAVYA',
+    'SANKALP',
+    'AAROHAN',
+    'DISHA'
+  ]; // Predefined group names
 
   @override
   void initState() {
     super.initState();
-    _fetchGroups();
+    _loadUserData();
   }
 
-  Future<void> _fetchGroups() async {
-    final response = await http.get(
-      Uri.parse('http://213.210.37.81:3009/admin/fetchGroups'), // Adjust API endpoint
-      headers: {'x-api-key': 'NsSvEsAsC'}, // Include the API key if required
-    );
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = jsonDecode(response.body);
-      final List<dynamic> groups = responseBody['data'];
+    // Retrieve and decode user details from SharedPreferences
+    final String? userDetailsJson = prefs.getString('userDetails');
+    if (userDetailsJson != null) {
+      final Map<String, dynamic> userDetails = jsonDecode(userDetailsJson);
 
       setState(() {
-        _groupIds = groups.map((group) => group['group_id'] as String).toList();
+        _nameController.text = '${userDetails['name'] ?? ''} ${userDetails['surname'] ?? ''}';
+        _emailController.text = userDetails['email'] ?? '';
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to fetch groups: ${response.reasonPhrase}')),
-      );
+      print('User details not found in SharedPreferences');
     }
   }
 
@@ -73,10 +80,10 @@ class _AddLeaderState extends State<AddLeader> {
                     _buildTitle(deviceHeight),
                     _buildDivider(),
                     SizedBox(height: deviceHeight * 0.01),
-                    _buildTextField("Name:", _nameController, deviceWidth),
+                    _buildTextField("Name:", _nameController, deviceWidth, isEditable: false),
                     _buildTextField("Username:", _usernameController, deviceWidth),
                     _buildTextField("Password:", _passwordController, deviceWidth, isPassword: true),
-                    _buildTextField("Email:", _emailController, deviceWidth),
+                    _buildTextField("Email:", _emailController, deviceWidth, isEditable: false),
                     _buildDropdown(deviceWidth),
                     SizedBox(height: deviceHeight * 0.030),
                     _buildAddButton(deviceWidth, deviceHeight),
@@ -127,7 +134,7 @@ class _AddLeaderState extends State<AddLeader> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, double deviceWidth, {bool isPassword = false}) {
+  Widget _buildTextField(String label, TextEditingController controller, double deviceWidth, {bool isPassword = false, bool isEditable = true}) {
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
       child: Column(
@@ -141,6 +148,7 @@ class _AddLeaderState extends State<AddLeader> {
           TextField(
             controller: controller,
             obscureText: isPassword,
+            enabled: isEditable,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -173,7 +181,7 @@ class _AddLeaderState extends State<AddLeader> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Group ID:',
+            'Group Name:',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 4.0),
@@ -187,26 +195,26 @@ class _AddLeaderState extends State<AddLeader> {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                value: _selectedGroupId,
+                value: _selectedGroupName,
                 hint: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Text(
-                    'Select Group ID',
+                    'Select Group Name',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                 ),
-                items: _groupIds.map((String groupId) {
+                items: _groupNames.map((String groupName) {
                   return DropdownMenuItem<String>(
-                    value: groupId,
+                    value: groupName,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(groupId),
+                      child: Text(groupName),
                     ),
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
                   setState(() {
-                    _selectedGroupId = newValue;
+                    _selectedGroupName = newValue;
                   });
                 },
                 isExpanded: true,
@@ -238,12 +246,23 @@ class _AddLeaderState extends State<AddLeader> {
               minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
             ),
             onPressed: () {
+              if (_nameController.text.isEmpty ||
+                  _usernameController.text.isEmpty ||
+                  _passwordController.text.isEmpty ||
+                  _emailController.text.isEmpty ||
+                  _selectedGroupName == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please fill in all fields.')),
+                );
+                return;
+              }
+
               addLeader(
                 context: context,
                 name: _nameController.text,
                 username: _usernameController.text,
                 password: _passwordController.text,
-                groupName: _groupNameController.text,
+                groupName: _selectedGroupName!,
                 email: _emailController.text,
               );
             },
@@ -257,12 +276,12 @@ class _AddLeaderState extends State<AddLeader> {
     );
   }
 
+
   @override
   void dispose() {
     _nameController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
-    _groupNameController.dispose();
     _emailController.dispose();
     super.dispose();
   }

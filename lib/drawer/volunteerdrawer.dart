@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
+import 'package:vesnss/volunteer/applyLeader.dart';
 import 'package:vesnss/volunteer/profile.dart';
 import 'package:vesnss/volunteer/volunteerprofile.dart';
 
@@ -55,6 +56,12 @@ class VolunteerDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const VolunteerProfile()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Add Leader', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddLeader()),
             );
           }),
           _buildLogoutItem(context), // Pass context to logout item

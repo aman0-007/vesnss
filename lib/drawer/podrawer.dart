@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vesnss/adminpo/addleader.dart';
 import 'package:vesnss/adminpo/addpo.dart';
 import 'package:vesnss/adminpo/addproject.dart';
 import 'package:vesnss/adminpo/addteacher.dart';
+import 'package:vesnss/adminpo/approveLeader.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
@@ -85,10 +85,10 @@ class PODrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => AddPo()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Add Leader', () {
+          _buildDrawerItem(Icons.person, 'Approve Leader', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddLeader()),
+              MaterialPageRoute(builder: (context) => Approveleader()),
             );
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {

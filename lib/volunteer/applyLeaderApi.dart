@@ -11,7 +11,7 @@ Future<void> addLeader({
   required String email,
 }) async {
   final String apiUrl = 'http://213.210.37.81:3009/leader/addLeader';
-  final Map<String, String> data = {
+  final Map<String, dynamic> data = {
     'name': name,
     'username': username,
     'password': password,
