@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginApi {
   final String _volunteersLoginUrl = 'http://213.210.37.81:3009/volunteers/login';
   final String _teacherLoginUrl = 'http://213.210.37.81:3009/admin/TeacherLogin';
+  final String _leaderLoginUrl = 'http://213.210.37.81:3009/leader/leaderLogin';
   final String _notSelectedUrl = 'http://213.210.37.81:3009/leader/notselected';
   final String _allTeachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
   final String _apiKey = 'NsSvEsAsC';
@@ -13,6 +14,9 @@ class LoginApi {
     bool isVolunteersLoginSuccessful = await _login(_volunteersLoginUrl, username, password);
     bool isTeacherLoginSuccessful = !isVolunteersLoginSuccessful
         ? await _login(_teacherLoginUrl, username, password)
+        : false;
+    bool isLeaderLoginSuccessful = !isVolunteersLoginSuccessful && !isTeacherLoginSuccessful
+        ? await _login(_leaderLoginUrl, username, password)
         : false;
 
     if (isVolunteersLoginSuccessful) {
@@ -23,9 +27,12 @@ class LoginApi {
     } else if (isTeacherLoginSuccessful) {
       await _fetchAndSaveRole(username);
       await _saveUserType('Teacher');
+    } else if (isLeaderLoginSuccessful) {
+      await _saveUserType('Leader');
+      // Save any additional leader-specific information if needed
     } else {
-      print('Failed to login to both endpoints.');
-      throw Exception('Failed to login to both endpoints.');
+      print('Failed to login to all endpoints.');
+      throw Exception('Failed to login to all endpoints.');
     }
 
     // Save login status and username in SharedPreferences

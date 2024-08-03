@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart'; // Ensure this package is in your `pubspec.yaml`
+import 'package:fl_chart/fl_chart.dart'; // Ensure this package is in your `pubspec.yaml`
 
 class VolunteerProfile extends StatefulWidget {
   const VolunteerProfile({super.key});
@@ -72,41 +72,33 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
             SizedBox(height: deviceHeight * 0.05),
             Center(
               child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blueAccent, Colors.greenAccent],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                width: 150, // Smaller width
+                height: 150, // Smaller height
+                child: PieChart(
+                  PieChartData(
+                    sections: [
+                      PieChartSectionData(
+                        color: Colors.blueAccent,
+                        value: hoursWorked.toDouble(),
+                        title: '$hoursWorked hrs',
+                        radius: 70, // Adjust radius
+                        titleStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Change title color to white
+                          fontSize: 16, // Smaller font size
+                        ),
+                      ),
+                      PieChartSectionData(
+                        color: Colors.grey[400]!, // Change grey color
+                        value: (totalHours - hoursWorked).toDouble(),
+                        radius: 70, // Adjust radius
+                      ),
+                    ],
+                    borderData: FlBorderData(show: false),
+                    centerSpaceRadius: 60, // Adjust center space
+                    sectionsSpace: 0,
+                    startDegreeOffset: 180, // Rotate the chart if needed
                   ),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      offset: Offset(0, 4), // Shadow position
-                    ),
-                  ],
-                ),
-                child: CircularPercentIndicator(
-                  radius: 130.0,
-                  lineWidth: 15.0,
-                  percent: hoursWorked / totalHours,
-                  center: Text(
-                    '$hoursWorked hrs',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: Colors.black,
-                    ),
-                  ),
-                  progressColor: Colors.green, // Completed hours color
-                  backgroundColor: Colors.grey[300]!, // Remaining hours color
-                  circularStrokeCap: CircularStrokeCap.round,
-                  // Add a white border around the indicator
-                  // addBorder: true,
-                  // borderWidth: 5.0,
-                  // borderColor: Colors.white,
                 ),
               ),
             ),

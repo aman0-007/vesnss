@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
+import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/volunteer/applyLeader.dart';
 import 'package:vesnss/leader/leaderprofile.dart';
 
@@ -86,16 +88,28 @@ class LeaderDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutItem(BuildContext context) { // Accept context as a parameter
+  Widget _buildLogoutItem(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.logout, color: AppColors.primaryRed),
       title: const Text(
         'Logout',
         style: TextStyle(color: AppColors.primaryRed),
       ),
-      onTap: () {
-        // Implement logout functionality here
-        Navigator.pop(context);
+      onTap: () async {
+        // Perform logout operations
+        final prefs = await SharedPreferences.getInstance();
+
+        // Remove user-related data from SharedPreferences
+        await prefs.remove('userType');
+        await prefs.remove('userStatus');
+        await prefs.remove('userRole');
+        await prefs.setBool('isLoggedIn', false); // Clear login status
+
+        // Navigate to the login page after logout
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Accountoptionpage()),
+        );
       },
     );
   }
