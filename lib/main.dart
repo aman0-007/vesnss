@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 200, // Adjust the size as needed
               height: 200, // Adjust the size as needed
             ),
-            SizedBox(height: 25), // Add some space between the logo and the text
+            const SizedBox(height: 25), // Add some space between the logo and the text
             // Display the text below the image
             const Text(
               '|| NOT ME BUT YOU ||',

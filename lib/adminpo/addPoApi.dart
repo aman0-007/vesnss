@@ -9,7 +9,7 @@ Future<void> addPo({
   required String password,
   required String email,
 }) async {
-  final String apiUrl = 'http://213.210.37.81:3009/admin/addPO';
+  const String apiUrl = 'http://213.210.37.81:3009/admin/addPO';
   final Map<String, String> data = {
     'name': name,
     'username': username,
@@ -33,7 +33,7 @@ Future<void> addPo({
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('PO added successfully!')),
+        const SnackBar(content: Text('PO added successfully!')),
       );
     } else {
       // More detailed error handling

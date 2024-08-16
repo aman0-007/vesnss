@@ -88,7 +88,7 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                       color: Colors.black.withOpacity(0.15),
                       spreadRadius: 2,
                       blurRadius: 6,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -98,9 +98,9 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                       PieChartSectionData(
                         color: Colors.blueAccent,
                         value: hoursWorked.toDouble(),
-                        title: 'Completed\n${hoursWorked} hrs\n${percentageWorked.toStringAsFixed(1)}%',
+                        title: 'Completed\n$hoursWorked hrs\n${percentageWorked.toStringAsFixed(1)}%',
                         radius: 60, // Adjusted radius
-                        titleStyle: TextStyle(
+                        titleStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white, // Change title color to white
                           fontSize: 10, // Smaller font size
@@ -111,7 +111,7 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                         value: (totalHours - hoursWorked).toDouble(),
                         title: 'Remaining\n${(totalHours - hoursWorked)} hrs',
                         radius: 60, // Adjusted radius
-                        titleStyle: TextStyle(
+                        titleStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black, // Title color for remaining section
                           fontSize: 10, // Smaller font size

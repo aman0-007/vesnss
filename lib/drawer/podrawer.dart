@@ -4,6 +4,7 @@ import 'package:vesnss/adminpo/addpo.dart';
 import 'package:vesnss/adminpo/addproject.dart';
 import 'package:vesnss/adminpo/addteacher.dart';
 import 'package:vesnss/adminpo/approveLeader.dart';
+import 'package:vesnss/adminpo/statics.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
@@ -55,7 +56,7 @@ class PODrawer extends StatelessWidget {
           _buildDrawerItem(Icons.home, 'Home', () {
             Navigator.pop(context);
           }),
-          _buildDrawerItem(Icons.add_circle, 'Add Event', () {
+          _buildDrawerItem(Icons.event, 'Add Event', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddEvent()),
@@ -67,32 +68,38 @@ class PODrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Enrollment()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Add Project', () {
+          _buildDrawerItem(Icons.add_business, 'Add Project', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddProject()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Add Teacher', () {
+          _buildDrawerItem(Icons.person_add, 'Add Teacher', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddTeacher()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Add PO', () {
+          _buildDrawerItem(Icons.group_add, 'Add PO', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddPo()),
+              MaterialPageRoute(builder: (context) => const AddPo()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Approve Leader', () {
+          _buildDrawerItem(Icons.verified, 'Approve Leader', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Approveleader()),
+              MaterialPageRoute(builder: (context) => const Approveleader()),
             );
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {
             Navigator.pop(context);
+          }),
+          _buildDrawerItem(Icons.bar_chart, 'Stats', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Statics()),
+            );
           }),
           _buildLogoutItem(context), // Pass context to logout item
         ],

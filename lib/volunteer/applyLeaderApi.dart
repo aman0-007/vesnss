@@ -10,7 +10,7 @@ Future<void> addLeader({
   required String groupName,
   required String email,
 }) async {
-  final String apiUrl = 'http://213.210.37.81:3009/leader/addLeader';
+  const String apiUrl = 'http://213.210.37.81:3009/leader/addLeader';
   final Map<String, dynamic> data = {
     'name': name,
     'username': username,
@@ -35,7 +35,7 @@ Future<void> addLeader({
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Leader added successfully!')),
+        const SnackBar(content: Text('Leader added successfully!')),
       );
     } else {
       // More detailed error handling

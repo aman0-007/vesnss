@@ -198,7 +198,7 @@ class _AddEventState extends State<AddEvent> {
                 config: CalendarDatePicker2WithActionButtonsConfig(
                   firstDate: DateTime.now(), // Restrict to dates from today onwards
                   selectedDayHighlightColor: AppColors.primaryBlue, // Use primaryBlue for the selected day
-                  dayTextStyle: TextStyle(color: Colors.black87), // Text style for the days
+                  dayTextStyle: const TextStyle(color: Colors.black87), // Text style for the days
                   calendarViewMode: CalendarDatePicker2Mode.day, // Initial view mode of the calendar
                 ),
                 dialogSize: Size(deviceWidth * 0.8, deviceWidth * 0.9),
@@ -282,7 +282,7 @@ class _AddEventState extends State<AddEvent> {
                 _selectedProjectId = value;
               });
             },
-            hint: Text('Select Project'),
+            hint: const Text('Select Project'),
           ),
         ],
       ),
@@ -347,7 +347,7 @@ class _AddEventState extends State<AddEvent> {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            hint: Text('Select Teacher'),
+            hint: const Text('Select Teacher'),
           ),
         ],
       ),
@@ -392,7 +392,7 @@ class _AddEventState extends State<AddEvent> {
                 ),
               ),
             ),
-            hint: Text('Select Level'),
+            hint: const Text('Select Level'),
           ),
         ],
       ),

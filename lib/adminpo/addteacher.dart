@@ -211,8 +211,8 @@ class _AddTeacherState extends State<AddTeacher> {
                   });
                 },
                 isExpanded: true,
-                icon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                icon: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
                   child: Icon(
                     Icons.arrow_drop_down,
                     color: AppColors.primaryBlue,

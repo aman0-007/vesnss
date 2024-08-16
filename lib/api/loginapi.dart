@@ -79,7 +79,7 @@ class LoginApi {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
-      final selectedUser = (data as List).firstWhere(
+      final selectedUser = (data).firstWhere(
             (user) => user['username'] == username,
         orElse: () => null,
       );
@@ -113,7 +113,7 @@ class LoginApi {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
-      final selectedTeacher = (data as List).firstWhere(
+      final selectedTeacher = (data).firstWhere(
             (teacher) => teacher['username'] == username,
         orElse: () => null,
       );
@@ -147,7 +147,7 @@ class LoginApi {
       final List<dynamic> data = responseBody['data'];
 
       // Find user data by username
-      final user = (data as List).firstWhere(
+      final user = (data).firstWhere(
             (user) => user['username'] == username,
         orElse: () => null,
       );

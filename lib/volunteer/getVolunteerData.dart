@@ -38,7 +38,7 @@ class _GetvolunteerdataState extends State<Getvolunteerdata> {
         final List<dynamic> data = responseBody['data'];
 
         // Find user data by username
-        final user = (data as List).firstWhere(
+        final user = (data).firstWhere(
               (user) => user['username'] == username,
           orElse: () => null,
         );
@@ -65,9 +65,9 @@ class _GetvolunteerdataState extends State<Getvolunteerdata> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: const CircularProgressIndicator(), // Show loading indicator while fetching
+        child: CircularProgressIndicator(), // Show loading indicator while fetching
       ),
     );
   }

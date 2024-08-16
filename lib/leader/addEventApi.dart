@@ -24,15 +24,15 @@ class Teacher {
 
 
 Future<List<Teacher>> fetchTeachers() async {
-  final String _apiKey = 'NsSvEsAsC';
-  final String _teachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
+  const String apiKey = 'NsSvEsAsC';
+  const String teachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
 
   try {
     final response = await http.get(
-      Uri.parse(_teachersUrl),
+      Uri.parse(teachersUrl),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': apiKey,
       },
     );
 
@@ -68,15 +68,15 @@ class Project {
 }
 
 Future<List<Project>> fetchProjects() async {
-  final String _apiKey = 'NsSvEsAsC';
-  final String _projectsUrl = 'http://213.210.37.81:3009/admin/fetchProjects';
+  const String apiKey = 'NsSvEsAsC';
+  const String projectsUrl = 'http://213.210.37.81:3009/admin/fetchProjects';
 
   try {
     final response = await http.get(
-      Uri.parse(_projectsUrl),
+      Uri.parse(projectsUrl),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': apiKey,
       },
     );
 

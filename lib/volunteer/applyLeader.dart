@@ -6,6 +6,8 @@ import 'package:vesnss/colors.dart';
 import 'package:vesnss/volunteer/applyLeaderApi.dart';
 
 class AddLeader extends StatefulWidget {
+  const AddLeader({super.key});
+
   @override
   _AddLeaderState createState() => _AddLeaderState();
 }
@@ -218,8 +220,8 @@ class _AddLeaderState extends State<AddLeader> {
                   });
                 },
                 isExpanded: true,
-                icon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                icon: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
                   child: Icon(
                     Icons.arrow_drop_down,
                     color: AppColors.primaryBlue,
@@ -252,7 +254,7 @@ class _AddLeaderState extends State<AddLeader> {
                   _emailController.text.isEmpty ||
                   _selectedGroupName == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please fill in all fields.')),
+                  const SnackBar(content: Text('Please fill in all fields.')),
                 );
                 return;
               }
