@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/volunteer/applyLeader.dart';
+import 'package:vesnss/volunteer/volunteer_detail_barcode.dart';
 import 'package:vesnss/volunteer/volunteerprofile.dart';
 
 class VolunteerDrawer extends StatelessWidget {
@@ -55,6 +56,12 @@ class VolunteerDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const VolunteerProfile()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Show Code', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const VolunteerBarCode()),
             );
           }),
           _buildDrawerItem(Icons.person, 'Add Leader', () {

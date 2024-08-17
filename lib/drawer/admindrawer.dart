@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/adminpo/ApproveEvent.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
@@ -52,10 +53,10 @@ class AdminDrawer extends StatelessWidget {
           _buildDrawerItem(Icons.home, 'Home', () {
             Navigator.pop(context);
           }),
-          _buildDrawerItem(Icons.add_circle, 'Add Event', () {
+          _buildDrawerItem(Icons.add_circle, 'Approve Event', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddEvent()),
+              MaterialPageRoute(builder: (context) => const ApproveEvent()),
             );
           }),
           _buildDrawerItem(Icons.school, 'Enroll Student', () {

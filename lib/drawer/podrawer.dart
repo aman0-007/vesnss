@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/adminpo/ApproveEvent.dart';
 import 'package:vesnss/adminpo/addpo.dart';
 import 'package:vesnss/adminpo/addproject.dart';
 import 'package:vesnss/adminpo/addteacher.dart';
 import 'package:vesnss/adminpo/approveLeader.dart';
+import 'package:vesnss/adminpo/confirmVolunteer.dart';
 import 'package:vesnss/adminpo/statics.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
@@ -56,16 +58,22 @@ class PODrawer extends StatelessWidget {
           _buildDrawerItem(Icons.home, 'Home', () {
             Navigator.pop(context);
           }),
-          _buildDrawerItem(Icons.event, 'Add Event', () {
+          _buildDrawerItem(Icons.event, 'Approve Event', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddEvent()),
+              MaterialPageRoute(builder: (context) => const ApproveEvent()),
             );
           }),
           _buildDrawerItem(Icons.school, 'Enroll Student', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Enrollment()),
+            );
+          }),
+          _buildDrawerItem(Icons.school, 'Confirm Volunteer', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Confirmvolunteer()),
             );
           }),
           _buildDrawerItem(Icons.add_business, 'Add Project', () {

@@ -3,8 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
+import 'package:vesnss/leader/markattendance.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/leader/leaderprofile.dart';
+import 'package:vesnss/leader/confirmStudent.dart';
 
 class LeaderDrawer extends StatelessWidget {
   const LeaderDrawer({super.key});
@@ -53,6 +55,7 @@ class LeaderDrawer extends StatelessWidget {
             Navigator.pop(context);
           }),
           _buildDrawerItem(Icons.add_circle, 'Add Event', () {
+            Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddEvent()),
@@ -62,6 +65,18 @@ class LeaderDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Enrollment()),
+            );
+          }),
+          _buildDrawerItem(Icons.school, 'Confirem Student', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Confirmstudent()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Mark Attendance', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Markattendance()),
             );
           }),
           _buildDrawerItem(Icons.person, 'Profile', () {

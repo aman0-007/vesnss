@@ -93,3 +93,47 @@ Future<List<Project>> fetchProjects() async {
     return [];
   }
 }
+
+Future<bool> addEventDetails({
+  required String name,
+  required String date,
+  required String level,
+  required String venue,
+  required String teacherInCharge,
+  required String projectId,
+  required String leaderId,
+}) async {
+  const String apiKey = 'NsSvEsAsC';
+  const String addEventUrl = 'http://213.210.37.81:3009/leader/addEvent';
+
+  final Map<String, dynamic> requestBody = {
+    'name': name,
+    'date': date,
+    'level': level,
+    'venue': venue,
+    'teacher_incharge': teacherInCharge,
+    'project_id': projectId,
+    'leader_id': leaderId,
+  };
+
+  try {
+    final response = await http.post(
+      Uri.parse(addEventUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      print('Failed to add event: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error adding event: $e');
+    return false;
+  }
+}

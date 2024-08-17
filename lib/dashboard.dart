@@ -6,6 +6,7 @@ import 'package:vesnss/drawer/admindrawer.dart';
 import 'package:vesnss/drawer/leaderdrawer.dart';
 import 'package:vesnss/drawer/podrawer.dart';
 import 'package:vesnss/drawer/volunteerdrawer.dart';
+import 'package:vesnss/leader/leader_detail_barcode.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -74,6 +75,22 @@ class _DashboardState extends State<Dashboard> {
             },
           ),
         ),
+        actions: userType == 'Leader'
+            ? [
+          IconButton(
+            icon: const Icon(Icons.account_box_sharp),
+            color: AppColors.primaryRed,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LeaderBarCode(),
+                ),
+              );
+            },
+          ),
+        ]
+            : [],
       ),
       drawer: _getDrawerBasedOnUserType(),
       body: SafeArea(

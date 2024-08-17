@@ -11,25 +11,24 @@ class LoginApi {
   final String _apiKey = 'NsSvEsAsC';
 
   Future<void> login(String username, String password) async {
-    bool isVolunteersLoginSuccessful = await _login(_volunteersLoginUrl, username, password);
+    bool isVolunteersLoginSuccessful = await _loginVolunteer(username, password);
     bool isTeacherLoginSuccessful = !isVolunteersLoginSuccessful
-        ? await _login(_teacherLoginUrl, username, password)
+        ? await _loginTeacher(username, password)
         : false;
     bool isLeaderLoginSuccessful = !isVolunteersLoginSuccessful && !isTeacherLoginSuccessful
-        ? await _login(_leaderLoginUrl, username, password)
+        ? await _loginLeader(username, password)
         : false;
 
     if (isVolunteersLoginSuccessful) {
-      await _fetchAndSaveStatus(username); // Fetch and save status in the background
+      await _fetchAndSaveStatus(username);
       await _saveUserType('Volunteer');
-      // Start fetching user details in the background
-      _fetchAndSaveUserDetails(username);
+      await _fetchAndSaveUserDetails(username, 'volunteer');
     } else if (isTeacherLoginSuccessful) {
       await _fetchAndSaveRole(username);
       await _saveUserType('Teacher');
     } else if (isLeaderLoginSuccessful) {
       await _saveUserType('Leader');
-      // Save any additional leader-specific information if needed
+      // Leader data is already saved in _loginLeader method
     } else {
       print('Failed to login to all endpoints.');
       throw Exception('Failed to login to all endpoints.');
@@ -41,9 +40,9 @@ class LoginApi {
     await prefs.setString('username', username);
   }
 
-  Future<bool> _login(String url, String username, String password) async {
+  Future<bool> _loginVolunteer(String username, String password) async {
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse(_volunteersLoginUrl),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': _apiKey,
@@ -55,10 +54,71 @@ class LoginApi {
     );
 
     if (response.statusCode == 200) {
-      print('Login successful for $url');
+      print('Volunteer login successful');
       return true;
     } else {
-      print('Failed to login to $url. Status code: ${response.statusCode}');
+      print('Failed to login as volunteer. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      return false;
+    }
+  }
+
+  Future<bool> _loginTeacher(String username, String password) async {
+    final response = await http.post(
+      Uri.parse(_teacherLoginUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': _apiKey,
+      },
+      body: jsonEncode({
+        'username': username,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Teacher login successful');
+      return true;
+    } else {
+      print('Failed to login as teacher. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      return false;
+    }
+  }
+
+  Future<bool> _loginLeader(String username, String password) async {
+    final response = await http.post(
+      Uri.parse(_leaderLoginUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': _apiKey,
+      },
+      body: jsonEncode({
+        'username': username,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Leader login successful');
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      final Map<String, dynamic> leaderData = responseBody['data'];
+
+      // Save leader data to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('leaderId', leaderData['id']);
+      await prefs.setString('leaderUniqueId', leaderData['leader_id']);
+      await prefs.setString('leaderName', leaderData['name']);
+      await prefs.setString('leaderUsername', leaderData['username']);
+      await prefs.setString('groupName', leaderData['group_name']);
+      await prefs.setString('teacherId', leaderData['teacher_id']);
+      await prefs.setString('role', leaderData['role']);
+      await prefs.setString('leaderEmail', leaderData['email']);
+      print('Leader data saved in shared preferences');
+
+      return true;
+    } else {
+      print('Failed to login as leader. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
       return false;
     }
@@ -79,7 +139,7 @@ class LoginApi {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
-      final selectedUser = (data).firstWhere(
+      final selectedUser = data.firstWhere(
             (user) => user['username'] == username,
         orElse: () => null,
       );
@@ -113,7 +173,7 @@ class LoginApi {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
-      final selectedTeacher = (data).firstWhere(
+      final selectedTeacher = data.firstWhere(
             (teacher) => teacher['username'] == username,
         orElse: () => null,
       );
@@ -132,22 +192,36 @@ class LoginApi {
     }
   }
 
-  Future<void> _fetchAndSaveUserDetails(String username) async {
-    // Fetch user data from the API
+  Future<void> _fetchAndSaveUserDetails(String username, String userType) async {
+    // Determine URL based on user type
+    String url;
+    if (userType == 'volunteer') {
+      url = _notSelectedUrl;  // Assuming this is correct for volunteer details
+    } else {
+      url = _allTeachersUrl;  // Adjust if needed
+    }
+
     final response = await http.get(
-      Uri.parse(_notSelectedUrl),
+      Uri.parse(url),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': _apiKey,
       },
     );
 
-    if (response.statusCode == 200) {
+    print('Response body from $url: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
-      // Find user data by username
-      final user = (data).firstWhere(
+      // Debug: print out all usernames to check if the expected username is present
+      for (var user in data) {
+        print('Available username: ${user['username']}');
+      }
+
+      // Find the user with the provided username
+      final user = data.firstWhere(
             (user) => user['username'] == username,
         orElse: () => null,
       );

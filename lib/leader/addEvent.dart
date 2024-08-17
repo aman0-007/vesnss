@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'addEventApi.dart';
 
@@ -12,8 +15,8 @@ class AddEvent extends StatefulWidget {
 
 class _AddEventState extends State<AddEvent> {
   final TextEditingController _eventNameController = TextEditingController();
+  final TextEditingController _venueController = TextEditingController();
   final TextEditingController _leaderController = TextEditingController();
-  final TextEditingController _projectLevelController = TextEditingController();
   DateTime? _selectedDate;
   String? _selectedTeacherName;
   String? _selectedProjectId;
@@ -22,12 +25,21 @@ class _AddEventState extends State<AddEvent> {
   List<Project> _projects = [];
   final List<String> _projectLevels = ['College', 'University', 'District', 'Adopted Area', 'Adopted Village'];
 
-
   @override
   void initState() {
     super.initState();
     _fetchTeacherNames();
     _fetchProjects();
+    _getLeaderId();
+  }
+
+  Future<void> _getLeaderId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final leaderId = prefs.getString('leaderUniqueId') ?? '';
+    setState(() {
+      _leaderController.text = leaderId;
+    });
+    print('Leader ID: $leaderId');
   }
 
   Future<void> _fetchTeacherNames() async {
@@ -85,9 +97,10 @@ class _AddEventState extends State<AddEvent> {
                     _buildDivider(),
                     SizedBox(height: deviceHeight * 0.01),
                     _buildTextField("Event Name :", _eventNameController, deviceWidth),
+                    _buildTextField("Venue :", _venueController, deviceWidth),
                     _buildDatePicker("Date :", deviceWidth),
                     _buildTeacherDropdown("Teacher Incharge :", deviceWidth),
-                    _buildTextField("Leader :", _leaderController, deviceWidth),
+                    _buildTextField("Leader Id:", _leaderController, deviceWidth, isEnabled: false), // Make leader text field non-editable
                     _buildProjectDropdown("Project Name:", deviceWidth),
                     _buildSelectedProjectIdDisplay(),
                     _buildProjectLevelDropdown("Project Level :", deviceWidth),
@@ -140,7 +153,7 @@ class _AddEventState extends State<AddEvent> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, double deviceWidth, {bool isMultiline = false}) {
+  Widget _buildTextField(String label, TextEditingController controller, double deviceWidth, {bool isEnabled = true, bool isMultiline = false}) {
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
       child: Column(
@@ -155,6 +168,7 @@ class _AddEventState extends State<AddEvent> {
             controller: controller,
             maxLines: isMultiline ? null : 1,
             textAlignVertical: isMultiline ? TextAlignVertical.bottom : TextAlignVertical.center,
+            enabled: isEnabled, // Disable text field if not editable
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -244,6 +258,7 @@ class _AddEventState extends State<AddEvent> {
       ),
     );
   }
+
   Widget _buildProjectDropdown(String label, double deviceWidth) {
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
@@ -256,6 +271,24 @@ class _AddEventState extends State<AddEvent> {
           ),
           const SizedBox(height: 4.0),
           DropdownButtonFormField<String>(
+            value: _selectedProjectId,
+            onChanged: (newValue) {
+              setState(() {
+                _selectedProjectId = newValue;
+              });
+            },
+            items: _projects.map<DropdownMenuItem<String>>((project) {
+              return DropdownMenuItem<String>(
+                value: project.projectId,
+                child: Text(
+                  project.projectName,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black87,
+                  ),
+                ),
+              );
+            }).toList(),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -269,20 +302,13 @@ class _AddEventState extends State<AddEvent> {
                   width: 2.0,
                 ),
               ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            value: _selectedProjectId,
-            items: _projects.map((project) {
-              return DropdownMenuItem<String>(
-                value: project.projectId,
-                child: Text(project.projectName),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedProjectId = value;
-              });
-            },
-            hint: const Text('Select Project'),
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.black87,
+            ),
+            hint: Text("Select Project"),
           ),
         ],
       ),
@@ -307,8 +333,7 @@ class _AddEventState extends State<AddEvent> {
     );
   }
 
-
-  Widget _buildTeacherDropdown(String label, double deviceWidth) {
+  Widget _buildProjectLevelDropdown(String label, double deviceWidth) {
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
       child: Column(
@@ -320,18 +345,24 @@ class _AddEventState extends State<AddEvent> {
           ),
           const SizedBox(height: 4.0),
           DropdownButtonFormField<String>(
-            value: _selectedTeacherName,
-            items: _teacherNames.map((name) {
-              return DropdownMenuItem<String>(
-                value: name,
-                child: Text(name),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
+            value: _selectedProjectLevel,
+            onChanged: (newValue) {
               setState(() {
-                _selectedTeacherName = newValue;
+                _selectedProjectLevel = newValue;
               });
             },
+            items: _projectLevels.map<DropdownMenuItem<String>>((level) {
+              return DropdownMenuItem<String>(
+                value: level,
+                child: Text(
+                  level,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black87,
+                  ),
+                ),
+              );
+            }).toList(),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -347,14 +378,18 @@ class _AddEventState extends State<AddEvent> {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            hint: const Text('Select Teacher'),
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.black87,
+            ),
+            hint: Text("Project Level"),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildProjectLevelDropdown(String label, double deviceWidth) {
+  Widget _buildTeacherDropdown(String label, double deviceWidth) {
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
       child: Column(
@@ -366,18 +401,24 @@ class _AddEventState extends State<AddEvent> {
           ),
           const SizedBox(height: 4.0),
           DropdownButtonFormField<String>(
-            value: _selectedProjectLevel,
-            items: _projectLevels.map((level) {
-              return DropdownMenuItem<String>(
-                value: level,
-                child: Text(level),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
+            value: _selectedTeacherName,
+            onChanged: (newValue) {
               setState(() {
-                _selectedProjectLevel = newValue;
+                _selectedTeacherName = newValue;
               });
             },
+            items: _teacherNames.map<DropdownMenuItem<String>>((name) {
+              return DropdownMenuItem<String>(
+                value: name,
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black87,
+                  ),
+                ),
+              );
+            }).toList(),
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -391,8 +432,13 @@ class _AddEventState extends State<AddEvent> {
                   width: 2.0,
                 ),
               ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            hint: const Text('Select Level'),
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.black87,
+            ),
+            hint: Text("Select Teacher"),
           ),
         ],
       ),
@@ -400,28 +446,72 @@ class _AddEventState extends State<AddEvent> {
   }
 
   Widget _buildPublishButton(double deviceWidth, double deviceHeight) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue, // Use primaryBlue for button background
-              elevation: 5, // Button elevation
-              minimumSize: Size(deviceWidth * 0.55, deviceHeight * 0.057), // Minimum size
+    return ElevatedButton(
+      onPressed: () async {
+        if (_eventNameController.text.isEmpty ||
+            _selectedDate == null ||
+            _selectedTeacherName == null ||
+            _leaderController.text.isEmpty ||
+            _selectedProjectId == null ||
+            _selectedProjectLevel == null ||
+            _venueController.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please fill in all fields.'),
+              backgroundColor: Colors.red,
             ),
-            onPressed: (){}, // Assuming _submitForm handles the form submission
-            child: const Text(
-              'Publish Event',
-              style: TextStyle(
-                color: AppColors.primaryRed, // Use primaryRed for text color
-                fontWeight: FontWeight.bold,
-                fontSize: 20, // Font size
-              ),
+          );
+          return;
+        }
+
+        print(_eventNameController.text);
+
+        final success = await addEventDetails(
+          name: _eventNameController.text,
+          date: "${_selectedDate!.year}/${_selectedDate!.month}/${_selectedDate!.day}",
+          level: _selectedProjectLevel!,
+          venue: _venueController.text,
+          teacherInCharge: _selectedTeacherName!,
+          projectId: _selectedProjectId!,
+          leaderId: _leaderController.text,
+        );
+
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Event added successfully!'),
+              backgroundColor: Colors.green,
             ),
-          ),
-        ],
+          );
+          Navigator.of(context).pop();
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            text: 'Event added Successfully!',
+          );
+
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to add event.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: deviceHeight * 0.015, horizontal: deviceWidth * 0.2),
+        backgroundColor: AppColors.primaryBlue, // Use primaryBlue for button background
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      child: const Text(
+        'Add Event',
+        style: TextStyle(
+          color: AppColors.primaryRed,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

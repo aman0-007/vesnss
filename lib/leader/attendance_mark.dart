@@ -1,0 +1,201 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class AttendanceMark extends StatefulWidget {
+  final Map<String, dynamic> eventDetails;
+
+  const AttendanceMark({super.key, required this.eventDetails});
+
+  @override
+  State<AttendanceMark> createState() => _AttendanceMarkState();
+}
+
+class _AttendanceMarkState extends State<AttendanceMark> {
+  // Define the URL and API key
+  final String _notSelectedUrl = 'http://213.210.37.81:3009/leader/all-student';
+  final String _apiKey = 'NsSvEsAsC';
+
+  List<Student> _students = [];
+  Map<String, bool> _selectedStudents = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStudents();
+  }
+
+  Future<void> _fetchStudents() async {
+    try {
+      final response = await http.get(
+        Uri.parse(_notSelectedUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': _apiKey,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          _students = (data['data'] as List).map((json) => Student.fromJson(json)).toList();
+          _selectedStudents = {for (var student in _students) student.studId: false};
+        });
+      } else {
+        // Handle error response
+        print('Failed to load students, status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching students: $e');
+    }
+  }
+
+  Future<void> _submitAttendance() async {
+    final selectedStudentsList = _selectedStudents.entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
+
+    print('$selectedStudentsList');
+
+    if (selectedStudentsList.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No students selected')),
+      );
+      return;
+    }
+
+    print(selectedStudentsList);
+    print(widget.eventDetails['leaderId']);
+    print(widget.eventDetails['eventName']);
+    print(widget.eventDetails['level']);
+    print(widget.eventDetails['hours']);
+    print(widget.eventDetails['position']);
+    print(widget.eventDetails['date']);
+
+    final attendanceData = {
+      'stud_ids': selectedStudentsList,
+      'leader_id': widget.eventDetails['leaderId'],
+      'event_name': widget.eventDetails['eventName'],
+      'level': widget.eventDetails['level'],
+      'hrs': widget.eventDetails['hours'],
+      'position': widget.eventDetails['position'],
+      'date': widget.eventDetails['date'],
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://213.210.37.81:3009/leader/mark'),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': _apiKey,
+        },
+        body: jsonEncode(attendanceData),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Attendance marked successfully')),
+        );
+        Navigator.pop(context); // Go back to previous screen
+      } else {
+        print('Failed to mark attendance, status code: ${response.statusCode}');
+        print(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to mark attendance')),
+        );
+      }
+    } catch (e) {
+      print('Error marking attendance: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error marking attendance')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Attendance Mark'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.grey[200],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text('Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Class', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Action', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _students.length,
+                itemBuilder: (context, index) {
+                  final student = _students[index];
+                  return ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${student.name} ${student.surname}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(student.className),
+                      ],
+                    ),
+                    trailing: Checkbox(
+                      value: _selectedStudents[student.studId],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _selectedStudents[student.studId] = value ?? false;
+                        });
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: _submitAttendance,
+                child: const Text('Submit Attendance'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Student {
+  final String studId;
+  final String name;
+  final String surname;
+  final String className;
+
+  Student({
+    required this.studId,
+    required this.name,
+    required this.surname,
+    required this.className,
+  });
+
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      studId: json['stud_id'],
+      name: json['name'],
+      surname: json['surname'],
+      className: json['class'],
+    );
+  }
+}
