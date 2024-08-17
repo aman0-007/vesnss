@@ -2,11 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
+import 'package:vesnss/dashboardbody.dart';
 import 'package:vesnss/drawer/admindrawer.dart';
 import 'package:vesnss/drawer/leaderdrawer.dart';
 import 'package:vesnss/drawer/podrawer.dart';
 import 'package:vesnss/drawer/volunteerdrawer.dart';
 import 'package:vesnss/leader/leader_detail_barcode.dart';
+import 'package:vesnss/nssobjective.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -94,40 +96,45 @@ class _DashboardState extends State<Dashboard> {
       ),
       drawer: _getDrawerBasedOnUserType(),
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: deviceHeight * 0.02),
-            CarouselSlider(
-              items: generateImageTiles(),
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 2.0,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: deviceHeight * 0.02),
+              CarouselSlider(
+                items: generateImageTiles(),
+                options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  aspectRatio: 2.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _imgList.asMap().entries.map((entry) {
-                int index = entry.key;
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == index
-                        ? AppColors.primaryRed
-                        : AppColors.primaryBlue,
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _imgList.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentIndex == index
+                          ? AppColors.primaryRed
+                          : AppColors.primaryBlue,
+                    ),
+                  );
+                }).toList(),
+              ),
+          
+              Dashboardbody(),
+              NSSObjectives(),
+            ],
+          ),
         ),
       ),
     );
