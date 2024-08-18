@@ -28,6 +28,8 @@ class _AttendanceScanState extends State<AttendanceScan> {
   Map<String, String> enrolledStudents = {};
   late Timer _timer;
 
+  List<String> scannedStudentIds = [];
+
   @override
   void initState() {
     super.initState();
@@ -66,7 +68,9 @@ class _AttendanceScanState extends State<AttendanceScan> {
                 if (!attendanceRecords.containsKey(studentId)) {
                   final studentName = enrolledStudents[studentId] ?? 'Unknown';
                   attendanceRecords[studentId] = studentName;
-                  // You can also add a sound notification here if needed
+                  if (!scannedStudentIds.contains(studentId)) {
+                    scannedStudentIds.add(studentId); // Add student ID to the list
+                  }
                 }
               }
             }
@@ -95,6 +99,54 @@ class _AttendanceScanState extends State<AttendanceScan> {
       });
     } else {
       log('Failed to fetch enrolled students, status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> _markAttendance() async {
+    final String apiUrl = 'http://213.210.37.81:3009/leader/mark'; // Adjust the API endpoint as needed
+    final attendanceData = {
+      'stud_ids': scannedStudentIds,
+      'leader_id': widget.leaderId,
+      'event_name': widget.eventName,
+      'level': widget.level,
+      'hrs': widget.hours,
+      'position': widget.position,
+      'date': widget.date,
+    };
+
+    print("========================================================================");
+    print(widget.level);
+    print(widget.hours);
+    print(widget.position);
+    print(widget.date);
+    print(scannedStudentIds);
+    print(widget.leaderId);
+    print( widget.eventName);
+    print("========================================================================");
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'NsSvEsAsC',
+        },
+        body: jsonEncode(attendanceData),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Attendance marked successfully')),
+        );
+        Navigator.pop(context);
+      } else {
+        print('Failed to mark attendance, status code: ${response.statusCode}');
+        print(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to mark attendance $response ')),
+        );
+      }
+    } catch (e) {
+      log('Error marking attendance: $e');
     }
   }
 
@@ -191,10 +243,10 @@ class _AttendanceScanState extends State<AttendanceScan> {
               child: Center(
                 child: FloatingActionButton.extended(
                   onPressed: () async {
-                    // Add any additional logic for reviewing attendance here
+                    await _markAttendance(); // Call the method to mark attendance
                   },
-                  label: const Text('Review Attendance'),
-                  icon: const Icon(Icons.rate_review_rounded),
+                  label: const Text('Mark Attendance'),
+                  icon: const Icon(Icons.check),
                 ),
               ),
             ),

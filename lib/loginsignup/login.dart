@@ -29,9 +29,10 @@ class _LoginState extends State<Login> {
 
     try {
       await loginvol.login(username, password);
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const Dashboard()),
+            (Route<dynamic> route) => false,
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
