@@ -23,7 +23,7 @@ class AttendanceScan extends StatefulWidget {
 class _AttendanceScanState extends State<AttendanceScan> {
   late CameraController _cameraController;
   late BarcodeScanner _barcodeScanner;
-  Set<String> attendanceRecords = {};
+  Map<String, String> attendanceRecords = {}; // Changed to a Map
   bool _isCameraInitialized = false;
   Map<String, String> enrolledStudents = {};
   late Timer _timer;
@@ -63,8 +63,10 @@ class _AttendanceScanState extends State<AttendanceScan> {
             for (final barcode in barcodes) {
               final studentId = barcode.rawValue;
               if (studentId != null && enrolledStudents.containsKey(studentId)) {
-                if (attendanceRecords.add(studentId)) {
-                  // Add sound here if needed
+                if (!attendanceRecords.containsKey(studentId)) {
+                  final studentName = enrolledStudents[studentId] ?? 'Unknown';
+                  attendanceRecords[studentId] = studentName;
+                  // You can also add a sound notification here if needed
                 }
               }
             }
@@ -81,7 +83,7 @@ class _AttendanceScanState extends State<AttendanceScan> {
       Uri.parse('http://213.210.37.81:3009/leader/all-student'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'gyjh',
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -168,8 +170,8 @@ class _AttendanceScanState extends State<AttendanceScan> {
                           child: ListView.builder(
                             itemCount: attendanceRecords.length,
                             itemBuilder: (context, index) {
-                              final studentId = attendanceRecords.elementAt(index);
-                              final studentName = enrolledStudents[studentId] ?? 'Unknown';
+                              final studentId = attendanceRecords.keys.elementAt(index);
+                              final studentName = attendanceRecords[studentId] ?? 'Unknown';
                               return ListTile(
                                 title: Text('Student ID: $studentId', style: const TextStyle(fontSize: 15)),
                                 subtitle: Text('Name: $studentName', style: const TextStyle(fontSize: 15)),
@@ -189,20 +191,7 @@ class _AttendanceScanState extends State<AttendanceScan> {
               child: Center(
                 child: FloatingActionButton.extended(
                   onPressed: () async {
-                    // _timer.cancel();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ReviewAttendancePage(
-                    //       enrolledStudentIds: enrolledStudents.keys.toList(),
-                    //       attendanceRecords: attendanceRecords.toList(),
-                    //       selectedSportId: widget.selectedSportId,
-                    //       acId: widget.acId,
-                    //     ),
-                    //   ),
-                    // ).then((_) {
-                    //   _startBarcodeScanning();
-                    // });
+                    // Add any additional logic for reviewing attendance here
                   },
                   label: const Text('Review Attendance'),
                   icon: const Icon(Icons.rate_review_rounded),
