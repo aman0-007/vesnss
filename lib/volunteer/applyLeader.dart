@@ -30,10 +30,13 @@ class _AddLeaderState extends State<AddLeader> {
     'DISHA'
   ]; // Predefined group names
 
+
+  String? studId;
   @override
   void initState() {
     super.initState();
     _loadUserData();
+
   }
 
   Future<void> _loadUserData() async {
@@ -47,6 +50,7 @@ class _AddLeaderState extends State<AddLeader> {
       setState(() {
         _nameController.text = '${userDetails['name'] ?? ''} ${userDetails['surname'] ?? ''}';
         _emailController.text = userDetails['email'] ?? '';
+        studId = userDetails['stud_id'] ?? '';
       });
     } else {
       print('User details not found in SharedPreferences');
@@ -58,8 +62,9 @@ class _AddLeaderState extends State<AddLeader> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
 
+
     return Scaffold(
-      backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: SafeArea(
         child: Center(
@@ -266,10 +271,11 @@ class _AddLeaderState extends State<AddLeader> {
                 password: _passwordController.text,
                 groupName: _selectedGroupName!,
                 email: _emailController.text,
+                stud_id: studId,
               );
             },
             child: const Text(
-              'Add Leader',
+              'Apply Leader',
               style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),

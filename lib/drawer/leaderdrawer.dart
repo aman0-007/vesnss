@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
+import 'package:vesnss/leader/completeevent.dart';
 import 'package:vesnss/leader/markattendance.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/leader/leaderprofile.dart';
@@ -77,6 +78,12 @@ class LeaderDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Markattendance()),
+            );
+          }),
+          _buildDrawerItem(Icons.person, 'Complete Event', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Completeevent()),
             );
           }),
           _buildDrawerItem(Icons.person, 'Profile', () {

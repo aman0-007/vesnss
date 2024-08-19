@@ -203,8 +203,8 @@ class _AttendanceScanState extends State<AttendanceScan> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Sport ID: ${widget.leaderId}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                Text('AC ID: ${widget.date}', style: const TextStyle(fontSize: 15)),
+                                Text('Leader ID: ${widget.leaderId}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                Text('Event Date: ${widget.date}', style: const TextStyle(fontSize: 15)),
                               ],
                             ),
                             Column(

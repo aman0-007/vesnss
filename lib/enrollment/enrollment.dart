@@ -44,7 +44,7 @@ class _EnrollmentState extends State<Enrollment> {
   @override
   void initState() {
     super.initState();
-    _selectedGender = 'Male';
+    _selectedGender = 'M';
     _selectedYearOfJoin = 'Select year';
     _selectedClass = 'Select class';
     _selectedYear = 'Select year';
@@ -162,7 +162,6 @@ class _EnrollmentState extends State<Enrollment> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
@@ -218,7 +217,7 @@ class _EnrollmentState extends State<Enrollment> {
                 buildTextField("Roll No :", _rollNoController),
                 buildTextField("Email Id :", _emailController),
                 buildTextField("Phone Number :", _phoneNumberController, keyboardType: TextInputType.phone),
-                buildDropdown("Gender :", _selectedGender, ['Male', 'Female'], (value) {
+                buildDropdown("Gender :", _selectedGender, ['M', 'F'], (value) {
                   setState(() {
                     _selectedGender = value;
                   });

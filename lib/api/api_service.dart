@@ -15,7 +15,7 @@ class ApiService {
       body: jsonEncode(data),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('Enrollment successful!');
     } else {
       print('Failed to enroll volunteer. Status code: ${response.statusCode}');

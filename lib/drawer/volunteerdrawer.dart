@@ -64,7 +64,7 @@ class VolunteerDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const VolunteerBarCode()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Add Leader', () {
+          _buildDrawerItem(Icons.person, 'Apply Leader', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddLeader()),

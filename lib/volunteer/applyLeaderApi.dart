@@ -9,6 +9,7 @@ Future<void> addLeader({
   required String password,
   required String groupName,
   required String email,
+  required stud_id,
 }) async {
   const String apiUrl = 'http://213.210.37.81:3009/leader/addLeader';
   final Map<String, dynamic> data = {
@@ -17,6 +18,7 @@ Future<void> addLeader({
     'password': password,
     'group_name': groupName,
     'email': email,
+    'stud_id': stud_id,
   };
 
   try {
@@ -33,13 +35,13 @@ Future<void> addLeader({
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Leader added successfully!')),
       );
     } else {
       // More detailed error handling
-      String errorMessage = 'Failed to add leader. Please try again later.';
+      String errorMessage = 'Failed teo add leader. Please try again later.';
       try {
         final responseBody = jsonDecode(response.body);
         if (responseBody.containsKey('error')) {

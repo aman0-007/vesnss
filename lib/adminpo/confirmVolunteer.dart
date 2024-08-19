@@ -52,8 +52,23 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
   }
 
   Future<void> _selectVolunteer(String studId) async {
-    final selectUrl = 'http://213.210.37.81:3009/admin/select/$studId';
     try {
+      // Check the current selected students count
+      final count = await _fetchSelectedStudentsCount();
+
+      // If the count is 6 or more, show an alert and prevent further selection
+      if (count >= 300) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.warning,
+          text: 'Maximum number of volunteers selected. No further selections allowed.',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.orange,
+        );
+        return;
+      }
+
+      final selectUrl = 'http://213.210.37.81:3009/admin/select/$studId';
       final response = await http.put(
         Uri.parse(selectUrl),
         headers: {
@@ -92,6 +107,29 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         confirmBtnText: 'OK',
         confirmBtnColor: Colors.red,
       );
+    }
+  }
+
+  Future<int> _fetchSelectedStudentsCount() async {
+    final url = 'http://213.210.37.81:3009/admin/SelectedStudents';
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': _apiKey,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        return data['count'] as int;
+      } else {
+        throw Exception('Failed to load selected students count: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching selected students count: $e');
+      return -1; // Return -1 in case of error
     }
   }
 
