@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:camera/camera.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:http/http.dart' as http;
@@ -134,19 +135,42 @@ class _AttendanceScanState extends State<AttendanceScan> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Attendance marked successfully')),
+        // Show success alert
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          title: 'Success',
+          text: 'Attendance marked successfully',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: () {
+            Navigator.pop(context); // Go back to previous screen
+          },
         );
-        Navigator.pop(context);
       } else {
+        // Show error alert with status code
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: 'Error',
+          text: 'Failed to mark attendance. Status code: ${response.statusCode}\nResponse: ${response.body}',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.red,
+        );
         print('Failed to mark attendance, status code: ${response.statusCode}');
         print(response.body);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to mark attendance $response ')),
-        );
       }
     } catch (e) {
-      log('Error marking attendance: $e');
+      // Show error alert with exception
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Error',
+        text: 'Error marking attendance: $e',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.red,
+      );
+      print('Error marking attendance: $e');
     }
   }
 

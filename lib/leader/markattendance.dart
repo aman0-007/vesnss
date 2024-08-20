@@ -1,5 +1,7 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vesnss/leader/attendance_mark.dart';
 import 'dart:convert';
 
@@ -94,8 +96,13 @@ class _MarkattendanceState extends State<Markattendance> {
     // Ensure all required fields are populated
     if (_selectedEvent == null || _selectedPosition == null || _hours == null) {
       // Optionally show an error message or handle missing data
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in all required fields')),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.warning,
+        title: 'Missing Information',
+        text: 'Please fill in all required fields',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.blue,
       );
       return;
     }
@@ -121,8 +128,13 @@ class _MarkattendanceState extends State<Markattendance> {
     // Ensure all required fields are populated
     if (_selectedEvent == null || _selectedPosition == null || _hours == null) {
       // Optionally show an error message or handle missing data
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in all required fields')),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.warning,
+        title: 'Missing Information',
+        text: 'Please fill in all required fields',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.blue,
       );
       return;
     }
@@ -155,135 +167,143 @@ class _MarkattendanceState extends State<Markattendance> {
       appBar: AppBar(
         title: Text('Mark Attendance'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _events.isEmpty
-                ? Center(child: CircularProgressIndicator())
-                : DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Select Event',
-                border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _events.isEmpty
+                  ? Center(
+                child: LoadingAnimationWidget.flickr(
+                  leftDotColor: Colors.blue, // Adjust color as needed
+                  rightDotColor: Colors.red, // Adjust color as needed
+                  size: 50, // Adjust size as needed
+                ),
+              )
+                  : DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'Select Event',
+                  border: OutlineInputBorder(),
+                ),
+                items: _events.map<DropdownMenuItem<String>>((event) {
+                  return DropdownMenuItem<String>(
+                    value: event['name'],
+                    child: Text(event['name']),
+                  );
+                }).toList(),
+                onChanged: _onEventSelected,
+                value: _selectedEvent,
+                hint: Text('Select an event'),
               ),
-              items: _events.map<DropdownMenuItem<String>>((event) {
-                return DropdownMenuItem<String>(
-                  value: event['name'],
-                  child: Text(event['name']),
-                );
-              }).toList(),
-              onChanged: _onEventSelected,
-              value: _selectedEvent,
-              hint: Text('Select an event'),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Teacher Incharge',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Teacher Incharge',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _teacherInchargeController,
+                readOnly: true,
               ),
-              controller: _teacherInchargeController,
-              readOnly: true,
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Date',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Date',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _eventDateController,
+                readOnly: true,
               ),
-              controller: _eventDateController,
-              readOnly: true,
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Level',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Level',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _eventLevelController,
+                readOnly: true,
               ),
-              controller: _eventLevelController,
-              readOnly: true,
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Leader ID',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Leader ID',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _leaderIdController,
+                readOnly: true,
               ),
-              controller: _leaderIdController,
-              readOnly: true,
-            ),
-            SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Select Position',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'Select Position',
+                  border: OutlineInputBorder(),
+                ),
+                items: _positions.map<DropdownMenuItem<String>>((position) {
+                  return DropdownMenuItem<String>(
+                    value: position,
+                    child: Text(position),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedPosition = value;
+                  });
+                },
+                value: _selectedPosition,
+                hint: Text('Select a position'),
               ),
-              items: _positions.map<DropdownMenuItem<String>>((position) {
-                return DropdownMenuItem<String>(
-                  value: position,
-                  child: Text(position),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedPosition = value;
-                });
-              },
-              value: _selectedPosition,
-              hint: Text('Select a position'),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _hoursController,
-              decoration: InputDecoration(
-                labelText: 'Enter Hours',
-                border: OutlineInputBorder(),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _hoursController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Hours',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  _hours = value;
+                },
               ),
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                _hours = value;
-              },
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: _scanAttendance,
-                    icon: Icon(Icons.camera_alt),
-                    label: Text('Scan Attendance'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      textStyle: TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+              SizedBox(height: 20),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: _scanAttendance,
+                      icon: Icon(Icons.camera_alt),
+                      label: Text('Scan Attendance'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        textStyle: TextStyle(fontSize: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton.icon(
-                    onPressed: _markAttendance,
-                    icon: Icon(Icons.check),
-                    label: Text('Mark Attendance'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      textStyle: TextStyle(fontSize: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    SizedBox(height: 10),
+                    ElevatedButton.icon(
+                      onPressed: _markAttendance,
+                      icon: Icon(Icons.check),
+                      label: Text('Mark Attendance'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        textStyle: TextStyle(fontSize: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -260,6 +261,8 @@ class _AddEventState extends State<AddEvent> {
   }
 
   Widget _buildProjectDropdown(String label, double deviceWidth) {
+    List<String> projectNames = _projects.map((project) => project.projectName).toList();
+
     return Padding(
       padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02, top: 8.0),
       child: Column(
@@ -270,45 +273,33 @@ class _AddEventState extends State<AddEvent> {
             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 4.0),
-          DropdownButtonFormField<String>(
-            value: _selectedProjectId,
-            onChanged: (newValue) {
-              setState(() {
-                _selectedProjectId = newValue;
-              });
-            },
-            items: _projects.map<DropdownMenuItem<String>>((project) {
-              return DropdownMenuItem<String>(
-                value: project.projectId,
-                child: Text(
-                  project.projectName,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black87,
-                  ),
-                ),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey.withOpacity(0.5),
-                  width: 1.0,
-                ),
+          Container(
+            height: 55,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: _selectedProjectId != null ? AppColors.primaryBlue : Colors.grey.withOpacity(0.5),
+                width: _selectedProjectId != null ? 2.0 : 1.0,
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.primaryBlue, // Use primaryBlue for focused border
-                  width: 2.0,
-                ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Center(
+              child: CustomDropdown<String>(
+                hintText: "Select Project",
+                items: projectNames,
+                initialItem: null, // Ensure no initial item is selected
+                onChanged: (selectedValue) {
+                  setState(() {
+                    // Update the selectedProjectId only if a valid project is selected
+                    _selectedProjectId = selectedValue != null
+                        ? _projects.firstWhere(
+                            (project) => project.projectName == selectedValue,
+                        orElse: () => _projects.isEmpty ? Project(projectId: '', projectName: '') : _projects.first
+                    ).projectId
+                        : null; // Handle null case appropriately
+                  });
+                },
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.black87,
-            ),
-            hint: Text("Select Project"),
           ),
         ],
       ),
@@ -344,45 +335,27 @@ class _AddEventState extends State<AddEvent> {
             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 4.0),
-          DropdownButtonFormField<String>(
-            value: _selectedProjectLevel,
-            onChanged: (newValue) {
-              setState(() {
-                _selectedProjectLevel = newValue;
-              });
-            },
-            items: _projectLevels.map<DropdownMenuItem<String>>((level) {
-              return DropdownMenuItem<String>(
-                value: level,
-                child: Text(
-                  level,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black87,
-                  ),
-                ),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey.withOpacity(0.5),
-                  width: 1.0,
-                ),
+          Container(
+            height: 55,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: _selectedProjectLevel != null ? AppColors.primaryBlue : Colors.grey.withOpacity(0.5),
+                width: _selectedProjectLevel != null ? 2.0 : 1.0,
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.primaryBlue, // Use primaryBlue for focused border
-                  width: 2.0,
-                ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Center(
+              child: CustomDropdown<String>(
+                hintText: "Project Level",
+                items: _projectLevels,
+                initialItem: _selectedProjectLevel,
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _selectedProjectLevel = selectedValue;
+                  });
+                },
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.black87,
-            ),
-            hint: Text("Project Level"),
           ),
         ],
       ),
@@ -400,45 +373,27 @@ class _AddEventState extends State<AddEvent> {
             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 4.0),
-          DropdownButtonFormField<String>(
-            value: _selectedTeacherName,
-            onChanged: (newValue) {
-              setState(() {
-                _selectedTeacherName = newValue;
-              });
-            },
-            items: _teacherNames.map<DropdownMenuItem<String>>((name) {
-              return DropdownMenuItem<String>(
-                value: name,
-                child: Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black87,
-                  ),
-                ),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey.withOpacity(0.5),
-                  width: 1.0,
-                ),
+          Container(
+            height: 55,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: _selectedTeacherName != null ? AppColors.primaryBlue : Colors.grey.withOpacity(0.5),
+                width: _selectedTeacherName != null ? 2.0 : 1.0,
               ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.primaryBlue, // Use primaryBlue for focused border
-                  width: 2.0,
-                ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Center(
+              child: CustomDropdown<String>(
+                hintText: label,
+                items: _teacherNames,
+                initialItem: _selectedTeacherName,
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _selectedTeacherName = selectedValue;
+                  });
+                },
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             ),
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.black87,
-            ),
-            hint: Text("Select Teacher"),
           ),
         ],
       ),
@@ -455,11 +410,10 @@ class _AddEventState extends State<AddEvent> {
             _selectedProjectId == null ||
             _selectedProjectLevel == null ||
             _venueController.text.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please fill in all fields.'),
-              backgroundColor: Colors.red,
-            ),
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            text: 'Please fill in all fields.',
           );
           return;
         }
@@ -477,12 +431,6 @@ class _AddEventState extends State<AddEvent> {
         );
 
         if (success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Event added successfully!'),
-              backgroundColor: Colors.green,
-            ),
-          );
           Navigator.of(context).pop();
           QuickAlert.show(
             context: context,
@@ -491,12 +439,11 @@ class _AddEventState extends State<AddEvent> {
           );
 
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to add event.'),
-              backgroundColor: Colors.red,
-            ),
-          );
+        QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Failed to add event.',
+        );
         }
       },
       style: ElevatedButton.styleFrom(

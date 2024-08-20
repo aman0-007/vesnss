@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:vesnss/api/api_service.dart';
 import 'package:vesnss/colors.dart';
@@ -27,7 +30,7 @@ class _EnrollmentState extends State<Enrollment> {
   String? _selectedYear;
 
   final ApiService apiService = ApiService();
-  
+
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -81,33 +84,40 @@ class _EnrollmentState extends State<Enrollment> {
     );
   }
 
-  Widget buildDropdown(String label, String? value, List<String> items, Function(String?)? onChanged) {
+  Widget buildDropdown(
+      String label,
+      String? value,
+      List<String> items,
+      Function(String?)? onChanged
+      ) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.02),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: boldGreyStyle),
-          const SizedBox(height: 8.0),
-          DropdownButtonFormField<String>(
-            value: value,
-            onChanged: onChanged,
-            items: items.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey.withOpacity(0.5))),
-              focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryBlue, width: 2.0)),
-              contentPadding: fieldPadding,
+          const SizedBox(height: 6.0),
+          Container(
+            height: 53,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.0),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: CustomDropdown<String>(
+              hintText: label,
+              items: items,
+              initialItem: value,
+              onChanged: (selectedValue) {
+                onChanged?.call(selectedValue);
+                log('Selected value: $selectedValue'); // Logging for debugging
+              },
             ),
           ),
         ],
       ),
     );
   }
+
 
   Future<void> _submitForm() async {
     if (_firstNameController.text.isEmpty ||
@@ -122,15 +132,21 @@ class _EnrollmentState extends State<Enrollment> {
         _selectedClass == 'Select class' ||
         _selectedYearOfJoin == 'Select year' ||
         _selectedYear == 'Select year') {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please fill all fields correctly.'))
+      await CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: 'Please fill all fields correctly.',
+        confirmBtnText: 'OK',
       );
       return;
     }
 
     if (_passwordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Passwords do not match.'))
+      await CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: 'Passwords do not match.',
+        confirmBtnText: 'OK',
       );
       return;
     }
@@ -152,12 +168,35 @@ class _EnrollmentState extends State<Enrollment> {
 
     try {
       await apiService.enrollVolunteer(data);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Enrollment Successful'))
+      await CoolAlert.show(
+        context: context,
+        type: CoolAlertType.success,
+        text: 'Enrollment Successful',
+        confirmBtnText: 'OK',
       );
+
+      // Clear all fields
+      _firstNameController.clear();
+      _lastNameController.clear();
+      _rollNoController.clear();
+      _emailController.clear();
+      _phoneNumberController.clear();
+      _usernameController.clear();
+      _passwordController.clear();
+      _confirmPasswordController.clear();
+
+      setState(() {
+        _selectedGender = 'M'; // Reset to default value
+        _selectedYearOfJoin = 'Select year'; // Reset to default value
+        _selectedClass = 'Select class'; // Reset to default value
+        _selectedYear = 'Select year'; // Reset to default value
+      });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Enrollment Failed: $e"))
+      await CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: 'Enrollment Failed: $e',
+        confirmBtnText: 'OK',
       );
     }
   }
@@ -166,6 +205,12 @@ class _EnrollmentState extends State<Enrollment> {
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
+
+    // Mapping display text to internal values
+    final Map<String, String> genderMap = {
+      'Male': 'M',
+      'Female': 'F',
+    };
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -194,34 +239,62 @@ class _EnrollmentState extends State<Enrollment> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Center(child: Text("Enrollment Form", style: boldGreyStyle.copyWith(fontSize: 20))),
+                Center(
+                  child: Text(
+                    "Enrollment Form",
+                    style: boldGreyStyle.copyWith(
+                      fontSize: 20,
+                      color: AppColors.primaryBlue, // Replace with your desired color
+                    ),
+                  ),
+                ),
                 const Divider(color: Colors.grey, thickness: 1),
                 SizedBox(height: deviceHeight * 0.023),
                 buildTextField("First Name :", _firstNameController),
                 buildTextField("Last Name :", _lastNameController),
-                buildDropdown("Year of joining :", _selectedYearOfJoin, ['Select year', '23-24'], (value) {
-                  setState(() {
-                    _selectedYearOfJoin = value;
-                  });
-                }),
-                buildDropdown("Class :", _selectedClass, ['Select class', 'CS', 'IT', 'DSDA', 'AI', 'BCom', 'BAF', 'BMS', 'E-Comm', 'Others'], (value) {
-                  setState(() {
-                    _selectedClass = value;
-                  });
-                }),
-                buildDropdown("Year :", _selectedYear, ['Select year', 'FY', 'SY', 'TY'], (value) {
-                  setState(() {
-                    _selectedYear = value;
-                  });
-                }),
+                buildDropdown(
+                  "Year of joining :",
+                  _selectedYearOfJoin,
+                  ['Select year', '23-24'],
+                      (value) {
+                    setState(() {
+                      _selectedYearOfJoin = value;
+                    });
+                  },
+                ),
+                buildDropdown(
+                  "Class :",
+                  _selectedClass,
+                  ['Select class', 'CS', 'IT', 'DSDA', 'AI', 'BCom', 'BAF', 'BMS', 'E-Comm', 'Others'],
+                      (value) {
+                    setState(() {
+                      _selectedClass = value;
+                    });
+                  },
+                ),
+                buildDropdown(
+                  "Year :",
+                  _selectedYear,
+                  ['Select year', 'FY', 'SY', 'TY'],
+                      (value) {
+                    setState(() {
+                      _selectedYear = value;
+                    });
+                  },
+                ),
                 buildTextField("Roll No :", _rollNoController),
                 buildTextField("Email Id :", _emailController),
                 buildTextField("Phone Number :", _phoneNumberController, keyboardType: TextInputType.phone),
-                buildDropdown("Gender :", _selectedGender, ['M', 'F'], (value) {
-                  setState(() {
-                    _selectedGender = value;
-                  });
-                }),
+                buildDropdown(
+                  "Gender :",
+                  _selectedGender == 'M' ? 'Male' : 'Female',
+                  ['Male', 'Female'],
+                      (value) {
+                    setState(() {
+                      _selectedGender = genderMap[value!]!;
+                    });
+                  },
+                ),
                 buildTextField("Username :", _usernameController),
                 buildTextField("Password :", _passwordController, obscureText: true),
                 buildTextField("Confirm Password :", _confirmPasswordController),

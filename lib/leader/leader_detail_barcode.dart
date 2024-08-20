@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode/barcode.dart' as barcode;
@@ -28,58 +26,47 @@ class _LeaderBarCodeState extends State<LeaderBarCode> {
         leaderId = prefs.getString('leaderUniqueId') ?? '';
       });
     } catch (e) {
-      log("Something Went Wrong" as num);
+      // Handle error if needed
+      print("Something Went Wrong: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SafeArea(
-          child: SingleChildScrollView(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Card(
+          color: Colors.white, // Set background color to white
+          elevation: 4,
+          shadowColor: Colors.blueGrey,
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(
-                  elevation: 4,
-                  shadowColor: Colors.blueGrey,
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-
-                        const SizedBox(height: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Student Id: "),
-                            Text(leaderId),
-                          ],
-                        ),
-                        const SizedBox(height: 8.0),
-                        // Generate barcode widget
-                        BarcodeWidget(
-                          barcode: barcode.Barcode.code39(),
-                          data: leaderId,
-                          height: 50, // Adjust height as needed
-                          width: 200, // Adjust width as needed
-                          drawText: false, // Hide text below the barcode
-                        ),
-
-                      ],
-                    ),
-                  ),
+                // Generate barcode widget
+                BarcodeWidget(
+                  barcode: barcode.Barcode.code39(),
+                  data: leaderId,
+                  height: 50, // Adjust height as needed
+                  width: 200, // Adjust width as needed
+                  drawText: false, // Hide text below the barcode
+                ),
+                const SizedBox(height: 8.0),
+                // Display the ID below the barcode without label
+                Text(
+                  leaderId.isEmpty ? '' : leaderId,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

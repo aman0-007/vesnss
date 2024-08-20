@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart'; // Import loading_animation_widget
 import 'package:vesnss/colors.dart';
 
 class Completeevent extends StatefulWidget {
@@ -29,7 +30,7 @@ class _CompleteeventState extends State<Completeevent> {
         Uri.parse(_apiUrl),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'NsSvEsAsC', // Include your API key here if required
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -62,7 +63,7 @@ class _CompleteeventState extends State<Completeevent> {
           'x-api-key': 'NsSvEsAsC',
         },
         body: jsonEncode({
-          'beneficiaries': beneficiaries, // This will be sent as a string
+          'beneficiaries': beneficiaries,
         }),
       );
 
@@ -123,13 +124,18 @@ class _CompleteeventState extends State<Completeevent> {
         backgroundColor: AppColors.primaryBlue,
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+        child: LoadingAnimationWidget.flickr(
+          leftDotColor: AppColors.primaryRed,
+          rightDotColor: AppColors.primaryBlue, // Adjust color as needed
+          size: 50, // Adjust size as needed
+        ),
+      )
           : ListView.builder(
         itemCount: _events.length,
         itemBuilder: (context, index) {
           final event = _events[index];
-          final formattedDate =
-          DateFormat.yMMMMd().format(DateTime.parse(event['date']));
+          final formattedDate = DateFormat.yMMMMd().format(DateTime.parse(event['date']));
 
           return GestureDetector(
             onTap: () => _showBeneficiaryDialog(event['event_id']),

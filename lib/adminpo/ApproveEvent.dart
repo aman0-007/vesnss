@@ -37,7 +37,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
         if (data['message'] == 'Not Done events fetched successfully') {
           final events = List<Map<String, dynamic>>.from(data['data']);

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:quickalert/quickalert.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart'; // Import loading_animation_widget
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:vesnss/colors.dart';
 
 class Confirmstudent extends StatefulWidget {
@@ -33,7 +36,7 @@ class _ConfirmstudentState extends State<Confirmstudent> {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
         final students = List<Map<String, dynamic>>.from(data['data']);
         setState(() {
@@ -66,13 +69,11 @@ class _ConfirmstudentState extends State<Confirmstudent> {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
         if (data['message'] == 'Student updated successfully') {
-          // Refresh the students list
-          await _fetchStudents();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Student selected successfully!'),
-              backgroundColor: Colors.green,
-            ),
+          await _fetchStudents(); // Refresh the students list
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.success,
+            text: 'Student selected successfully!',
           );
         } else {
           throw Exception('Error selecting student: ${data['message']}');
@@ -82,11 +83,10 @@ class _ConfirmstudentState extends State<Confirmstudent> {
       }
     } catch (e) {
       print('Error selecting student: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to select student.'),
-          backgroundColor: Colors.red,
-        ),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: 'Failed to select student.',
       );
     }
   }
@@ -109,19 +109,25 @@ class _ConfirmstudentState extends State<Confirmstudent> {
       ),
       backgroundColor: Colors.white,
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+        child: LoadingAnimationWidget.flickr(
+          leftDotColor: AppColors.primaryRed, // Adjust color as needed
+          rightDotColor: AppColors.primaryBlue, // Adjust color as needed
+          size: 50, // Adjust size as needed
+        ),
+      )
           : ListView.builder(
         itemCount: _students.length,
         itemBuilder: (context, index) {
           final student = _students[index];
           return Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                   color: Colors.blue,
                   width: 1.0,
                 ),
@@ -137,7 +143,7 @@ class _ConfirmstudentState extends State<Confirmstudent> {
                         children: [
                           Text(
                             '${student['name']} ${student['surname']}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.red,
@@ -152,7 +158,7 @@ class _ConfirmstudentState extends State<Confirmstudent> {
                           ),
                           Text(
                             'Hours: ${student['hrs']}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 17,
                               color: Colors.black,
                             ),
@@ -166,7 +172,7 @@ class _ConfirmstudentState extends State<Confirmstudent> {
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(color: Colors.green),
+                          side: const BorderSide(color: Colors.green),
                         ),
                       ),
                       onPressed: () {
@@ -186,7 +192,7 @@ class _ConfirmstudentState extends State<Confirmstudent> {
                           },
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Select',
                         style: TextStyle(
                           color: Colors.white,

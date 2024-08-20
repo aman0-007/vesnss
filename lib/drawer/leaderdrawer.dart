@@ -62,25 +62,25 @@ class LeaderDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const AddEvent()),
             );
           }),
-          _buildDrawerItem(Icons.school, 'Enroll Student', () {
+          _buildDrawerItem(Icons.person_add, 'Enroll Student', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Enrollment()),
             );
           }),
-          _buildDrawerItem(Icons.school, 'Confirem Student', () {
+          _buildDrawerItem(Icons.person_add_alt_1, 'Confirm Student', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Confirmstudent()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Mark Attendance', () {
+          _buildDrawerItem(Icons.assignment_turned_in, 'Mark Attendance', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Markattendance()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Complete Event', () {
+          _buildDrawerItem(Icons.check_circle, 'Complete Event', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Completeevent()),

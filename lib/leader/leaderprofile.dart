@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vesnss/leader/leader_detail_barcode.dart';
 
 class leaderProfile extends StatefulWidget {
   const leaderProfile({super.key});
@@ -8,12 +10,28 @@ class leaderProfile extends StatefulWidget {
 }
 
 class _leaderProfileState extends State<leaderProfile> {
-  // Example profile data
-  final String name = "John Doe";
-  final String enrollmentId = "123456";
-  final String email = "john.doe@example.com";
-  final String yearOfJoining = "2022";
-  final String department = "Computer Science";
+  String name = "";
+  String enrollmentId = "";
+  String email = "";
+  String yearOfJoining = "";
+  String department = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  Future<void> _loadProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('leaderName') ?? 'Not Available';
+      enrollmentId = prefs.getString('leaderUniqueId') ?? 'Not Available';
+      email = prefs.getString('leaderEmail') ?? 'Not Available';
+      yearOfJoining = prefs.getString('yearOfJoining') ?? 'Not Available';
+      department = prefs.getString('department') ?? 'Not Available';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +127,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Name:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              SizedBox(width: deviceWidth * 0.02),
+                              Spacer(),
                               Text(
                                 name,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -127,7 +145,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Enrollment Id:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              SizedBox(width: deviceWidth * 0.02),
+                              Spacer(),
                               Text(
                                 enrollmentId,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -145,7 +163,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Email:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              SizedBox(width: deviceWidth * 0.02),
+                              Spacer(),
                               Text(
                                 email,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -160,10 +178,10 @@ class _leaderProfileState extends State<leaderProfile> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const Text(
-                                "Year of joining:",
+                                "Year of Joining:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              SizedBox(width: deviceWidth * 0.02),
+                              Spacer(),
                               Text(
                                 yearOfJoining,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -181,7 +199,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Department:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              SizedBox(width: deviceWidth * 0.02),
+                              Spacer(),
                               Text(
                                 department,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -190,12 +208,15 @@ class _leaderProfileState extends State<leaderProfile> {
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
+                        // Add LeaderBarCode widget below the profile details
+                        SizedBox(height: deviceHeight * 0.020),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            const LeaderBarCode(),
           ],
         ),
       ),

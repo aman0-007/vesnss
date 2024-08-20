@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,8 +60,13 @@ class _AttendanceMarkState extends State<AttendanceMark> {
     print('$selectedStudentsList');
 
     if (selectedStudentsList.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No students selected')),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Error',
+        text: 'No students selected',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.red,
       );
       return;
     }
@@ -94,22 +100,43 @@ class _AttendanceMarkState extends State<AttendanceMark> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Attendance marked successfully')),
+        // Show success alert
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          title: 'Success',
+          text: 'Attendance marked successfully',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: () {
+            Navigator.pop(context); // Go back to previous screen
+            Navigator.pop(context); // Go back to previous screen
+          },
         );
-        Navigator.pop(context); // Go back to previous screen
       } else {
+        // Show error alert with status code
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: 'Error',
+          text: 'Failed to mark attendance. Status code: ${response.statusCode}',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.red,
+        );
         print('Failed to mark attendance, status code: ${response.statusCode}');
         print(response.body);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to mark attendance')),
-        );
       }
     } catch (e) {
-      print('Error marking attendance: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error marking attendance')),
+      // Show error alert with exception
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Error',
+        text: 'Error marking attendance: $e',
+        confirmBtnText: 'OK',
+        confirmBtnColor: Colors.red,
       );
+      print('Error marking attendance: $e');
     }
   }
 
