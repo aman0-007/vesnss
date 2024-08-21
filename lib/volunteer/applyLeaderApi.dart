@@ -11,7 +11,6 @@ Future<void> addLeader({
   required String email,
   required stud_id,
 }) async {
-  const String apiUrl = 'http://213.210.37.81:3009/leader/addLeader';
   final Map<String, dynamic> data = {
     'name': name,
     'username': username,
@@ -23,7 +22,7 @@ Future<void> addLeader({
 
   try {
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse('http://213.210.37.81:3009/leader/addLeader'),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': 'NsSvEsAsC', // Include API key if required

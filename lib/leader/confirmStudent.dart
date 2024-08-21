@@ -17,8 +17,6 @@ class Confirmstudent extends StatefulWidget {
 class _ConfirmstudentState extends State<Confirmstudent> {
   List<Map<String, dynamic>> _students = [];
   bool _isLoading = true;
-  final String _apiKey = 'NsSvEsAsC';
-  final String _apiUrl = 'http://213.210.37.81:3009/leader/notselected';
 
   @override
   void initState() {
@@ -29,10 +27,10 @@ class _ConfirmstudentState extends State<Confirmstudent> {
   Future<void> _fetchStudents() async {
     try {
       final response = await http.get(
-        Uri.parse(_apiUrl),
+        Uri.parse('http://213.210.37.81:3009/leader/notselected'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -55,14 +53,13 @@ class _ConfirmstudentState extends State<Confirmstudent> {
   }
 
   Future<void> _selectStudent(String studId) async {
-    final String url = 'http://213.210.37.81:3009/leader/update/$studId';
 
     try {
       final response = await http.put(
-        Uri.parse(url),
+        Uri.parse('http://213.210.37.81:3009/leader/update/$studId'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 

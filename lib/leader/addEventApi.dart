@@ -24,15 +24,13 @@ class Teacher {
 
 
 Future<List<Teacher>> fetchTeachers() async {
-  const String apiKey = 'NsSvEsAsC';
-  const String teachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
 
   try {
     final response = await http.get(
-      Uri.parse(teachersUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/allTeachers'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -68,15 +66,13 @@ class Project {
 }
 
 Future<List<Project>> fetchProjects() async {
-  const String apiKey = 'NsSvEsAsC';
-  const String projectsUrl = 'http://213.210.37.81:3009/admin/fetchProjects';
 
   try {
     final response = await http.get(
-      Uri.parse(projectsUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/fetchProjects'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -103,8 +99,6 @@ Future<bool> addEventDetails({
   required String projectId,
   required String leaderId,
 }) async {
-  const String apiKey = 'NsSvEsAsC';
-  const String addEventUrl = 'http://213.210.37.81:3009/leader/addEvent';
 
   final Map<String, dynamic> requestBody = {
     'name': name,
@@ -118,10 +112,10 @@ Future<bool> addEventDetails({
 
   try {
     final response = await http.post(
-      Uri.parse(addEventUrl),
+      Uri.parse('http://213.210.37.81:3009/leader/addEvent'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode(requestBody),
     );

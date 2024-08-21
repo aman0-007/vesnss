@@ -26,14 +26,11 @@ class _ApproveleaderState extends State<Approveleader> {
   }
 
   Future<List<Leader>> fetchLeaders() async {
-    const String apiKey = 'NsSvEsAsC';
-    const String notSelectedUrl = 'http://213.210.37.81:3009/admin/notleaders';
-
     final response = await http.get(
-      Uri.parse(notSelectedUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/notleaders'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -53,14 +50,11 @@ class _ApproveleaderState extends State<Approveleader> {
   }
 
   Future<void> fetchTeachers() async {
-    const String apiKey = 'NsSvEsAsC';
-    const String teachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
-
     final response = await http.get(
-      Uri.parse(teachersUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/allTeachers'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -187,14 +181,11 @@ class _ApproveleaderState extends State<Approveleader> {
   }
 
   Future<void> _approveLeader(Leader leader) async {
-    const String apiKey = 'NsSvEsAsC';
-    final String approveUrl = 'http://213.210.37.81:3009/admin/update-leader/${leader.email}';
-
     final response = await http.put(
-      Uri.parse(approveUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/update-leader/${leader.email}'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode({
         'teacher_id': _selectedTeacher?.teacherId,

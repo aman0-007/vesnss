@@ -2,15 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class StaticsApi {
-  final String _baseUrl = 'http://213.210.37.81:3009/admin/fetchProjects';
-  final String _apiKey = 'NsSvEsAsC';
 
   Future<List<Map<String, dynamic>>> fetchProjects() async {
     final response = await http.get(
-      Uri.parse(_baseUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/fetchProjects'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 

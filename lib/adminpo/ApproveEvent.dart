@@ -15,9 +15,6 @@ class ApproveEvent extends StatefulWidget {
 class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderStateMixin {
   List<Map<String, dynamic>> _events = [];
   bool _isLoading = true;
-  final String _apiKey = 'NsSvEsAsC';
-  final String _notSelectedUrl = 'http://213.210.37.81:3009/admin/notdone';
-
   late TabController _tabController;
 
   @override
@@ -30,10 +27,10 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
   Future<void> _fetchEventDetails() async {
     try {
       final response = await http.get(
-        Uri.parse(_notSelectedUrl),
+        Uri.parse('http://213.210.37.81:3009/admin/notdone'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -60,14 +57,13 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
   }
 
   Future<void> _markEventAsCompleted(String eventId) async {
-    final String url = 'http://213.210.37.81:3009/admin/events/$eventId';
 
     try {
       final response = await http.put(
-        Uri.parse(url),
+        Uri.parse('http://213.210.37.81:3009/admin/events/$eventId'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 

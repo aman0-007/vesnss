@@ -14,8 +14,6 @@ class Confirmvolunteer extends StatefulWidget {
 class _ConfirmvolunteerState extends State<Confirmvolunteer> {
   List<Map<String, dynamic>> _volunteers = [];
   bool _isLoading = true;
-  final String _apiKey = 'NsSvEsAsC';
-  final String _apiUrl = 'http://213.210.37.81:3009/admin/inprocess';
 
   @override
   void initState() {
@@ -26,10 +24,10 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
   Future<void> _fetchVolunteers() async {
     try {
       final response = await http.get(
-        Uri.parse(_apiUrl),
+        Uri.parse('http://213.210.37.81:3009/admin/inprocess'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -68,12 +66,11 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         return;
       }
 
-      final selectUrl = 'http://213.210.37.81:3009/admin/select/$studId';
       final response = await http.put(
-        Uri.parse(selectUrl),
+        Uri.parse('http://213.210.37.81:3009/admin/select/$studId'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -111,13 +108,12 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
   }
 
   Future<int> _fetchSelectedStudentsCount() async {
-    final url = 'http://213.210.37.81:3009/admin/SelectedStudents';
     try {
       final response = await http.get(
-        Uri.parse(url),
+        Uri.parse('http://213.210.37.81:3009/admin/SelectedStudents'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 

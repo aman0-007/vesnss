@@ -16,7 +16,6 @@ class Completeevent extends StatefulWidget {
 class _CompleteeventState extends State<Completeevent> {
   List<Map<String, dynamic>> _events = [];
   bool _isLoading = true;
-  final String _apiUrl = 'http://213.210.37.81:3009/leader/active';
 
   @override
   void initState() {
@@ -27,7 +26,7 @@ class _CompleteeventState extends State<Completeevent> {
   Future<void> _fetchEvents() async {
     try {
       final response = await http.get(
-        Uri.parse(_apiUrl),
+        Uri.parse('http://213.210.37.81:3009/leader/active'),
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': 'NsSvEsAsC',
@@ -53,11 +52,9 @@ class _CompleteeventState extends State<Completeevent> {
   }
 
   Future<void> _markEventAsComplete(String eventId, String beneficiaries) async {
-    final url = 'http://213.210.37.81:3009/leader/mark/event/$eventId';
-
     try {
       final response = await http.put(
-        Uri.parse(url),
+        Uri.parse('http://213.210.37.81:3009/leader/mark/event/$eventId'),
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': 'NsSvEsAsC',

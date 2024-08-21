@@ -14,9 +14,6 @@ class AttendanceMark extends StatefulWidget {
 
 class _AttendanceMarkState extends State<AttendanceMark> {
   // Define the URL and API key
-  final String _notSelectedUrl = 'http://213.210.37.81:3009/leader/all-student';
-  final String _apiKey = 'NsSvEsAsC';
-
   List<Student> _students = [];
   Map<String, bool> _selectedStudents = {};
 
@@ -29,10 +26,10 @@ class _AttendanceMarkState extends State<AttendanceMark> {
   Future<void> _fetchStudents() async {
     try {
       final response = await http.get(
-        Uri.parse(_notSelectedUrl),
+        Uri.parse('http://213.210.37.81:3009/leader/all-student'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
       );
 
@@ -94,7 +91,7 @@ class _AttendanceMarkState extends State<AttendanceMark> {
         Uri.parse('http://213.210.37.81:3009/leader/mark'),
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': _apiKey,
+          'x-api-key': 'NsSvEsAsC',
         },
         body: jsonEncode(attendanceData),
       );

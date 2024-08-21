@@ -9,7 +9,6 @@ Future<void> addPo({
   required String password,
   required String email,
 }) async {
-  const String apiUrl = 'http://213.210.37.81:3009/admin/addPO';
   final Map<String, String> data = {
     'name': name,
     'username': username,
@@ -19,7 +18,7 @@ Future<void> addPo({
 
   try {
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/addPO'),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': 'NsSvEsAsC', // Include API key if required

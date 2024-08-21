@@ -3,12 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApi {
-  final String _volunteersLoginUrl = 'http://213.210.37.81:3009/volunteers/login';
-  final String _teacherLoginUrl = 'http://213.210.37.81:3009/admin/TeacherLogin';
-  final String _leaderLoginUrl = 'http://213.210.37.81:3009/leader/leaderLogin';
-  final String _notSelectedUrl = 'http://213.210.37.81:3009/leader/notselected';
-  final String _allTeachersUrl = 'http://213.210.37.81:3009/admin/allTeachers';
-  final String _apiKey = 'NsSvEsAsC';
 
   Future<void> login(String username, String password) async {
     bool isVolunteersLoginSuccessful = await _loginVolunteer(username, password);
@@ -42,10 +36,10 @@ class LoginApi {
 
   Future<bool> _loginVolunteer(String username, String password) async {
     final response = await http.post(
-      Uri.parse(_volunteersLoginUrl),
+      Uri.parse('http://213.210.37.81:3009/volunteers/login'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode({
         'username': username,
@@ -65,10 +59,10 @@ class LoginApi {
 
   Future<bool> _loginTeacher(String username, String password) async {
     final response = await http.post(
-      Uri.parse(_teacherLoginUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/TeacherLogin'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode({
         'username': username,
@@ -88,10 +82,10 @@ class LoginApi {
 
   Future<bool> _loginLeader(String username, String password) async {
     final response = await http.post(
-      Uri.parse(_leaderLoginUrl),
+      Uri.parse('http://213.210.37.81:3009/leader/leaderLogin'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode({
         'username': username,
@@ -126,10 +120,10 @@ class LoginApi {
 
   Future<void> _fetchAndSaveStatus(String username) async {
     final response = await http.get(
-      Uri.parse(_notSelectedUrl),
+      Uri.parse('http://213.210.37.81:3009/leader/notselected'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -153,17 +147,16 @@ class LoginApi {
         print('User not found in the notselected list.');
       }
     } else {
-      print('Failed to fetch data from $_notSelectedUrl. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
   }
 
   Future<void> _fetchAndSaveRole(String username) async {
     final response = await http.get(
-      Uri.parse(_allTeachersUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/allTeachers'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 
@@ -187,7 +180,6 @@ class LoginApi {
         print('Teacher not found in the allTeachers list.');
       }
     } else {
-      print('Failed to fetch data from $_allTeachersUrl. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
   }
@@ -196,16 +188,16 @@ class LoginApi {
     // Determine URL based on user type
     String url;
     if (userType == 'volunteer') {
-      url = _notSelectedUrl;  // Assuming this is correct for volunteer details
+      url = 'http://213.210.37.81:3009/leader/notselected';  // Assuming this is correct for volunteer details
     } else {
-      url = _allTeachersUrl;  // Adjust if needed
+      url = 'http://213.210.37.81:3009/admin/allTeachers';  // Adjust if needed
     }
 
     final response = await http.get(
       Uri.parse(url),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
     );
 

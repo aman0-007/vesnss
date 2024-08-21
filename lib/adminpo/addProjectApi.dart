@@ -2,10 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-// Define the URL of the API endpoint
-const String _apiUrl = 'http://213.210.37.81:3009/admin/addProject';
-const String _apiKey = 'NsSvEsAsC'; // Ensure to include the API key
-
 // Function to add a project via API
 Future<void> addProject({
   required BuildContext context,
@@ -21,10 +17,10 @@ Future<void> addProject({
   try {
     // Make a POST request to the API endpoint
     final response = await http.post(
-      Uri.parse(_apiUrl),
+      Uri.parse('http://213.210.37.81:3009/admin/addProject'),
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': _apiKey,
+        'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode(data),
     );

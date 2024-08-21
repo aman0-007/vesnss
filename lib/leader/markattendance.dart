@@ -36,10 +36,9 @@ class _MarkattendanceState extends State<Markattendance> {
   }
 
   Future<void> _fetchActiveEvents() async {
-    const String _notSelectedUrl = 'http://213.210.37.81:3009/leader/active';
     try {
       final response = await http.get(
-        Uri.parse(_notSelectedUrl),
+        Uri.parse('http://213.210.37.81:3009/leader/active'),
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': _apiKey,
