@@ -64,17 +64,11 @@ class _ConfirmstudentState extends State<Confirmstudent> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        if (data['message'] == 'Student updated successfully') {
-          await _fetchStudents(); // Refresh the students list
-          CoolAlert.show(
-            context: context,
-            type: CoolAlertType.success,
-            text: 'Student selected successfully!',
-          );
-        } else {
-          throw Exception('Error selecting student: ${data['message']}');
-        }
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          text: 'Student selected successfully!',
+        );
       } else {
         throw Exception('Failed to select student: ${response.statusCode}');
       }

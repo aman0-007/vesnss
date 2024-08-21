@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,8 +36,11 @@ Future<void> addLeader({
     print('Response body: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Leader added successfully!')),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.success,
+        title: 'Success!',
+        text: 'Applied successfully!',
       );
     } else {
       // More detailed error handling
@@ -51,14 +55,20 @@ Future<void> addLeader({
         print('Error parsing error message: $e');
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Error!',
+        text: errorMessage,
       );
     }
   } catch (e) {
     // Catch network or JSON encoding errors
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('An error occurred: $e')),
+    CoolAlert.show(
+      context: context,
+      type: CoolAlertType.custom,
+      title: 'Error!',
+      text: 'Something went wrong!!',
     );
   }
 }

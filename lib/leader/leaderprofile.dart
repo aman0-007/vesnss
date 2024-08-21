@@ -172,44 +172,6 @@ class _leaderProfileState extends State<leaderProfile> {
                           ),
                         ),
                         SizedBox(height: deviceHeight * 0.020),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Year of Joining:",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                              Spacer(),
-                              Text(
-                                yearOfJoining,
-                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: deviceHeight * 0.020),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Department:",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                              ),
-                              Spacer(),
-                              Text(
-                                department,
-                                style: const TextStyle(fontSize: 14.0, color: Colors.black87),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: deviceHeight * 0.020),
-                        // Add LeaderBarCode widget below the profile details
-                        SizedBox(height: deviceHeight * 0.020),
                       ],
                     ),
                   ),

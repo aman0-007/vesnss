@@ -138,7 +138,7 @@ class _AddTeacherState extends State<AddTeacher> {
             label,
             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
-          const SizedBox(height: 4.0),
+
           TextField(
             controller: controller,
             obscureText: isPassword,
@@ -162,6 +162,7 @@ class _AddTeacherState extends State<AddTeacher> {
               color: Colors.black87,
             ),
           ),
+          const SizedBox(height: 4.0),
         ],
       ),
     );
@@ -177,7 +178,6 @@ class _AddTeacherState extends State<AddTeacher> {
             'Project ID:',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
-          const SizedBox(height: 4.0),
           Container(
             decoration: BoxDecoration(
               border: Border.all(

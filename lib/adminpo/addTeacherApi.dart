@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // Function to add a teacher via API
 Future<void> addTeacher({
@@ -34,8 +36,11 @@ Future<void> addTeacher({
     // Check the response status
     if (response.statusCode == 200 || response.statusCode == 201) {
       // Handle success
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Teacher added successfully')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        title: 'Success!',
+        text: 'Teacher added successfully.',
       );
 
       // Clear the fields
@@ -46,16 +51,20 @@ Future<void> addTeacher({
 
     } else {
       // Handle failure
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add teacher: ${response.reasonPhrase}')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Error!',
+        text: 'Failed to add teacher: ${response.reasonPhrase}',
       );
-      print('Response body: ${response.body}');
     }
   } catch (e) {
     // Handle any errors that occur during the request
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error occurred while adding teacher: $e')),
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Error!',
+      text: 'Error occurred while adding teacher.',
     );
-    print('Error occurred while adding teacher: $e');
   }
 }

@@ -67,7 +67,6 @@ class _EnrollmentState extends State<Enrollment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: boldGreyStyle),
-          const SizedBox(height: 8.0),
           TextField(
             controller: controller,
             obscureText: obscureText,
@@ -79,6 +78,8 @@ class _EnrollmentState extends State<Enrollment> {
             ),
             style: normalBlackStyle,
           ),
+          const SizedBox(height: 8.0),
+
         ],
       ),
     );
@@ -96,7 +97,6 @@ class _EnrollmentState extends State<Enrollment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: boldGreyStyle),
-          const SizedBox(height: 6.0),
           Container(
             height: 53,
             decoration: BoxDecoration(
@@ -113,6 +113,7 @@ class _EnrollmentState extends State<Enrollment> {
               },
             ),
           ),
+          const SizedBox(height: 8.0),
         ],
       ),
     );
@@ -195,7 +196,7 @@ class _EnrollmentState extends State<Enrollment> {
       await CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        text: 'Enrollment Failed: $e',
+        text: 'Enrollment Failed: Username or Email already exists.',
         confirmBtnText: 'OK',
       );
     }

@@ -68,28 +68,22 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        if (data['message']?.toLowerCase().contains('completed') ?? false) {
-          await _fetchEventDetails();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Event marked as completed!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else {
-          throw Exception('Error marking event as completed: ${data['message']}');
-        }
+        await _fetchEventDetails();
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          title: 'Success!',
+          text: 'Event marked as completed!',
+        );
       } else {
         throw Exception('Failed to mark event as completed: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error marking event as completed: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to mark event as completed.'),
-          backgroundColor: Colors.red,
-        ),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Error!',
+        text: 'Failed to mark event as completed.',
       );
     }
   }

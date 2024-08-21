@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // Function to add a project via API
 Future<void> addProject({
@@ -28,26 +30,33 @@ Future<void> addProject({
     // Check the response status
     if (response.statusCode == 200 || response.statusCode == 201) {
       // Handle success
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Project added successfully')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        title: 'Success!',
+        text: 'Project added successfully',
       );
+
 
       // Clear the fields
       projectIdController.clear();
       projectNameController.clear();
 
     } else {
-      // Handle failure
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add project: ${response.reasonPhrase}')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Error!',
+        text: 'Failed to add project: ${response.reasonPhrase}',
       );
-      print('Response body: ${response.body}');
     }
   } catch (e) {
     // Handle any errors that occur during the request
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error occurred while adding project: $e')),
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Error!',
+      text: 'Error occurred while adding project.',
     );
-    print('Error occurred while adding project: $e');
   }
 }

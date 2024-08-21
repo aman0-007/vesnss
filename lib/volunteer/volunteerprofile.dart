@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fl_chart/fl_chart.dart'; // Ensure this package is in your `pubspec.yaml`
+import 'package:fl_chart/fl_chart.dart';
+import 'package:vesnss/volunteer/volunteer_detail_barcode.dart'; // Ensure this package is in your `pubspec.yaml`
 
 class VolunteerProfile extends StatefulWidget {
   const VolunteerProfile({super.key});
@@ -127,6 +128,8 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
               ),
             ),
             SizedBox(height: deviceHeight * 0.07),
+            VolunteerBarCode(),
+
             Center(
               child: IntrinsicHeight(
                 child: Container(
@@ -255,6 +258,7 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                 ),
               ),
             ),
+
           ],
         ),
       ),

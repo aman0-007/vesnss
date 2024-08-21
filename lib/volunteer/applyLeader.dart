@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
@@ -257,8 +258,11 @@ class _AddLeaderState extends State<AddLeader> {
                   _passwordController.text.isEmpty ||
                   _emailController.text.isEmpty ||
                   _selectedGroupName == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please fill in all fields.')),
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.warning,
+                  title: 'Warning!',
+                  text: 'Please fill in all fields.',
                 );
                 return;
               }

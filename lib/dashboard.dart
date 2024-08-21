@@ -7,7 +7,7 @@ import 'package:vesnss/drawer/admindrawer.dart';
 import 'package:vesnss/drawer/leaderdrawer.dart';
 import 'package:vesnss/drawer/podrawer.dart';
 import 'package:vesnss/drawer/volunteerdrawer.dart';
-import 'package:vesnss/leader/leader_detail_barcode.dart';
+import 'package:vesnss/leader/leaderprofile.dart';
 import 'package:vesnss/nssobjective.dart';
 
 class Dashboard extends StatefulWidget {
@@ -86,7 +86,7 @@ class _DashboardState extends State<Dashboard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LeaderBarCode(),
+                  builder: (context) => const leaderProfile(),
                 ),
               );
             },

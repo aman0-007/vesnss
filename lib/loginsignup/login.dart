@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:vesnss/api/loginapi.dart';
 import 'package:vesnss/dashboard.dart';
 import 'package:vesnss/themes.dart';
@@ -28,8 +30,11 @@ class _LoginState extends State<Login> {
     final password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter both username and password.')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.warning,
+        title: 'Input Error',
+        text: 'Please enter both username and password.',
       );
       return;
     }
@@ -42,11 +47,10 @@ class _LoginState extends State<Login> {
             (Route<dynamic> route) => false,
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login Failed: $e')),
-      );
+
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

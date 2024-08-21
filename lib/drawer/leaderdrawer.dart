@@ -52,9 +52,6 @@ class LeaderDrawer extends StatelessWidget {
               ],
             ),
           ),
-          _buildDrawerItem(Icons.home, 'Home', () {
-            Navigator.pop(context);
-          }),
           _buildDrawerItem(Icons.add_circle, 'Add Event', () {
             Navigator.pop(context);
             Navigator.push(
@@ -85,15 +82,6 @@ class LeaderDrawer extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => const Completeevent()),
             );
-          }),
-          _buildDrawerItem(Icons.person, 'Profile', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const leaderProfile()),
-            );
-          }),
-          _buildDrawerItem(Icons.settings, 'Settings', () {
-            Navigator.pop(context);
           }),
           _buildLogoutItem(context), // Pass context to logout item
         ],

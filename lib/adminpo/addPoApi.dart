@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 Future<void> addPo({
   required BuildContext context,
@@ -31,8 +33,11 @@ Future<void> addPo({
     print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PO added successfully!')),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        title: 'Success!',
+        text: 'PO added successfully!',
       );
     } else {
       // More detailed error handling
@@ -47,14 +52,20 @@ Future<void> addPo({
         print('Error parsing error message: $e');
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Error!',
+        text: errorMessage,
       );
     }
   } catch (e) {
     // Catch network or JSON encoding errors
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('An error occurred: $e')),
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Error!',
+      text: 'An error occurred: $e',
     );
   }
 }
