@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vesnss/api/loginapi.dart';
 import 'package:vesnss/dashboard.dart';
+import 'package:vesnss/themes.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,7 +15,13 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
-  final LoginApi loginvol = LoginApi();
+  late LoginApi loginvol;
+
+  @override
+  void initState() {
+    super.initState();
+    loginvol = LoginApi(context); // Initialize LoginApi here
+  }
 
   Future<void> _login() async {
     final username = _usernameController.text;
@@ -22,7 +29,7 @@ class _LoginState extends State<Login> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please enter both username and password.'))
+        const SnackBar(content: Text('Please enter both username and password.')),
       );
       return;
     }
@@ -36,191 +43,137 @@ class _LoginState extends State<Login> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login Failed: $e'))
+        SnackBar(content: Text('Login Failed: $e')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double deviceWidth = MediaQuery.of(context).size.width;
-    final double deviceHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF2E478A),
-        title: const Text(
-          'Login',
-          style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold),
+    final theme = CustomTheme(Theme.of(context).textTheme); // Apply the custom theme
+
+    return Theme(
+      data: theme.light(), // Apply the light theme here
+      child: Scaffold(
+        backgroundColor: theme.light().colorScheme.background,
+        appBar: AppBar(
+          backgroundColor: theme.light().colorScheme.primary, // Blue for app bar
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: theme.light().colorScheme.onPrimary, // White color for icon
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFFF5180F)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: IntrinsicHeight(
-            child: Container(
-              margin: EdgeInsets.all(deviceWidth * 0.07), // Optional: margin around the container
-              padding: EdgeInsets.all(deviceWidth * 0.03), // Optional: padding inside the container
-              decoration: BoxDecoration(
-                color: Colors.white, // Background color
-                border: Border.all(
-                  color: Colors.grey.withOpacity(0.5), // Grey border with opacity
-                  width: 1.0, // Border width
-                ),
-                borderRadius: BorderRadius.circular(12.0), // Circular edges
-              ),
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: deviceHeight * 0.030),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Login",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF2E478A)),
+                  Text(
+                    "Welcome Back!",
+                    style: theme.light().textTheme.headlineMedium?.copyWith(
+                      color: theme.light().colorScheme.primary, // Blue for heading
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Please sign in to continue",
+                    style: theme.light().textTheme.bodyMedium?.copyWith(
+                      color: theme.light().colorScheme.onBackground.withOpacity(0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: theme.light().colorScheme.secondaryContainer, // Light Blue background for container
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                        labelStyle: theme.light().textTheme.bodyMedium?.copyWith(
+                          color: theme.light().colorScheme.onSecondaryContainer.withOpacity(0.7), // Light Blue for label
+                        ),
+                        filled: true,
+                        fillColor: theme.light().colorScheme.secondaryContainer, // Light Blue for input field
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.0,
+                          horizontal: 16.0,
+                        ),
                       ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Colors.grey, // Color of the divider
-                    thickness: 1, // Thickness of the line
-                  ),
-                  SizedBox(height: deviceHeight * 0.030),
-                  Padding(
-                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Username :",
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _usernameController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5), // Border color
-                                  width: 1.0, // Border width
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF2E478A), // Focused border color
-                                  width: 2.0, // Border width
-                                ),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 12.0,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 14.0, // Text size
-                              color: Colors.black87, // Text color
-                            ),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: theme.light().colorScheme.secondaryContainer, // Light Blue background for container
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText: !_isPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: theme.light().textTheme.bodyMedium?.copyWith(
+                          color: theme.light().colorScheme.onSecondaryContainer.withOpacity(0.7), // Light Blue for label
+                        ),
+                        filled: true,
+                        fillColor: theme.light().colorScheme.secondaryContainer, // Light Blue for input field
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.0,
+                          horizontal: 16.0,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                            color: theme.light().colorScheme.onSecondaryContainer.withOpacity(0.7), // Light Blue for icon
                           ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: deviceHeight * 0.020),
-                  Padding(
-                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Password :",
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.light().colorScheme.primary, // Blue for button
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
                         ),
-                      ],
+                      ),
+                      onPressed: _login,
+                      child: Text(
+                        'Login',
+                        style: theme.light().textTheme.bodyLarge?.copyWith(
+                          color: theme.light().colorScheme.onPrimary, // White text on blue button
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _passwordController,
-                            obscureText: !_isPasswordVisible, // Hide password if not visible
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  width: 1.0,
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF2E478A),
-                                  width: 2.0,
-                                ),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 12.0,
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                  });
-                                },
-                                child: Icon(
-                                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.035),
-                  Padding(
-                    padding: EdgeInsets.only(left: deviceWidth * 0.02, right: deviceWidth * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2E478A),
-                            elevation: 5,
-                            minimumSize: Size(deviceWidth * 0.4, deviceHeight * 0.057),
-                          ),
-                          onPressed: _login,
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(color: Color(0xFFF5180F), fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.030),
                 ],
               ),
             ),

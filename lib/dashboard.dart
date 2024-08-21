@@ -21,6 +21,7 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
   String userType = 'Unknown'; // Default value
   String userRole = 'Unknown'; // Default value
+
   final List<String> _imgList = [
     'assets/carousel/slider1.png',
     'assets/carousel/slider1.png',
@@ -44,7 +45,7 @@ class _DashboardState extends State<Dashboard> {
 
   List<Widget> generateImageTiles() {
     return _imgList.map((element) => ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(12.0),
       child: Image.asset(
         element,
         fit: BoxFit.cover,
@@ -56,7 +57,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
-    final double deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -98,14 +98,17 @@ class _DashboardState extends State<Dashboard> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: deviceHeight * 0.02),
+              SizedBox(height: 16),
+
+              // Carousel Slider
               CarouselSlider(
                 items: generateImageTiles(),
                 options: CarouselOptions(
                   autoPlay: true,
                   enlargeCenterPage: true,
-                  aspectRatio: 2.0,
+                  aspectRatio: 16/9,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _currentIndex = index;
@@ -113,26 +116,38 @@ class _DashboardState extends State<Dashboard> {
                   },
                 ),
               ),
+
+              // Indicator Dots
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: _imgList.asMap().entries.map((entry) {
                   int index = entry.key;
                   return Container(
-                    width: 8.0,
-                    height: 8.0,
-                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    width: 10.0,
+                    height: 10.0,
+                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _currentIndex == index
                           ? AppColors.primaryRed
-                          : AppColors.primaryBlue,
+                          : AppColors.primaryBlue.withOpacity(0.5),
                     ),
                   );
                 }).toList(),
               ),
-          
-              Dashboardbody(),
-              NSSObjectives(),
+
+              // Dashboard Body and NSS Objectives
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Dashboardbody(),
+                    const SizedBox(height: 24),
+                    NSSObjectives(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
