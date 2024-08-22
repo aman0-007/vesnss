@@ -150,9 +150,9 @@ class _AttendanceMarkState extends State<AttendanceMark> {
               padding: const EdgeInsets.all(16.0),
               color: Colors.grey[200],
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
-                  Text('Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Volunteers', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text('Class', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text('Action', style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
@@ -164,21 +164,35 @@ class _AttendanceMarkState extends State<AttendanceMark> {
                 itemBuilder: (context, index) {
                   final student = _students[index];
                   return ListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text('${student.name} ${student.surname}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                        Text(student.className),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('${student.name} ${student.surname}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text('${student.studId}'),
+                          ],
+                        ),
+                        Text('${student.year}.${student.className}'),
+                        Checkbox(
+                          value: _selectedStudents[student.studId],
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _selectedStudents[student.studId] = value ?? false;
+                            });
+                          },
+                        ),
                       ],
                     ),
-                    trailing: Checkbox(
-                      value: _selectedStudents[student.studId],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _selectedStudents[student.studId] = value ?? false;
-                        });
-                      },
-                    ),
+                    // trailing: Checkbox(
+                    //   value: _selectedStudents[student.studId],
+                    //   onChanged: (bool? value) {
+                    //     setState(() {
+                    //       _selectedStudents[student.studId] = value ?? false;
+                    //     });
+                    //   },
+                    // ),
                   );
                 },
               ),
@@ -206,13 +220,16 @@ class Student {
   final String name;
   final String surname;
   final String className;
+  final String year;
 
   Student({
     required this.studId,
     required this.name,
     required this.surname,
     required this.className,
+    required this.year,
   });
+
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
@@ -220,6 +237,7 @@ class Student {
       name: json['name'],
       surname: json['surname'],
       className: json['class'],
+      year: json['year'],
     );
   }
 }

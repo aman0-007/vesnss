@@ -39,10 +39,11 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
         enrollmentId = userDetails['stud_id'] ?? '';
         email = userDetails['email'] ?? '';
         yearOfJoining = userDetails['yoj'] ?? '';
-        department = userDetails['class'] ?? ''; // Assuming 'class' is the department field
-        hoursWorked = userDetails['hrs'] ?? 0; // Get hours worked
+        department = userDetails['class'] ?? '';
+        hoursWorked = userDetails['hrs'] ?? 0;
       });
     } else {
+      print("00000000000000000000000000000000000000000000000000");
       print('User details not found in SharedPreferences');
     }
   }
@@ -258,7 +259,6 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

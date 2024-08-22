@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
-import 'package:vesnss/enrollment/enrollment.dart';
 import 'package:vesnss/leader/completeevent.dart';
 import 'package:vesnss/leader/markattendance.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
-import 'package:vesnss/leader/leaderprofile.dart';
 import 'package:vesnss/leader/confirmStudent.dart';
 
 class LeaderDrawer extends StatelessWidget {
@@ -59,12 +57,6 @@ class LeaderDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const AddEvent()),
             );
           }),
-          _buildDrawerItem(Icons.person_add, 'Enroll Student', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Enrollment()),
-            );
-          }),
           _buildDrawerItem(Icons.person_add_alt_1, 'Confirm Student', () {
             Navigator.push(
               context,
@@ -112,6 +104,7 @@ class LeaderDrawer extends StatelessWidget {
         await prefs.remove('userType');
         await prefs.remove('userStatus');
         await prefs.remove('userRole');
+        await prefs.clear();
         await prefs.setBool('isLoggedIn', false); // Clear login status
 
         // Navigate to the login page after logout

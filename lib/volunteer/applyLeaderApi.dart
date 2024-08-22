@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 Future<void> addLeader({
   required BuildContext context,
   required String name,
-  required String username,
   required String password,
   required String groupName,
   required String email,
@@ -14,7 +13,6 @@ Future<void> addLeader({
 }) async {
   final Map<String, dynamic> data = {
     'name': name,
-    'username': username,
     'password': password,
     'group_name': groupName,
     'email': email,

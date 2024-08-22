@@ -24,7 +24,7 @@ class _AddEventState extends State<AddEvent> {
   String? _selectedProjectLevel;
   List<String> _teacherNames = [];
   List<Project> _projects = [];
-  final List<String> _projectLevels = ['College', 'University', 'District', 'Adopted Area', 'Adopted Village'];
+  final List<String> _projectLevels = ['Area', 'College', 'University', 'District', 'Adopted Area', 'Adopted Village'];
 
   @override
   void initState() {
@@ -48,7 +48,6 @@ class _AddEventState extends State<AddEvent> {
       final teachers = await fetchTeachers();
       setState(() {
         _teacherNames = teachers
-            .where((teacher) => teacher.role == 'Teacher Incharge') // Use role here
             .map((teacher) => teacher.name)
             .toList();
       });

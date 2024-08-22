@@ -138,6 +138,7 @@ class PODrawer extends StatelessWidget {
         await prefs.remove('userType');
         await prefs.remove('userStatus');
         await prefs.remove('userRole');
+        await prefs.clear();
         await prefs.setBool('isLoggedIn', false);
 
         // Navigate to the login page after logout

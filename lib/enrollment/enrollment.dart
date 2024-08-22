@@ -155,7 +155,7 @@ class _EnrollmentState extends State<Enrollment> {
     final data = {
       "name": _firstNameController.text,
       "surname": _lastNameController.text,
-      "email": _emailController.text,
+      "email": _emailController.text.toLowerCase(),
       "phone_no": _phoneNumberController.text,
       "yoj": _selectedYearOfJoin!,
       "class_name": _selectedClass!,
@@ -256,7 +256,7 @@ class _EnrollmentState extends State<Enrollment> {
                 buildDropdown(
                   "Year of joining :",
                   _selectedYearOfJoin,
-                  ['Select year', '23-24'],
+                  ['Select year', '23-24', '24-25'],
                       (value) {
                     setState(() {
                       _selectedYearOfJoin = value;

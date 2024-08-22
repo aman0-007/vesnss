@@ -14,7 +14,6 @@ class AddLeader extends StatefulWidget {
 
 class _AddLeaderState extends State<AddLeader> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   String? _selectedGroupName; // To store selected group name
@@ -27,9 +26,9 @@ class _AddLeaderState extends State<AddLeader> {
     'EKLAVYA',
     'SANKALP',
     'AAROHAN',
-    'DISHA'
-  ]; // Predefined group names
-
+    'DISHA',
+    'PRAGATI'
+  ];
 
   String? studId;
   @override
@@ -48,9 +47,14 @@ class _AddLeaderState extends State<AddLeader> {
       final Map<String, dynamic> userDetails = jsonDecode(userDetailsJson);
 
       setState(() {
+        final String firstName = userDetails['name'] ?? '';
+        final String surname = userDetails['surname'] ?? '';
+        _nameController.text = '$firstName $surname';
         _nameController.text = '${userDetails['name'] ?? ''} ${userDetails['surname'] ?? ''}';
         _emailController.text = userDetails['email'] ?? '';
         studId = userDetails['stud_id'] ?? '';
+        _passwordController.text = '$firstName@$studId';
+
       });
     } else {
       print('User details not found in SharedPreferences');
@@ -88,8 +92,6 @@ class _AddLeaderState extends State<AddLeader> {
                     _buildDivider(),
                     SizedBox(height: deviceHeight * 0.01),
                     _buildTextField("Name:", _nameController, deviceWidth, isEditable: false),
-                    _buildTextField("Username:", _usernameController, deviceWidth),
-                    _buildTextField("Password:", _passwordController, deviceWidth, isPassword: true),
                     _buildTextField("Email:", _emailController, deviceWidth, isEditable: false),
                     _buildDropdown(deviceWidth),
                     SizedBox(height: deviceHeight * 0.030),
@@ -254,8 +256,6 @@ class _AddLeaderState extends State<AddLeader> {
             ),
             onPressed: () {
               if (_nameController.text.isEmpty ||
-                  _usernameController.text.isEmpty ||
-                  _passwordController.text.isEmpty ||
                   _emailController.text.isEmpty ||
                   _selectedGroupName == null) {
                 CoolAlert.show(
@@ -266,11 +266,11 @@ class _AddLeaderState extends State<AddLeader> {
                 );
                 return;
               }
+              print(_passwordController.text);
 
               addLeader(
                 context: context,
                 name: _nameController.text,
-                username: _usernameController.text,
                 password: _passwordController.text,
                 groupName: _selectedGroupName!,
                 email: _emailController.text,
@@ -291,7 +291,6 @@ class _AddLeaderState extends State<AddLeader> {
   @override
   void dispose() {
     _nameController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
     super.dispose();

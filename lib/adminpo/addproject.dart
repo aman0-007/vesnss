@@ -42,7 +42,6 @@ class _AddProjectState extends State<AddProject> {
                     _buildTitle(deviceHeight),
                     _buildDivider(),
                     SizedBox(height: deviceHeight * 0.01),
-                    _buildTextField("Project ID:", _projectIdController, deviceWidth),
                     _buildTextField("Project Name:", _projectNameController, deviceWidth),
                     SizedBox(height: deviceHeight * 0.030),
                     _buildAddButton(deviceWidth, deviceHeight),
@@ -147,7 +146,6 @@ class _AddProjectState extends State<AddProject> {
             onPressed: () {
               addProject(
                 context: context,
-                projectIdController: _projectIdController,
                 projectNameController: _projectNameController,
               );
             },

@@ -7,12 +7,10 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 // Function to add a project via API
 Future<void> addProject({
   required BuildContext context,
-  required TextEditingController projectIdController,
   required TextEditingController projectNameController,
 }) async {
   // Create a map with the project's data
   final Map<String, String> data = {
-    'project_id': projectIdController.text,
     'project_name': projectNameController.text,
   };
 
@@ -36,10 +34,7 @@ Future<void> addProject({
         title: 'Success!',
         text: 'Project added successfully',
       );
-
-
       // Clear the fields
-      projectIdController.clear();
       projectNameController.clear();
 
     } else {

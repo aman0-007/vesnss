@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/adminpo/ApproveEvent.dart';
 import 'package:vesnss/colors.dart';
-import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
-import 'package:vesnss/volunteer/profile.dart';
 
 class AdminDrawer extends StatelessWidget {
   const AdminDrawer({super.key});
@@ -65,12 +63,7 @@ class AdminDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Enrollment()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Profile', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Profile()),
-            );
-          }),
+
           _buildDrawerItem(Icons.settings, 'Settings', () {
             Navigator.pop(context);
           }),

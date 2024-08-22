@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:vesnss/colors.dart'; // Import your colors file
 
 class Approveleader extends StatefulWidget {
@@ -81,53 +84,46 @@ class _ApproveleaderState extends State<Approveleader> {
 
   void _showApprovalDialog(Leader leader) {
     fetchTeachers().then((_) {
-      showDialog(
+      QuickAlert.show(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Approve Leader'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Are you sure you want to approve ${leader.name}?'),
-                const SizedBox(height: 16.0),
-                DropdownButtonFormField<Teacher>(
-                  value: _selectedTeacher,
-                  hint: const Text('Select Teacher'),
-                  items: _teachers.map((teacher) {
-                    return DropdownMenuItem<Teacher>(
-                      value: teacher,
-                      child: Text(teacher.name),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedTeacher = value;
-                    });
-                  },
-                ),
-              ],
+        type: QuickAlertType.custom,
+        title: 'Approve Leader',
+        widget: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Are you sure you want to approve ${leader.name}?'),
+            const SizedBox(height: 16.0),
+            Container(
+              height: 53,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.0),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: CustomDropdown<String>(
+                hintText: 'Select Teacher',
+                items: _teachers.map((teacher) => teacher.name).toList(),
+                initialItem: _selectedTeacher?.name,
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _selectedTeacher = _teachers.firstWhere((teacher) => teacher.name == selectedValue);
+                  });
+                },
+              ),
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  if (_selectedTeacher != null) {
-                    _approveLeader(leader);
-                  } else {
-                    _showErrorDialog('Please select a teacher.');
-                  }
-                },
-                child: const Text('Approve'),
-              ),
-            ],
-          );
+          ],
+        ),
+        onConfirmBtnTap: () {
+          if (_selectedTeacher != null) {
+            Navigator.of(context).pop();
+            _approveLeader(leader);
+          } else {
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.warning,
+              title: 'Oops!',
+              text: 'Please select a teacher!!',
+            );
+          }
         },
       );
     });
@@ -160,26 +156,6 @@ class _ApproveleaderState extends State<Approveleader> {
     );
   }
 
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Future<void> _approveLeader(Leader leader) async {
     final response = await http.put(
       Uri.parse('http://213.210.37.81:3009/admin/update-leader/${leader.email}'),
@@ -194,11 +170,20 @@ class _ApproveleaderState extends State<Approveleader> {
 
     if (response.statusCode == 200) {
       // Handle success
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Leader approved successfully')));
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        title: 'Success!',
+        text: 'Leader approved successfully',
+      );
       fetchLeaders(); // Refresh the list
     } else {
-      _showErrorDialog('Failed to approve leader');
-    }
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Error!',
+        text: 'Failed to approve Leader!!',
+      );    }
   }
 
 

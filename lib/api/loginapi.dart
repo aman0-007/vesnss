@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/material.dart';
 
@@ -20,30 +19,14 @@ class LoginApi {
         : false;
 
     if (isVolunteersLoginSuccessful) {
-      await _fetchAndSaveStatus(username);
+     // await _fetchAndSaveStatus(username);
       await _saveUserType('Volunteer');
-      await _fetchAndSaveUserDetails(username, 'volunteer');
-      CoolAlert.show(
-        context: context,
-        type: CoolAlertType.success,
-        text: "Volunteer login successful",
-      );
+      //await _fetchAndSaveUserDetails(username, 'volunteer');
     } else if (isTeacherLoginSuccessful) {
       await _fetchAndSaveRole(username);
       await _saveUserType('Teacher');
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        title: 'Login Successful',
-        text: 'Teacher login successful',
-      );
     } else if (isLeaderLoginSuccessful) {
       await _saveUserType('Leader');
-      CoolAlert.show(
-        context: context,
-        type: CoolAlertType.success,
-        text: "Leader login successful",
-      );
     } else {
       QuickAlert.show(
         context: context,
@@ -73,7 +56,13 @@ class LoginApi {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      final Map<String, dynamic> volunteerData = responseBody['data'];
+
+      // // Save volunteer data to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userDetails', jsonEncode(volunteerData));
       return true;
     } else {
       return false;
@@ -108,12 +97,11 @@ class LoginApi {
         'x-api-key': 'NsSvEsAsC',
       },
       body: jsonEncode({
-        'username': username,
+        'email': username,
         'password': password,
       }),
     );
-
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final Map<String, dynamic> leaderData = responseBody['data'];
 
@@ -121,13 +109,13 @@ class LoginApi {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('leaderId', leaderData['id']);
       await prefs.setString('leaderUniqueId', leaderData['leader_id']);
+      await prefs.setString('leaderStudentId', leaderData['stud_id']);
       await prefs.setString('leaderName', leaderData['name']);
       await prefs.setString('leaderUsername', leaderData['username']);
       await prefs.setString('groupName', leaderData['group_name']);
       await prefs.setString('teacherId', leaderData['teacher_id']);
       await prefs.setString('role', leaderData['role']);
       await prefs.setString('leaderEmail', leaderData['email']);
-
       return true;
     } else {
       return false;
@@ -136,14 +124,14 @@ class LoginApi {
 
   Future<void> _fetchAndSaveStatus(String username) async {
     final response = await http.get(
-      Uri.parse('http://213.210.37.81:3009/leader/notselected'),
+      Uri.parse('http://213.210.37.81:3009/volunteers/login'),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': 'NsSvEsAsC',
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
 
@@ -189,7 +177,7 @@ class LoginApi {
   Future<void> _fetchAndSaveUserDetails(String username, String userType) async {
     String url;
     if (userType == 'volunteer') {
-      url = 'http://213.210.37.81:3009/leader/notselected';
+      url = 'http://213.210.37.81:3009/volunteers/login';
     } else {
       url = 'http://213.210.37.81:3009/admin/allTeachers';
     }
@@ -205,6 +193,8 @@ class LoginApi {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
+      print("======================================");
+      print(responseBody['data']);
 
       final user = data.firstWhere(
             (user) => user['username'] == username,

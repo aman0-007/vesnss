@@ -58,12 +58,6 @@ class VolunteerDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const VolunteerProfile()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Show Code', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const VolunteerBarCode()),
-            );
-          }),
           _buildDrawerItem(Icons.person, 'Apply Leader', () {
             Navigator.push(
               context,
@@ -99,6 +93,7 @@ class VolunteerDrawer extends StatelessWidget {
         await prefs.remove('userType');
         await prefs.remove('userStatus');
         await prefs.remove('userRole');
+        await prefs.clear();
         await prefs.setBool('isLoggedIn', false); // Clear login status
 
         // Navigate to the login page after logout

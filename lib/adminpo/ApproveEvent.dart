@@ -73,7 +73,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
           context: context,
           type: QuickAlertType.success,
           title: 'Success!',
-          text: 'Event marked as completed!',
+          text: 'Event marked as active!',
         );
       } else {
         throw Exception('Failed to mark event as completed: ${response.statusCode}');
@@ -83,7 +83,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
         context: context,
         type: QuickAlertType.error,
         title: 'Error!',
-        text: 'Failed to mark event as completed.',
+        text: 'Failed to mark event as active.',
       );
     }
   }
@@ -216,7 +216,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                       QuickAlert.show(
                         context: context,
                         type: QuickAlertType.confirm,
-                        text: 'Do you want to mark this event as completed?',
+                        text: 'Do you want to active this event?',
                         confirmBtnText: 'Yes',
                         cancelBtnText: 'No',
                         confirmBtnColor: Colors.green,

@@ -15,6 +15,7 @@ class _leaderProfileState extends State<leaderProfile> {
   String email = "";
   String yearOfJoining = "";
   String department = "";
+  String studentId = "";
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _leaderProfileState extends State<leaderProfile> {
     setState(() {
       name = prefs.getString('leaderName') ?? 'Not Available';
       enrollmentId = prefs.getString('leaderUniqueId') ?? 'Not Available';
+      studentId = prefs.getString('leaderStudentId') ?? 'Not Available';
       email = prefs.getString('leaderEmail') ?? 'Not Available';
       yearOfJoining = prefs.getString('yearOfJoining') ?? 'Not Available';
       department = prefs.getString('department') ?? 'Not Available';
