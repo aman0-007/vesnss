@@ -23,9 +23,9 @@ class _DashboardState extends State<Dashboard> {
   String userRole = 'Unknown'; // Default value
 
   final List<String> _imgList = [
+    'assets/carousel/groupphoto.jpeg',
     'assets/carousel/slider1.png',
-    'assets/carousel/slider1.png',
-    'assets/carousel/slider1.png',
+    'assets/carousel/groupphoto.jpeg',
     'assets/carousel/slider1.png',
   ];
 
@@ -56,8 +56,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final double deviceWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -100,7 +98,7 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Carousel Slider
               CarouselSlider(
@@ -139,11 +137,11 @@ class _DashboardState extends State<Dashboard> {
               // Dashboard Body and NSS Objectives
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Dashboardbody(),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     NSSObjectives(),
                   ],
                 ),

@@ -85,28 +85,60 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, // Set background color to white
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Display the logo image
-            Image.asset(
-              'assets/logo/nss.png',
-              width: 200, // Adjust the size as needed
-              height: 200, // Adjust the size as needed
-            ),
-            const SizedBox(height: 25), // Add some space between the logo and the text
-            // Display the text below the image
-            const Text(
-              '|| NOT ME BUT YOU ||',
-              style: TextStyle(
-                color: AppColors.primaryBlue, // Text color
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center, // Align center horizontally
+        children: [
+          Expanded(
+            child: Center( // Center the content vertically within this space
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Display the logo image
+                  Image.asset(
+                    'assets/logo/nss.png',
+                    width: 200, // Adjust the size as needed
+                    height: 200, // Adjust the size as needed
+                  ),
+                  const SizedBox(height: 25), // Add some space between the logo and the text
+                  // Display the text below the image
+                  const Text(
+                    '|| NOT ME BUT YOU ||',
+                    style: TextStyle(
+                      color: AppColors.primaryBlue, // Text color
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          // Display the "Created by AMAN DWIVEDI" text and logo at the bottom
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20), // Padding to the bottom of the screen
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the row horizontally
+              children: [
+                // Text
+                const Text(
+                  'Created by PSHG TECHNOLOGIES',
+                  style: TextStyle(
+                    color: Colors.grey, // Text color
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(width: 8), // Space between the logo and text
+                // Logo Image
+                Image.asset(
+                  'assets/logo/pshg.png',
+                  width: 40, // Set width for the logo
+                  height: 40, // Set height for the logo
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

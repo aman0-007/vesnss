@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:vesnss/volunteer/volunteer_detail_barcode.dart'; // Ensure this package is in your `pubspec.yaml`
+import 'package:vesnss/volunteer/volunteer_detail_barcode.dart';
+import 'package:http/http.dart' as http;
 
 class VolunteerProfile extends StatefulWidget {
   const VolunteerProfile({super.key});
@@ -40,13 +41,34 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
         email = userDetails['email'] ?? '';
         yearOfJoining = userDetails['yoj'] ?? '';
         department = userDetails['class'] ?? '';
-        hoursWorked = userDetails['hrs'] ?? 0;
+        _fetchHoursWorked(enrollmentId);
       });
-    } else {
-      print("00000000000000000000000000000000000000000000000000");
-      print('User details not found in SharedPreferences');
     }
   }
+  Future<void> _fetchHoursWorked(String studId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://213.210.37.81:3009/volunteers/hrs/$studId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'VES', // Add the x-api-key header here
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          hoursWorked = data['hrs'] ?? 0;
+        });
+      } else {
+        // Handle errors here
+        print('Failed to load hours worked. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle exceptions here
+      print('Failed to load hours worked. Error: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +95,11 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: deviceHeight * 0.09),
+            SizedBox(height: deviceHeight * 0.07),
             Center(
               child: Container(
-                width: 140, // Adjusted width
-                height: 140, // Adjusted height
+                width: 140,
+                height: 140,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.blueGrey[50]!, Colors.white], // Gradient background
@@ -130,7 +152,6 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
             ),
             SizedBox(height: deviceHeight * 0.07),
             VolunteerBarCode(),
-
             Center(
               child: IntrinsicHeight(
                 child: Container(
