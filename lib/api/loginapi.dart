@@ -82,7 +82,13 @@ class LoginApi {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      final Map<String, dynamic> teacherData = responseBody['data'];
+
+      // // Save volunteer data to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('teacherDetails', jsonEncode(teacherData));
       return true;
     } else {
       return false;

@@ -5,10 +5,10 @@ import 'package:vesnss/adminpo/addpo.dart';
 import 'package:vesnss/adminpo/addproject.dart';
 import 'package:vesnss/adminpo/addteacher.dart';
 import 'package:vesnss/adminpo/approveLeader.dart';
+import 'package:vesnss/adminpo/changeadminpassword.dart';
 import 'package:vesnss/adminpo/confirmVolunteer.dart';
 import 'package:vesnss/adminpo/statics.dart';
 import 'package:vesnss/colors.dart';
-import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/enrollment/enrollment.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 
@@ -102,6 +102,12 @@ class PODrawer extends StatelessWidget {
           }),
           _buildDrawerItem(Icons.settings, 'Settings', () {
             Navigator.pop(context);
+          }),
+          _buildDrawerItem(Icons.password, 'Change Password', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ForgotPasswordPageAdmin()),
+            );
           }),
           _buildDrawerItem(Icons.bar_chart, 'Stats', () {
             Navigator.push(

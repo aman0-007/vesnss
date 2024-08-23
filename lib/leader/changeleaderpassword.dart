@@ -4,12 +4,12 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class ForgotPasswordPage extends StatefulWidget {
+class ForgotPasswordPageLeader extends StatefulWidget {
   @override
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+  _ForgotPasswordPageLeaderState createState() => _ForgotPasswordPageLeaderState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageLeaderState extends State<ForgotPasswordPageLeader> {
   final Color primaryBlue = const Color(0xFF2E478A);
   final Color primaryRed = const Color(0xFFF5180F);
 
@@ -26,13 +26,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Future<void> _loadEmail() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? userDetailsJson = prefs.getString('userDetails');
-    if (userDetailsJson != null) {
-      final Map<String, dynamic> userDetails = jsonDecode(userDetailsJson);
-      setState(() {
-        email = userDetails['email'];
-      });
-    }
+    email = prefs.getString('leaderEmail');
   }
 
   Future<void> _updatePassword() async {
@@ -55,9 +49,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       );
       return;
     }
+    print("===================================================================");
+    print(email);
+    print(_newPasswordController.text);
 
     final response = await http.put(
-      Uri.parse('http://213.210.37.81:3009/volunteers/volNewPssword'),
+      Uri.parse('http://213.210.37.81:3009/leader/newPassword'),
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': 'NsSvEsAsC',
@@ -82,7 +79,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         context: context,
         type: CoolAlertType.error,
         title: 'Error',
-        text: 'Failed to update password. Please try again.',
+        text: 'Failed to update password. Please try again. \nError Code: ${response.statusCode}\nResponse: ${response.body}',
       );
     }
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vesnss/colors.dart';
 import 'package:vesnss/leader/addEvent.dart';
+import 'package:vesnss/leader/assigngroup.dart';
+import 'package:vesnss/leader/changeleaderpassword.dart';
 import 'package:vesnss/leader/completeevent.dart';
 import 'package:vesnss/leader/markattendance.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
@@ -63,6 +65,13 @@ class LeaderDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Confirmstudent()),
             );
           }),
+
+          _buildDrawerItem(Icons.person_add_alt_1, 'Assign Group', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AssignGroup()),
+            );
+          }),
           _buildDrawerItem(Icons.assignment_turned_in, 'Mark Attendance', () {
             Navigator.push(
               context,
@@ -73,6 +82,12 @@ class LeaderDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Completeevent()),
+            );
+          }),
+          _buildDrawerItem(Icons.password, 'Update Password', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ForgotPasswordPageLeader()),
             );
           }),
           _buildLogoutItem(context), // Pass context to logout item
