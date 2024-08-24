@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vesnss/adminpo/ApproveEvent.dart';
-import 'package:vesnss/adminpo/addpo.dart';
-import 'package:vesnss/adminpo/addproject.dart';
-import 'package:vesnss/adminpo/addteacher.dart';
-import 'package:vesnss/adminpo/approveLeader.dart';
-import 'package:vesnss/adminpo/changeadminpassword.dart';
-import 'package:vesnss/adminpo/confirmVolunteer.dart';
-import 'package:vesnss/adminpo/statics.dart';
-import 'package:vesnss/colors.dart';
-import 'package:vesnss/enrollment/enrollment.dart';
-import 'package:vesnss/loginsignup/accountoptionpage.dart';
+import '../adminpo/ApproveEvent.dart';
+import '../adminpo/addpo.dart';
+import '../adminpo/addproject.dart';
+import '../adminpo/addteacher.dart';
+import '../adminpo/approveLeader.dart';
+import '../adminpo/changeadminpassword.dart';
+import '../adminpo/confirmVolunteer.dart';
+import '../adminpo/statics.dart';
+import '../colors.dart';
+import '../enrollment/enrollment.dart';
+import '../loginsignup/accountoptionpage.dart';
 
 class PODrawer extends StatelessWidget {
   const PODrawer({super.key});
@@ -27,26 +27,21 @@ class PODrawer extends StatelessWidget {
               color: AppColors.primaryBlue,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 47,
-                  backgroundImage: const AssetImage('assets/avatar.png'),
-                  backgroundColor: Colors.grey[200],
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: Colors.grey[700],
-                  ),
+                Icon(
+                  Icons.account_circle,
+                  size: 64,
+                  color: Colors.grey[100],
                 ),
                 const SizedBox(height: 10),
                 const Padding(
-                  padding: EdgeInsets.only(left: 25.0),
+                  padding: EdgeInsets.all(1.0),
                   child: Text(
-                    'Menu',
+                    'Welcome to Swayam Sevak',
                     style: TextStyle(
-                      color: AppColors.primaryRed,
+                      color: Colors.redAccent,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -100,9 +95,6 @@ class PODrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Approveleader()),
             );
           }),
-          _buildDrawerItem(Icons.settings, 'Settings', () {
-            Navigator.pop(context);
-          }),
           _buildDrawerItem(Icons.password, 'Change Password', () {
             Navigator.push(
               context,
@@ -131,28 +123,28 @@ class PODrawer extends StatelessWidget {
 
   Widget _buildLogoutItem(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.logout, color: AppColors.primaryRed),
-      title: const Text(
-        'Logout',
-        style: TextStyle(color: AppColors.primaryRed),
-      ),
-      onTap: () async {
-        // Perform logout operations
-        final prefs = await SharedPreferences.getInstance();
+        leading: const Icon(Icons.logout, color: AppColors.primaryRed),
+        title: const Text(
+          'Logout',
+          style: TextStyle(color: AppColors.primaryRed),
+        ),
+        onTap: () async {
+          // Perform logout operations
+          final prefs = await SharedPreferences.getInstance();
 
-        // Remove user-related data from SharedPreferences
-        await prefs.remove('userType');
-        await prefs.remove('userStatus');
-        await prefs.remove('userRole');
-        await prefs.clear();
-        await prefs.setBool('isLoggedIn', false);
+          // Remove user-related data from SharedPreferences
+          await prefs.remove('userType');
+          await prefs.remove('userStatus');
+          await prefs.remove('userRole');
+          await prefs.clear();
+          await prefs.setBool('isLoggedIn', false);
 
-        // Navigate to the login page after logout
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Accountoptionpage()),
+          // Navigate to the login page after logout
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Accountoptionpage()),
+          );
+          },
         );
-      },
-    );
-  }
+    }
 }

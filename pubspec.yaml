@@ -52,7 +52,8 @@ dependencies:
   skeletonizer: ^1.4.2
   skeleton_loader: ^2.0.0+4
   loading_animation_widget: ^1.2.1
-  floating_bottom_navigation_bar: ^1.5.2
+  flutter_snake_navigationbar: ^0.6.1
+
 
 dev_dependencies:
   flutter_test:
