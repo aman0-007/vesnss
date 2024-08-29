@@ -125,12 +125,12 @@ class _AssignGroupState extends State<AssignGroup> {
             ? TextField(
           controller: _searchController,
           onChanged: _filterStudents,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search by name',
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.white54),
           ),
-          style: TextStyle(color: Colors.white, fontSize: 18),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         )
             : const Text(
           'Selected Students',
@@ -194,7 +194,7 @@ class _AssignGroupState extends State<AssignGroup> {
                 Container(
                   color: Colors.grey[200],
                   padding: const EdgeInsets.only(top: 10,bottom: 10),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Center(child: Text('Name      ', style: TextStyle(fontWeight: FontWeight.bold))),
@@ -229,9 +229,9 @@ class _AssignGroupState extends State<AssignGroup> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${student['name']} ${student['surname']}', style: TextStyle(fontSize: 16)),
-                            Text('${student['class']}', style: TextStyle(fontSize: 14)),
-                            Text('${student['hrs']}', style: TextStyle(fontSize: 14)),
+                            Text('${student['name']} ${student['surname']}', style: const TextStyle(fontSize: 16)),
+                            Text('${student['class']}', style: const TextStyle(fontSize: 14)),
+                            Text('${student['hrs']}', style: const TextStyle(fontSize: 14)),
                             Checkbox(
                               value: _selectedStudentIds.contains(studentId),
                               onChanged: (checked) {
