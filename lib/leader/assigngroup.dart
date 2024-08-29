@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vesnss/colors.dart';
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 
 class AssignGroup extends StatefulWidget {
   const AssignGroup({super.key});
@@ -17,9 +18,11 @@ class _AssignGroupState extends State<AssignGroup> {
   bool _isLoading = true;
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
+  SingleSelectController<String?> _classDropdownController = SingleSelectController(null);
 
   String? _selectedClass;
   bool _isAscending = true;
+  Set<int> _selectedStudentIds = {}; // Track selected student IDs
 
   @override
   void initState() {
@@ -93,6 +96,7 @@ class _AssignGroupState extends State<AssignGroup> {
   void _resetFilters() {
     setState(() {
       _selectedClass = null;
+      _classDropdownController.clear();
       _isAscending = true;
       _filteredStudents = _students;
     });
@@ -100,6 +104,16 @@ class _AssignGroupState extends State<AssignGroup> {
 
   List<String> _getClassNames() {
     return _students.map((student) => student['class'].toString()).toSet().toList();
+  }
+
+  void _toggleSelection(int id) {
+    setState(() {
+      if (_selectedStudentIds.contains(id)) {
+        _selectedStudentIds.remove(id);
+      } else {
+        _selectedStudentIds.add(id);
+      }
+    });
   }
 
   @override
@@ -145,17 +159,11 @@ class _AssignGroupState extends State<AssignGroup> {
             child: Row(
               children: [
                 SizedBox(
-                  width: 150, // Adjust the width as needed
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: _selectedClass,
-                    hint: const Text("Select Class"),
-                    items: _getClassNames().map((String className) {
-                      return DropdownMenuItem<String>(
-                        value: className,
-                        child: Text(className),
-                      );
-                    }).toList(),
+                  width: 150,
+                  child: CustomDropdown<String?>(
+                    controller: _classDropdownController,
+                    hintText: "Select Class",
+                    items: _getClassNames(),
                     onChanged: (value) {
                       _filterByClass(value);
                     },
@@ -180,65 +188,65 @@ class _AssignGroupState extends State<AssignGroup> {
             ),
           )
               : Expanded(
-            child: ListView.builder(
-              itemCount: _filteredStudents.length,
-              itemBuilder: (context, index) {
-                final student = _filteredStudents[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                    border: Border.all(color: Colors.blue, width: 1.0),
-                  ),
+            child: Column(
+              children: [
+                // Header Row
+                Container(
+                  color: Colors.grey[200],
+                  padding: const EdgeInsets.only(top: 10,bottom: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${student['name']} ${student['surname']}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Row(
-                            children: [
-                              Text(
-                                'Class: ${student['class']}',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                              Text(
-                                '   Hours: ${student['hrs']}',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      Center(child: Text('Name      ', style: TextStyle(fontWeight: FontWeight.bold))),
+                      Center(child: Text('Class', style: TextStyle(fontWeight: FontWeight.bold))),
+                      Center(child: Text('Hours', style: TextStyle(fontWeight: FontWeight.bold))),
+                      SizedBox(width: 1), // Space for checkbox
                     ],
                   ),
-                );
-              },
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _filteredStudents.length,
+                    itemBuilder: (context, index) {
+                      final student = _filteredStudents[index];
+                      final studentId = student['id']; // Assuming each student has a unique ID
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          border: Border.all(color: Colors.blue, width: 1.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${student['name']} ${student['surname']}', style: TextStyle(fontSize: 16)),
+                            Text('${student['class']}', style: TextStyle(fontSize: 14)),
+                            Text('${student['hrs']}', style: TextStyle(fontSize: 14)),
+                            Checkbox(
+                              value: _selectedStudentIds.contains(studentId),
+                              onChanged: (checked) {
+                                if (checked != null) {
+                                  _toggleSelection(studentId);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
