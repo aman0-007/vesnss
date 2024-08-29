@@ -106,7 +106,9 @@ class _AssignGroupState extends State<AssignGroup> {
     return _students.map((student) => student['class'].toString()).toSet().toList();
   }
 
-  void _toggleSelection(int id) {
+  void _toggleSelection(int? id) {
+    if (id == null) return; // Handle null ID scenario
+
     setState(() {
       if (_selectedStudentIds.contains(id)) {
         _selectedStudentIds.remove(id);
@@ -195,12 +197,12 @@ class _AssignGroupState extends State<AssignGroup> {
                   color: Colors.grey[200],
                   padding: const EdgeInsets.only(top: 10,bottom: 10),
                   child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(child: Text('Name      ', style: TextStyle(fontWeight: FontWeight.bold))),
+                      Center(child: Text('      Name', style: TextStyle(fontWeight: FontWeight.bold))),
                       Center(child: Text('Class', style: TextStyle(fontWeight: FontWeight.bold))),
                       Center(child: Text('Hours', style: TextStyle(fontWeight: FontWeight.bold))),
-                      SizedBox(width: 1), // Space for checkbox
+                      SizedBox(width: 10), // Space for checkbox
                     ],
                   ),
                 ),
@@ -209,12 +211,13 @@ class _AssignGroupState extends State<AssignGroup> {
                     itemCount: _filteredStudents.length,
                     itemBuilder: (context, index) {
                       final student = _filteredStudents[index];
-                      final studentId = student['id']; // Assuming each student has a unique ID
+                      final studentId = student['id'] as int?; // Ensure it is int or null
+
                       return Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -229,11 +232,32 @@ class _AssignGroupState extends State<AssignGroup> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${student['name']} ${student['surname']}', style: const TextStyle(fontSize: 16)),
-                            Text('${student['class']}', style: const TextStyle(fontSize: 14)),
-                            Text('${student['hrs']}', style: const TextStyle(fontSize: 14)),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  '${student['name']} ${student['surname']}',
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  '${student['class']}',
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  '${student['hrs']}',
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
                             Checkbox(
-                              value: _selectedStudentIds.contains(studentId),
+                              value: studentId != null && _selectedStudentIds.contains(studentId),
                               onChanged: (checked) {
                                 if (checked != null) {
                                   _toggleSelection(studentId);

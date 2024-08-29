@@ -4,7 +4,6 @@ import 'package:vesnss/colors.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/volunteer/applyLeader.dart';
 import 'package:vesnss/volunteer/changevolunteerpassword.dart';
-import 'package:vesnss/volunteer/volunteer_detail_barcode.dart';
 import 'package:vesnss/volunteer/volunteerprofile.dart';
 
 class VolunteerDrawer extends StatelessWidget {
@@ -65,12 +64,12 @@ class VolunteerDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
             );
           }),
-          _buildDrawerItem(Icons.person, 'Apply Leader', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddLeader()),
-            );
-          }),
+          // _buildDrawerItem(Icons.person, 'Apply Leader', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => const AddLeader()),
+          //   );
+          // }),
           _buildLogoutItem(context), // Pass context to logout item
         ],
       ),

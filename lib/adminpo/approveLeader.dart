@@ -267,51 +267,74 @@ class _ApproveleaderState extends State<Approveleader> {
   }
 
   Widget _buildLeadersList(List<Leader> leaders, double deviceWidth, double deviceHeight) {
-    return ListView.builder(
-      itemCount: leaders.length,
-      itemBuilder: (context, index) {
-        final leader = leaders[index];
-        return Container(
-          margin: EdgeInsets.symmetric(vertical: deviceHeight * 0.01, horizontal: deviceWidth * 0.05),
-          padding: EdgeInsets.all(deviceWidth * 0.03),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.grey.withOpacity(0.5),
-              width: 1.0,
+    if (leaders.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.group_off, // Choose an appropriate icon for no data
+              size: 60,
+              color: Colors.grey,
             ),
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: ListTile(
-                  title: Text(
-                    leader.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Group: ${leader.groupName}'),
-                      Text('Email: ${leader.email}'),
-                    ],
+            SizedBox(height: 10),
+            Text(
+              'No volunteer data to approve as leader',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: leaders.length,
+        itemBuilder: (context, index) {
+          final leader = leaders[index];
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: deviceHeight * 0.01, horizontal: deviceWidth * 0.05),
+            padding: EdgeInsets.all(deviceWidth * 0.03),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.5),
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text(
+                      leader.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Group: ${leader.groupName}'),
+                        Text('Email: ${leader.email}'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.check, color: Colors.green),
-                onPressed: () => _showApprovalDialog(leader),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close, color: Colors.red),
-                onPressed: () => _showRejectionDialog(leader),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                IconButton(
+                  icon: const Icon(Icons.check, color: Colors.green),
+                  onPressed: () => _showApprovalDialog(leader),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.red),
+                  onPressed: () => _showRejectionDialog(leader),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override

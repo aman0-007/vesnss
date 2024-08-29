@@ -126,124 +126,147 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
   }
 
   Widget _buildEventList(List<Map<String, dynamic>> events) {
-    return _isLoading
-        ? Center(child: CircularProgressIndicator())
-        : ListView.builder(
-      itemCount: events.length,
-      itemBuilder: (context, index) {
-        final event = events[index];
-        return Container(
-          margin: EdgeInsets.all(10),
-          child: Card(
-            margin: EdgeInsets.zero,
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                color: Colors.blue, // Set card border color to blue
-                width: 1.0,
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else if (events.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.event_available, // Choose an appropriate icon
+              size: 60,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'No events to approve',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
               ),
             ),
-            color: Colors.white, // Set card background color to white
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                event['name'] ?? 'No Name',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red, // Set name color to red
+          ],
+        ),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: events.length,
+        itemBuilder: (context, index) {
+          final event = events[index];
+          return Container(
+            margin: EdgeInsets.all(10),
+            child: Card(
+              margin: EdgeInsets.zero,
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(
+                  color: Colors.blue, // Set card border color to blue
+                  width: 1.0,
+                ),
+              ),
+              color: Colors.white, // Set card background color to white
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  event['name'] ?? 'No Name',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red, // Set name color to red
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              _formatDate(event['date'] ?? 'Unknown'),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey[600],
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                _formatDate(event['date'] ?? 'Unknown'),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey[600],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Venue: ${event['venue'] ?? 'Unknown'}',
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Venue: ${event['venue'] ?? 'Unknown'}',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Level: ${event['level'] ?? 'Unknown'}',
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Level: ${event['level'] ?? 'Unknown'}',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Set button background color to green
-                      foregroundColor: Colors.white, // Set button text color to white
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        side: BorderSide(color: Colors.green), // Set button border color to green
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.confirm,
-                        text: 'Do you want to active this event?',
-                        confirmBtnText: 'Yes',
-                        cancelBtnText: 'No',
-                        confirmBtnColor: Colors.green,
-                        onConfirmBtnTap: () async {
-                          Navigator.of(context).pop(); // Close the dialog
-                          await _markEventAsCompleted(event['event_id']); // Pass the event ID to mark it as completed
-                        },
-                        onCancelBtnTap: () {
-                          Navigator.of(context).pop(); // Close the dialog
-                        },
-                      );
-                    },
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white, // Set button text color to white
-                        fontWeight: FontWeight.bold,
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green, // Set button background color to green
+                        foregroundColor: Colors.white, // Set button text color to white
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(color: Colors.green), // Set button border color to green
+                        ),
+                      ),
+                      onPressed: () {
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.confirm,
+                          text: 'Do you want to active this event?',
+                          confirmBtnText: 'Yes',
+                          cancelBtnText: 'No',
+                          confirmBtnColor: Colors.green,
+                          onConfirmBtnTap: () async {
+                            Navigator.of(context).pop(); // Close the dialog
+                            await _markEventAsCompleted(event['event_id']); // Pass the event ID to mark it as completed
+                          },
+                          onCancelBtnTap: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                        );
+                      },
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white, // Set button text color to white
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 
   AppBar _buildAppBar() {

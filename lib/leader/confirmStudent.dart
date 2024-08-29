@@ -53,7 +53,6 @@ class _ConfirmstudentState extends State<Confirmstudent> {
   }
 
   Future<void> _selectStudent(String studId) async {
-
     try {
       final response = await http.put(
         Uri.parse('http://213.210.37.81:3009/leader/update/$studId'),
@@ -89,7 +88,10 @@ class _ConfirmstudentState extends State<Confirmstudent> {
         backgroundColor: AppColors.primaryBlue,
         title: const Text(
           'Confirm Students',
-          style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: AppColors.primaryRed,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.primaryRed),
@@ -105,6 +107,29 @@ class _ConfirmstudentState extends State<Confirmstudent> {
           leftDotColor: AppColors.primaryRed, // Adjust color as needed
           rightDotColor: AppColors.primaryBlue, // Adjust color as needed
           size: 50, // Adjust size as needed
+        ),
+      )
+          : _students.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 100,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'No students to confirm as NSS volunteer',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       )
           : ListView.builder(
@@ -170,16 +195,20 @@ class _ConfirmstudentState extends State<Confirmstudent> {
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.confirm,
-                          text: 'Do you want to select this student as a volunteer?',
+                          text:
+                          'Do you want to select this student as a volunteer?',
                           confirmBtnText: 'Yes',
                           cancelBtnText: 'No',
                           confirmBtnColor: Colors.green,
                           onConfirmBtnTap: () async {
-                            Navigator.of(context).pop(); // Close the dialog
-                            await _selectStudent(student['stud_id']); // Pass the student ID to select
+                            Navigator.of(context)
+                                .pop(); // Close the dialog
+                            await _selectStudent(
+                                student['stud_id']); // Pass the student ID to select
                           },
                           onCancelBtnTap: () {
-                            Navigator.of(context).pop(); // Close the dialog
+                            Navigator.of(context)
+                                .pop(); // Close the dialog
                           },
                         );
                       },

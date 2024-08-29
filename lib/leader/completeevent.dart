@@ -117,8 +117,20 @@ class _CompleteeventState extends State<Completeevent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Active Events'),
         backgroundColor: AppColors.primaryBlue,
+        title: const Text(
+          'Active Events',
+          style: TextStyle(
+            color: AppColors.primaryRed,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.primaryRed),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: _isLoading
           ? Center(
@@ -126,6 +138,29 @@ class _CompleteeventState extends State<Completeevent> {
           leftDotColor: AppColors.primaryRed,
           rightDotColor: AppColors.primaryBlue, // Adjust color as needed
           size: 50, // Adjust size as needed
+        ),
+      )
+          : _events.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.event_busy,
+              size: 100,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'No active events to mark as completed',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       )
           : ListView.builder(
@@ -137,7 +172,7 @@ class _CompleteeventState extends State<Completeevent> {
           return GestureDetector(
             onTap: () => _showBeneficiaryDialog(event['event_id']),
             child: Card(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               elevation: 5,
               child: Padding(
                 padding: const EdgeInsets.all(15),
@@ -152,7 +187,7 @@ class _CompleteeventState extends State<Completeevent> {
                         color: AppColors.primaryBlue,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       'Date: $formattedDate',
                       style: TextStyle(
@@ -160,7 +195,7 @@ class _CompleteeventState extends State<Completeevent> {
                         color: Colors.grey[700],
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
                       'Teacher Incharge: ${event['teacher_incharge']}',
                       style: TextStyle(

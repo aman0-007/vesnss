@@ -115,9 +115,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
-              // Display the "Created by AMAN DWIVEDI" text and logo at the bottom
+
               Padding(
-                padding: const EdgeInsets.only(bottom: 20), // Padding to the bottom of the screen
+                padding: const EdgeInsets.only(bottom: 40), // Padding to the bottom of the screen
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center, // Center the row horizontally
                   children: [

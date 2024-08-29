@@ -23,10 +23,9 @@ class _DashboardState extends State<Dashboard> {
   String userRole = 'Unknown'; // Default value
 
   final List<String> _imgList = [
-    'assets/carousel/groupphoto.jpeg',
+    'assets/carousel/carousel1.png',
     'assets/carousel/slider1.png',
     'assets/carousel/groupphoto.jpeg',
-    'assets/carousel/slider1.png',
   ];
 
   @override
@@ -135,9 +134,9 @@ class _DashboardState extends State<Dashboard> {
               ),
 
               // Dashboard Body and NSS Objectives
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-                child: const Column(
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Dashboardbody(),

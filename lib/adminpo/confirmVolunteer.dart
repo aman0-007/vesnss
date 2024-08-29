@@ -148,6 +148,25 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
       backgroundColor: Colors.white,
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
+          : _volunteers.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.info,
+              size: 40,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'No student data to select as volunteer',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      )
           : ListView.builder(
         itemCount: _volunteers.length,
         itemBuilder: (context, index) {

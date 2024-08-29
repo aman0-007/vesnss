@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.6
   http: ^1.2.2
   shared_preferences: ^2.3.1
-  percent_indicator: ^4.2.3
   calendar_date_picker2: ^1.1.5
   fl_chart: ^0.68.0
   carousel_slider: ^5.0.0
@@ -49,10 +48,9 @@ dependencies:
   cool_alert: ^2.0.1
   animated_custom_dropdown: ^3.1.1
   dropdown_button2: ^2.3.9
-  skeletonizer: ^1.4.2
-  skeleton_loader: ^2.0.0+4
   loading_animation_widget: ^1.2.1
-  flutter_snake_navigationbar: ^0.6.1
+  flutter_launcher_icons: ^0.13.1
+  lottie: ^2.7.0
 
 
 dev_dependencies:
@@ -68,6 +66,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/playstore.png"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -83,6 +85,9 @@ flutter:
     - assets/logo/nss.png
     - assets/logo/pshg.png
     - assets/carousel/groupphoto.jpeg
+    - assets/carousel/carousel1.png
+    - assets/logo/playstore.png
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

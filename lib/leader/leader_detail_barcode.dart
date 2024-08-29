@@ -61,7 +61,7 @@ class _LeaderBarCodeState extends State<LeaderBarCode> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Student Id :"),
+                    Text("Student Id :  "),
                     Text(
                       studentId.isEmpty ? '' : studentId,
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
