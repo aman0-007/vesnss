@@ -62,10 +62,17 @@ class _ConfirmstudentState extends State<Confirmstudent> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        CoolAlert.show(
+        QuickAlert.show(
           context: context,
-          type: CoolAlertType.success,
+          type: QuickAlertType.success,
           text: 'Student selected successfully!',
+          confirmBtnText: 'OK',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: () {
+            // Close only the CoolAlert dialog and not the whole page
+            Navigator.of(context, rootNavigator: true).pop();
+            _fetchStudents(); // Refresh the student list
+          },
         );
       } else {
         throw Exception('Failed to select student: ${response.statusCode}');

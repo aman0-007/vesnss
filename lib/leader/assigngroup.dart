@@ -255,14 +255,6 @@ class _AssignGroupState extends State<AssignGroup> {
                                 ),
                               ),
                             ),
-                            Checkbox(
-                              value: studentId != null && _selectedStudentIds.contains(studentId),
-                              onChanged: (checked) {
-                                if (checked != null) {
-                                  _toggleSelection(studentId);
-                                }
-                              },
-                            ),
                           ],
                         ),
                       );

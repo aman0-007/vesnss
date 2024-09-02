@@ -49,7 +49,7 @@ class _EnrollmentState extends State<Enrollment> {
     super.initState();
     _selectedGender = 'M';
     _selectedYearOfJoin = 'Select year';
-    _selectedClass = 'Select class';
+    _selectedClass = 'Select department';
     _selectedYear = 'Select year';
   }
 
@@ -130,7 +130,7 @@ class _EnrollmentState extends State<Enrollment> {
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty ||
         _selectedGender == null ||
-        _selectedClass == 'Select class' ||
+        _selectedClass == 'Select department' ||
         _selectedYearOfJoin == 'Select year' ||
         _selectedYear == 'Select year') {
       await CoolAlert.show(
@@ -153,16 +153,16 @@ class _EnrollmentState extends State<Enrollment> {
     }
 
     final data = {
-      "name": _firstNameController.text,
-      "surname": _lastNameController.text,
-      "email": _emailController.text.toLowerCase(),
-      "phone_no": _phoneNumberController.text,
+      "name": _firstNameController.text.trim() ,
+      "surname": _lastNameController.text.trim(),
+      "email": _emailController.text.toLowerCase().trim(),
+      "phone_no": _phoneNumberController.text.trim(),
       "yoj": _selectedYearOfJoin!,
       "class_name": _selectedClass!,
       "year": _selectedYear!,
       "gender": _selectedGender!,
-      "username": _usernameController.text,
-      "password": _passwordController.text,
+      "username": _usernameController.text.trim(),
+      "password": _passwordController.text.trim(),
       "hrs": 0,
       "roll_no": int.tryParse(_rollNoController.text) ?? 0,
     };
@@ -189,7 +189,7 @@ class _EnrollmentState extends State<Enrollment> {
       setState(() {
         _selectedGender = 'M'; // Reset to default value
         _selectedYearOfJoin = 'Select year'; // Reset to default value
-        _selectedClass = 'Select class'; // Reset to default value
+        _selectedClass = 'Select department'; // Reset to default value
         _selectedYear = 'Select year'; // Reset to default value
       });
     } catch (e) {
@@ -254,7 +254,7 @@ class _EnrollmentState extends State<Enrollment> {
                 buildTextField("First Name :", _firstNameController),
                 buildTextField("Last Name :", _lastNameController),
                 buildDropdown(
-                  "Year of joining :",
+                  "Year of joining NSS :",
                   _selectedYearOfJoin,
                   ['Select year', '23-24', '24-25'],
                       (value) {
@@ -264,9 +264,9 @@ class _EnrollmentState extends State<Enrollment> {
                   },
                 ),
                 buildDropdown(
-                  "Class :",
+                  "Department :",
                   _selectedClass,
-                  ['Select class', 'CS', 'IT', 'DSDA', 'AI', 'BCom', 'BAF', 'BMS', 'E-Comm', 'Others'],
+                  ['Select department', 'BSc (CS)', 'BSc (IT)', 'BSc (DSDA)', 'BSc (AI)', 'BSc (Biotechnology)', 'Bsc (PCM)', 'Bsc (Micro)', 'BCom', 'BCom (Finance)', 'BCom (E-Commerce)', 'Bcom (Banking & Insurance)', 'Bcom (Accounting & Finance)', 'Bcom (Financial Marketing)', 'Bcom (Management Studies)', 'BA', 'BA (Mass Media & Communication)', 'BBA', 'Other'],
                       (value) {
                     setState(() {
                       _selectedClass = value;
@@ -274,7 +274,7 @@ class _EnrollmentState extends State<Enrollment> {
                   },
                 ),
                 buildDropdown(
-                  "Year :",
+                  "Current academic year :",
                   _selectedYear,
                   ['Select year', 'FY', 'SY', 'TY'],
                       (value) {
@@ -284,7 +284,7 @@ class _EnrollmentState extends State<Enrollment> {
                   },
                 ),
                 buildTextField("Roll No :", _rollNoController),
-                buildTextField("Email Id :", _emailController),
+                buildTextField("VES Email Id :", _emailController),
                 buildTextField("Phone Number :", _phoneNumberController, keyboardType: TextInputType.phone),
                 buildDropdown(
                   "Gender :",

@@ -117,7 +117,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(bottom: 40), // Padding to the bottom of the screen
+                padding: const EdgeInsets.only(bottom: 80), // Padding to the bottom of the screen
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center, // Center the row horizontally
                   children: [

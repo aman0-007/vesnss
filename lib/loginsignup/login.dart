@@ -26,8 +26,8 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _login() async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
 
     if (username.isEmpty || password.isEmpty) {
       QuickAlert.show(

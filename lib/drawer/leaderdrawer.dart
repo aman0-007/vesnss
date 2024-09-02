@@ -5,6 +5,7 @@ import 'package:vesnss/leader/addEvent.dart';
 import 'package:vesnss/leader/assigngroup.dart';
 import 'package:vesnss/leader/changeleaderpassword.dart';
 import 'package:vesnss/leader/completeevent.dart';
+import 'package:vesnss/leader/deletestud.dart';
 import 'package:vesnss/leader/markattendance.dart';
 import 'package:vesnss/loginsignup/accountoptionpage.dart';
 import 'package:vesnss/leader/confirmStudent.dart';
@@ -88,6 +89,12 @@ class LeaderDrawer extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ForgotPasswordPageLeader()),
+            );
+          }),
+          _buildDrawerItem(Icons.delete_forever_outlined, 'Delete Student', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AllStudentPage()),
             );
           }),
           _buildLogoutItem(context), // Pass context to logout item
