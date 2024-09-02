@@ -49,9 +49,6 @@ class _ForgotPasswordPageLeaderState extends State<ForgotPasswordPageLeader> {
       );
       return;
     }
-    print("===================================================================");
-    print(email);
-    print(_newPasswordController.text);
 
     final response = await http.put(
       Uri.parse('http://213.210.37.81:3009/leader/newPassword'),

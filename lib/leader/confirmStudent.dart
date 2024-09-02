@@ -45,7 +45,6 @@ class _ConfirmstudentState extends State<Confirmstudent> {
         throw Exception('Failed to load students: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching students: $e');
       setState(() {
         _isLoading = false;
       });
@@ -72,7 +71,6 @@ class _ConfirmstudentState extends State<Confirmstudent> {
         throw Exception('Failed to select student: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error selecting student: $e');
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,

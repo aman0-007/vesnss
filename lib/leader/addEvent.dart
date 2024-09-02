@@ -40,7 +40,6 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
       _leaderController.text = leaderId;
     });
-    print('Leader ID: $leaderId');
   }
 
   Future<void> _fetchTeacherNames() async {
@@ -52,7 +51,6 @@ class _AddEventState extends State<AddEvent> {
             .toList();
       });
     } catch (e) {
-      print('Something went wrong: $e');
     }
   }
 
@@ -63,7 +61,6 @@ class _AddEventState extends State<AddEvent> {
         _projects = projects;
       });
     } catch (e) {
-      print('Something went wrong: $e');
     }
   }
 
@@ -417,7 +414,6 @@ class _AddEventState extends State<AddEvent> {
           return;
         }
 
-        print(_eventNameController.text);
 
         final success = await addEventDetails(
           name: _eventNameController.text,

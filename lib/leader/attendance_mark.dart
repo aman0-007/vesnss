@@ -41,10 +41,8 @@ class _AttendanceMarkState extends State<AttendanceMark> {
         });
       } else {
         // Handle error response
-        print('Failed to load students, status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching students: $e');
     }
   }
 
@@ -54,7 +52,6 @@ class _AttendanceMarkState extends State<AttendanceMark> {
         .map((entry) => entry.key)
         .toList();
 
-    print('$selectedStudentsList');
 
     if (selectedStudentsList.isEmpty) {
       CoolAlert.show(
@@ -68,13 +65,6 @@ class _AttendanceMarkState extends State<AttendanceMark> {
       return;
     }
 
-    print(selectedStudentsList);
-    print(widget.eventDetails['leaderId']);
-    print(widget.eventDetails['eventName']);
-    print(widget.eventDetails['level']);
-    print(widget.eventDetails['hours']);
-    print(widget.eventDetails['position']);
-    print(widget.eventDetails['date']);
 
     final attendanceData = {
       'stud_ids': selectedStudentsList,
@@ -120,8 +110,6 @@ class _AttendanceMarkState extends State<AttendanceMark> {
           confirmBtnText: 'OK',
           confirmBtnColor: Colors.red,
         );
-        print('Failed to mark attendance, status code: ${response.statusCode}');
-        print(response.body);
       }
     } catch (e) {
       // Show error alert with exception
@@ -133,7 +121,6 @@ class _AttendanceMarkState extends State<AttendanceMark> {
         confirmBtnText: 'OK',
         confirmBtnColor: Colors.red,
       );
-      print('Error marking attendance: $e');
     }
   }
 

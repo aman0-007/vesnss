@@ -14,10 +14,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print('Enrollment successful!');
     } else {
-      print('Failed to enroll volunteer. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
       throw Exception('Failed to enroll volunteer. Status code: ${response.statusCode}');
     }
   }

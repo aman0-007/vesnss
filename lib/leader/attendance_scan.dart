@@ -115,15 +115,6 @@ class _AttendanceScanState extends State<AttendanceScan> {
       'date': widget.date,
     };
 
-    print("========================================================================");
-    print(widget.level);
-    print(widget.hours);
-    print(widget.position);
-    print(widget.date);
-    print(scannedStudentIds);
-    print(widget.leaderId);
-    print( widget.eventName);
-    print("========================================================================");
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -157,8 +148,6 @@ class _AttendanceScanState extends State<AttendanceScan> {
           confirmBtnText: 'OK',
           confirmBtnColor: Colors.red,
         );
-        print('Failed to mark attendance, status code: ${response.statusCode}');
-        print(response.body);
       }
     } catch (e) {
       // Show error alert with exception
@@ -170,7 +159,6 @@ class _AttendanceScanState extends State<AttendanceScan> {
         confirmBtnText: 'OK',
         confirmBtnColor: Colors.red,
       );
-      print('Error marking attendance: $e');
     }
   }
 

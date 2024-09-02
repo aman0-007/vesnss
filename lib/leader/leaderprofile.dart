@@ -46,11 +46,9 @@ class _leaderProfileState extends State<leaderProfile> {
         });
       } else {
         // Handle errors here
-        print('Failed to load hours worked. Status code: ${response.statusCode}');
       }
     } catch (e) {
       // Handle exceptions here
-      print('Failed to load hours worked. Error: $e');
     }
   }
 
@@ -188,7 +186,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Name:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 name,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -206,7 +204,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Enrollment Id:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 enrollmentId,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
@@ -224,7 +222,7 @@ class _leaderProfileState extends State<leaderProfile> {
                                 "Email:",
                                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 email,
                                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),

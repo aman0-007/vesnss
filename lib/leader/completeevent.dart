@@ -44,7 +44,6 @@ class _CompleteeventState extends State<Completeevent> {
         throw Exception('Failed to load events: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching events: $e');
       setState(() {
         _isLoading = false;
       });
@@ -98,7 +97,7 @@ class _CompleteeventState extends State<Completeevent> {
       widget: TextField(
         controller: _beneficiaryController,
         keyboardType: TextInputType.number,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Enter beneficiaries',
         ),
       ),
@@ -181,7 +180,7 @@ class _CompleteeventState extends State<Completeevent> {
                   children: [
                     Text(
                       event['name'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryBlue,
@@ -198,7 +197,7 @@ class _CompleteeventState extends State<Completeevent> {
                     const SizedBox(height: 5),
                     Text(
                       'Teacher Incharge: ${event['teacher_incharge']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: AppColors.primaryBlack,
                       ),

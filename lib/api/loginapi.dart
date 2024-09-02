@@ -199,8 +199,6 @@ class LoginApi {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       final List<dynamic> data = responseBody['data'];
-      print("======================================");
-      print(responseBody['data']);
 
       final user = data.firstWhere(
             (user) => user['username'] == username,

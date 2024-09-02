@@ -172,9 +172,9 @@ class _StaticsState extends State<Statics> {
               height: deviceHeight * 0.3, // Set height to 30% of the device height
               child: BarChart(
                 BarChartData(
-                  gridData: FlGridData(show: false),
+                  gridData: const FlGridData(show: false),
                   titlesData: FlTitlesData(
-                    bottomTitles: AxisTitles(
+                    bottomTitles: const AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: false, // Hide bottom titles
                       ),

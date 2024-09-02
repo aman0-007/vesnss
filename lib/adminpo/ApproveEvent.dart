@@ -49,7 +49,6 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
         throw Exception('Failed to load events: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching events: $e');
       setState(() {
         _isLoading = false;
       });
@@ -127,9 +126,9 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
 
   Widget _buildEventList(List<Map<String, dynamic>> events) {
     if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     } else if (events.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -155,13 +154,13 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
         itemBuilder: (context, index) {
           final event = events[index];
           return Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                   color: Colors.blue, // Set card border color to blue
                   width: 1.0,
                 ),
@@ -180,7 +179,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                               Expanded(
                                 child: Text(
                                   event['name'] ?? 'No Name',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.red, // Set name color to red
@@ -204,7 +203,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                             children: [
                               Text(
                                 'Venue: ${event['venue'] ?? 'Unknown'}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 17,
                                   color: Colors.black,
                                 ),
@@ -215,7 +214,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                             children: [
                               Text(
                                 'Level: ${event['level'] ?? 'Unknown'}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 17,
                                   color: Colors.black,
                                 ),
@@ -231,7 +230,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                         foregroundColor: Colors.white, // Set button text color to white
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(color: Colors.green), // Set button border color to green
+                          side: const BorderSide(color: Colors.green), // Set button border color to green
                         ),
                       ),
                       onPressed: () {
@@ -251,7 +250,7 @@ class _ApproveEventState extends State<ApproveEvent> with SingleTickerProviderSt
                           },
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Submit',
                         style: TextStyle(
                           color: Colors.white, // Set button text color to white

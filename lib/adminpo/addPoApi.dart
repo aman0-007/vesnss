@@ -29,8 +29,6 @@ Future<void> addPo({
     );
 
     // Debugging: Print the response status code and body
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       QuickAlert.show(
@@ -49,7 +47,6 @@ Future<void> addPo({
         }
       } catch (e) {
         // Handle JSON decoding errors
-        print('Error parsing error message: $e');
       }
 
       QuickAlert.show(

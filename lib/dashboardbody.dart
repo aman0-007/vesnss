@@ -33,12 +33,12 @@ class Dashboardbody extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          Expanded(
+          const Expanded(
             child: Text(
               'The National Service Scheme (NSS) is an Indian program that encourages student '
                   'community service to foster leadership and social'
                   ' responsibility. It includes activities like health camps and environmental projects.',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 color: Colors.black,
               ),

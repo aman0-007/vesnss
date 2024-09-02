@@ -42,7 +42,6 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         throw Exception('Failed to load volunteers: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching volunteers: $e');
       setState(() {
         _isLoading = false;
       });
@@ -96,7 +95,6 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         );
       }
     } catch (e) {
-      print('Error selecting volunteer: $e');
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
@@ -124,7 +122,6 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         throw Exception('Failed to load selected students count: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching selected students count: $e');
       return -1; // Return -1 in case of error
     }
   }
@@ -147,9 +144,9 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
       ),
       backgroundColor: Colors.white,
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _volunteers.isEmpty
-          ? Center(
+          ? const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -172,13 +169,13 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
         itemBuilder: (context, index) {
           final volunteer = _volunteers[index];
           return Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                   color: Colors.blue,
                   width: 1.0,
                 ),
@@ -191,7 +188,7 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
                   children: [
                     Text(
                       '${volunteer['name']} ${volunteer['surname']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.red,
@@ -206,19 +203,19 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
                     ),
                     Text(
                       'Class: ${volunteer['class']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       'Hours: ${volunteer['hrs']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         QuickAlert.show(
@@ -237,7 +234,7 @@ class _ConfirmvolunteerState extends State<Confirmvolunteer> {
                           },
                         );
                       },
-                      child: Text('Select'),
+                      child: const Text('Select'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,

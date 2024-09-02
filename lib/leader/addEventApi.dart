@@ -43,7 +43,6 @@ Future<List<Teacher>> fetchTeachers() async {
       throw Exception('Failed to load teachers');
     }
   } catch (e) {
-    print('Error fetching teachers: $e');
     return [];
   }
 }
@@ -85,7 +84,6 @@ Future<List<Project>> fetchProjects() async {
       throw Exception('Failed to load projects');
     }
   } catch (e) {
-    print('Error fetching projects: $e');
     return [];
   }
 }
@@ -123,11 +121,9 @@ Future<bool> addEventDetails({
     if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
-      print('Failed to add event: ${response.statusCode}');
       return false;
     }
   } catch (e) {
-    print('Error adding event: $e');
     return false;
   }
 }

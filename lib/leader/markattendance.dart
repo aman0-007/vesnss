@@ -45,8 +45,6 @@ class _MarkattendanceState extends State<Markattendance> {
         },
       );
 
-      print('Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
@@ -59,7 +57,6 @@ class _MarkattendanceState extends State<Markattendance> {
         throw Exception('Failed to load events');
       }
     } catch (e) {
-      print('Error: $e');
     }
   }
 
@@ -164,7 +161,7 @@ class _MarkattendanceState extends State<Markattendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mark Attendance'),
+        title: const Text('Mark Attendance'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -181,7 +178,7 @@ class _MarkattendanceState extends State<Markattendance> {
                 ),
               )
                   : DropdownButtonFormField<String>(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select Event',
                   border: OutlineInputBorder(),
                 ),
@@ -193,47 +190,47 @@ class _MarkattendanceState extends State<Markattendance> {
                 }).toList(),
                 onChanged: _onEventSelected,
                 value: _selectedEvent,
-                hint: Text('Select an event'),
+                hint: const Text('Select an event'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Teacher Incharge',
                   border: OutlineInputBorder(),
                 ),
                 controller: _teacherInchargeController,
                 readOnly: true,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Date',
                   border: OutlineInputBorder(),
                 ),
                 controller: _eventDateController,
                 readOnly: true,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Level',
                   border: OutlineInputBorder(),
                 ),
                 controller: _eventLevelController,
                 readOnly: true,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Leader ID',
                   border: OutlineInputBorder(),
                 ),
                 controller: _leaderIdController,
                 readOnly: true,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select Position',
                   border: OutlineInputBorder(),
                 ),
@@ -249,12 +246,12 @@ class _MarkattendanceState extends State<Markattendance> {
                   });
                 },
                 value: _selectedPosition,
-                hint: Text('Select a position'),
+                hint: const Text('Select a position'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _hoursController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Enter Hours',
                   border: OutlineInputBorder(),
                 ),
@@ -263,36 +260,36 @@ class _MarkattendanceState extends State<Markattendance> {
                   _hours = value;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton.icon(
                       onPressed: _scanAttendance,
-                      icon: Icon(Icons.camera_alt),
-                      label: Text('Scan Attendance'),
+                      icon: const Icon(Icons.camera_alt),
+                      label: const Text('Scan Attendance'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        textStyle: TextStyle(fontSize: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton.icon(
                       onPressed: _markAttendance,
-                      icon: Icon(Icons.check),
-                      label: Text('Mark Attendance'),
+                      icon: const Icon(Icons.check),
+                      label: const Text('Mark Attendance'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        textStyle: TextStyle(fontSize: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),

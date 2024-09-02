@@ -268,7 +268,7 @@ class _ApproveleaderState extends State<Approveleader> {
 
   Widget _buildLeadersList(List<Leader> leaders, double deviceWidth, double deviceHeight) {
     if (leaders.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

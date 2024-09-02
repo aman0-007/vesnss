@@ -52,7 +52,6 @@ class _AssignGroupState extends State<AssignGroup> {
         throw Exception('Failed to load students: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching students: $e');
       setState(() {
         _isLoading = false;
       });
