@@ -91,12 +91,12 @@ class LeaderDrawer extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ForgotPasswordPageLeader()),
             );
           }),
-          _buildDrawerItem(Icons.delete_forever_outlined, 'Delete Student', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AllStudentPage()),
-            );
-          }),
+          // _buildDrawerItem(Icons.delete_forever_outlined, 'Delete Student', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => AllStudentPage()),
+          //   );
+          // }),
           _buildLogoutItem(context), // Pass context to logout item
         ],
       ),
